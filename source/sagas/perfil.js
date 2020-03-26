@@ -14,7 +14,7 @@ export function* activadorObtenerPerfil() {
 // consulta a firestore, javascript tradicional
 const consultaPerfilFirestore  = (idPasajero) =>
     eventChannel(emitter => {
-        const unsubscribe = firestore.collection('pasajeros/' + idPasajero + '/perfil').onSnapshot(snapshot => {
+        const unsubscribe = firestore.collection('conductores/' + idPasajero + '/perfil').onSnapshot(snapshot => {
             snapshot.forEach((change) => {
                 console.log(change.data());
                 emitter({
@@ -68,7 +68,7 @@ const actualizarPerfilFirestore  = (infoPerfil) =>
         console.log(infoPerfil);
         const {idPasajero} = infoPerfil;
         console.log(idPasajero);
-        firestore.collection('pasajeros/' + idPasajero + '/perfil').doc('BGUVZOsrAQNUIiQTbi0AlTt46IE3').update(infoPerfil)
+        firestore.collection('conductores/' + idPasajero + '/perfil').doc('BGUVZOsrAQNUIiQTbi0AlTt46IE3').update(infoPerfil)
             .then(_=> {emitter({
             data: {cambiado: true}})})
             .catch( error => {
