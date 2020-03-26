@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "Mai-Rider",
+    "description": "Taxi Booking Rider App",
+    "slug": "MaiRider",
+    "privacy": "public",
+    "sdkVersion": "36.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "3.2.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/appIcon.png",
+    "splash": {
+      "image": "./assets/images/background.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.exicube.grabcabrider",
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "This app uses the location to serve you better",
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyCVwA6vB-bW4NuO5C6O6gGwxIkClS8mwtU"
+      }
+    },
+    "android": {
+      "package": "com.exicube.grabcabrider",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA_ROLL"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCVwA6vB-bW4NuO5C6O6gGwxIkClS8mwtU"
+        }
+      }
+    },
+    "facebookScheme": "fb1234567890",
+    "facebookAppId": "235102310850299",
+    "facebookDisplayName": "Mai"
+  }
+}
+
