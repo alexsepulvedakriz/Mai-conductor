@@ -1,6 +1,10 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
+const googleDirectionsAPI = {
+    key: 'AIzaSyDl3WK-NQNDqGJwbqH71FIYYtnlx5JwtDY', //Copy paste your Google Directions API key here
+};
+
 // Initialize Firebase
 const config = {
     apiKey: "AIzaSyDGadAywKjmZsqxmIPOe2Hw-MqjRkmggzE",
@@ -21,5 +25,6 @@ export {
     auth,
     firestore,
     database,
-    storage
+    storage,
+    googleDirectionsAPI
 };

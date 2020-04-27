@@ -17,7 +17,7 @@ export class AuthLoadingScreen extends React.Component {
   bootstrapAsync =  () => {
     auth.onAuthStateChanged((user)=>{
       if(user && user.displayName){
-        firestore.collection('conductores/' + user.uid + '/perfil').doc(user.uid).get()
+        firestore.collection('pasajeros/' + user.uid + '/perfil').doc(user.uid).get()
               .then( userData => {
                   if(userData.exists){
                       this.props.navigation.navigate('Root');

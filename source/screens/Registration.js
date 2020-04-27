@@ -1,5 +1,5 @@
 import React from 'react';
-import {LoadModal, Registration} from '../components';
+import {LoadModal, Registration, TutorialModal} from '../components';
 import {Alert, StyleSheet, View} from 'react-native';
 import {userSignUp} from "../actions/auth";
 import {connect} from "react-redux";
@@ -17,6 +17,9 @@ const mapDispatchToProps = dispatch => ({
 class RegistrationPage extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            showTutorial: true
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
@@ -50,6 +53,7 @@ class RegistrationPage extends React.Component {
                 modalvisable={this.props.data.loading}
             />
             <Registration reqData={registrationData?registrationData:""} complexity={'any'} onPressRegister={(nombre, apellido, email, movil, password, photo)=>this.clickRegister(nombre, apellido, email, movil, password, photo)} onPressBack={()=>{this.props.navigation.goBack()}} loading={this.props.loading}></Registration>
+            <TutorialModal modalVisible={this.state.showTutorial} close={() => this.setState({showTutorial: false})}/>
         </View>
     );
   }

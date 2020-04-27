@@ -1,37 +1,23 @@
 import { createStackNavigator} from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { 
-    DriverTripCompleteSreen, 
+import {
     ProfileScreen,
-    CardDetailsScreen, 
-    RideListPage, 
-    NotificationPage, 
-    MapScreen, 
-    BookedCabScreen,
+    RideListPage,
+    MapScreen,
     RegistrationPage,
     LoginScreen,
-    FareScreen,
-    RideDetails,
-    SearchScreen,
-    EditProfilePage ,
-    // About,
-    TrackNow,
     AboutPage,
-    OnlineChat,
-    WalletDetails,
-    // prueba
-    ComponentesPrueba
+    TypeTruckScreen,
+    AcceptTripScreen,
+    DataPackageScreen,
+    PaymentScreen,
+    TripScreen,
+    CardsSettingScreen
 } from '../screens';
 import SideMenu from '../components/SideMenu';
 
 //app stack for user end
     export const AppStack = {
-        ratingPage: {
-            screen: DriverTripCompleteSreen,
-            navigationOptions:{
-                header: null
-            }
-        },
         RideList:{
             screen: RideListPage,
             navigationOptions:{
@@ -39,20 +25,8 @@ import SideMenu from '../components/SideMenu';
             }
             
         },
-        Notifications:{
-            screen:NotificationPage,
-            navigationOptions:{
-                header:null,
-                }
-        },
         Profile: {
             screen: ProfileScreen,
-            navigationOptions:{
-                header: null
-            }
-        },
-        CardDetails: {
-            screen: CardDetailsScreen,
             navigationOptions:{
                 header: null
             }
@@ -69,63 +43,42 @@ import SideMenu from '../components/SideMenu';
                 header: null
             }
         },
-        onlineChat:{
-            screen:OnlineChat,
+        AcceptTrip:{
+            screen: AcceptTripScreen,
             navigationOptions:{
                 header: null
             }
         },
-        BookedCab: {
-            screen: BookedCabScreen,
+        Trip:{
+            screen: TripScreen,
             navigationOptions:{
                 header: null
             }
         },
-        FareDetails: {
-            screen: FareScreen,
-            navigationOptions:{
-                header:null,
-            }
-        },
-        RideDetails: {
-            screen: RideDetails,
-            navigationOptions: {
-                header: null
-            }
-        },
-        Search: {
-            screen:  SearchScreen,
-            navigationOptions:{
-                header: null
-            } 
-        },
-        editUser:{
-            screen: EditProfilePage,
+        DataPackage:{
+            screen: DataPackageScreen,
             navigationOptions:{
                 header: null
             }
         },
-        trackRide:{
-            screen: TrackNow,
+        TypeTruck:{
+            screen: TypeTruckScreen,
             navigationOptions:{
                 header: null
             }
         },
-        wallet:{
-            screen: WalletDetails,
-            navigationOptions:{
-                header: null
-            } 
-
-        },
-        ComponentesPrueba:{
-            screen: ComponentesPrueba,
+        Payment:{
+            screen: PaymentScreen,
             navigationOptions:{
                 header: null
             }
-
+        },
+        CardsSettings:{
+            screen: CardsSettingScreen,
+            navigationOptions:{
+                header: null
+            }
         }
-        
     }
 
     //authentication stack for user before login
@@ -171,21 +124,13 @@ import SideMenu from '../components/SideMenu';
             name: 'About',
             screen: createStackNavigator(AppStack, { initialRouteName: 'About', headerMode: 'none' })
         },
-        'Notifications': {
-            name: 'Notifications',
-            screen: createStackNavigator(AppStack, { initialRouteName: 'Notifications', headerMode: 'none' })
+        'Payment': {
+            name: 'Payment',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'Payment', headerMode: 'none' })
         },
-        'CardDetails': {
-            name: 'CardDetails',
-            screen: createStackNavigator(AppStack, { initialRouteName: 'CardDetails', headerMode: 'none' })
-        },
-        'wallet': {
-            name: 'wallet',
-            screen: createStackNavigator(AppStack, { initialRouteName: 'wallet', headerMode: 'none' })
-        },
-        'ComponentesPrueba': {
-            name: 'ComponentesPrueba',
-            screen: createStackNavigator(AppStack, { initialRouteName: 'ComponentesPrueba', headerMode: 'none' })
+        'CardsSettings': {
+            name: 'CardsSettings',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'CardsSettings', headerMode: 'none' })
         },
     };
 

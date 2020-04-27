@@ -4,13 +4,14 @@ import {Input, Button, Text, SearchBar} from 'react-native-elements';
 import {  colors } from '../common/theme';
 var { width } = Dimensions.get('window');
 import  languageJSON  from '../common/language';
+import stylesCommon from "../common/styles";
 
 export default class LoginComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            email:'',
-            password:'',
+            email:'alexander.sepulveda@ug.uchile.cl',
+            password:'S@1234',
             emailValid: true,
             passwordValid: true,
             pwdErrorMsg: ''
@@ -70,10 +71,7 @@ export default class LoginComponent extends Component {
         const { onPressRegister, onPressForgotPassword } = this.props;
 
         return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'column'
-            }}>
+            <View  style={stylesCommon.columnSpaceBetween}>
                 <View style={{width: 50, height: 100}} />
                 <View style={styles.containerLogin}>
                     <Input
@@ -91,6 +89,7 @@ export default class LoginComponent extends Component {
                         onSubmitEditing={() => { this.validateEmail(); this.passwordInput.focus()}}
                         errorStyle={styles.errorMessageStyle}
                         containerStyle={styles.InputContainer}
+
                         rightIcon={{ type: 'font-awesome', name: 'envelope', color: 'white'}}
                     />
                     <Input
@@ -186,6 +185,10 @@ const styles = StyleSheet.create({
         width: width-80,
         marginBottom: 10
     },
+    inputTextStyle: {
+        color:colors.WHITE,
+        fontSize:15
+    },
     emailInputContainerStyle: {
         paddingBottom: 15
     },
@@ -193,10 +196,6 @@ const styles = StyleSheet.create({
         fontSize: 12, 
         fontWeight:'bold',
         color: "#FD2323"
-    },
-    inputTextStyle: {
-        color:colors.WHITE,
-        fontSize:15
     },
     pwdInputContainerStyle: { 
         paddingBottom: 15 

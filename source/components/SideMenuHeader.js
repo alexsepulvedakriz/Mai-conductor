@@ -1,12 +1,12 @@
 import React from 'react';
-import { Text, View, Image,TouchableOpacity, Platform, StatusBar } from 'react-native';
-import {Card, Icon, Rating} from 'react-native-elements'
+import { Platform, StatusBar } from 'react-native';
+import {Card} from 'react-native-elements'
 import { colors } from '../common/theme';
 import {
     ListItem,
 } from 'react-native-elements';
-//make a compontent
-const SideMenuHeader = ({headerStyle,userPhoto,userName,userEmail}) =>{
+
+const SideMenuHeader = ({userPhoto, userName,userEmail}) =>{
     return (
         <Card containerStyle={styles.cardPerfil}>
             <ListItem
@@ -15,7 +15,7 @@ const SideMenuHeader = ({headerStyle,userPhoto,userName,userEmail}) =>{
                 subtitle={userEmail?userEmail:""}
                 subtitleStyle={{color: 'white', fontSize: 10}}
                 containerStyle={{backgroundColor: 'transparent', margin: 0, padding: 0}}
-                leftAvatar={{ source: {uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/nuraika/128.jpg'} }}
+                leftAvatar={{ source: {uri: userPhoto?userPhoto: null} }}
                 rightIcon={{ type: 'font-awesome', name: 'angle-right', color: 'white'}}
             />
         </Card>

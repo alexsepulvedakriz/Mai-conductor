@@ -4,23 +4,24 @@ import Background from './Background';
 import {Button, Header, Input, CheckBox } from 'react-native-elements'
 import { colors } from '../common/theme';
 import  languageJSON  from '../common/language';
-var { width, height } = Dimensions.get('window');
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
+
+var { width, height } = Dimensions.get('window');
 
 export default class Registration extends React.Component {
     
      constructor(props){
         super(props);
         this.state={
-          nombre:this.props.reqData?this.props.reqData.profile.first_name:'alexander',
-          apellido:this.props.reqData?this.props.reqData.profile.last_name:'sepulveda',
-          email:this.props.reqData?this.props.reqData.profile.email:'alexander.sepulveda@ug.uchile.cl',
-          rut: '178519050',
-          movil:'951133284',
-          password:'S@1234',
-          confPassword:'S@1234',
+          nombre:this.props.reqData?this.props.reqData.profile.first_name:'',
+          apellido:this.props.reqData?this.props.reqData.profile.last_name:'',
+          email:this.props.reqData?this.props.reqData.profile.email:'',
+          rut: '',
+          movil:'',
+          password:'',
+          confPassword:'',
           nombreValid: true,
           rutValid: true,
           apellidoValid: true,
@@ -56,7 +57,6 @@ export default class Registration extends React.Component {
         nombreValid || this.nombreInput.shake();
         return nombreValid
     }
-
     validateLastname() {
         const { apellido } = this.state;
         const apellidoValid = apellido.length > 0;
@@ -65,7 +65,6 @@ export default class Registration extends React.Component {
         apellidoValid || this.apellidoInput.shake();
         return apellidoValid
     }
-
     // movil number validation
     validateMovil() {
         const { movil } = this.state;
@@ -150,7 +149,6 @@ export default class Registration extends React.Component {
         onPressRegister( this.state.nombre, this.state.apellido, this.state.email, this.state.movil, this.state.password, this.state.photo);
         this.setState({nombre:'', apellido:'',email: '', movil:'', rut:'',  password: '', confPassword: '', photo: null})
     }
-
     validateInputs(){
         LayoutAnimation.easeInEaseOut();
 
@@ -174,8 +172,6 @@ export default class Registration extends React.Component {
             Alert.alert('', 'Debes subir una foto de perfil', null, {cancelable: true});
         }
     }
-
-
     verifyMobile() {
         return(
             <Modal
@@ -278,7 +274,6 @@ export default class Registration extends React.Component {
             </Modal>
         );
     }
-
     terminosCondiciones() {
         return(
             <Modal
@@ -314,7 +309,6 @@ export default class Registration extends React.Component {
             </Modal>
         );
     }
-    
     loading(){
      return(
         <Modal

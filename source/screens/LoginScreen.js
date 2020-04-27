@@ -1,61 +1,54 @@
 import React, { Component } from 'react';
 import {StyleSheet, View, Image, Alert} from 'react-native';
 import { LoginComponent, Background, ForgotPassModal, LoadModal} from '../components';
-import * as firebase from 'firebase'
-import  languageJSON  from '../common/language';
 import { userSignIn, resettingPassword} from "../actions/auth";
+import { hideModalResetPassword, showModalResetPassword} from "../actions/modals";
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return{
-        data: state.auth,
+        auth: state.auth,
+        modal: state.modal
     }
 }
 const mapDispatchToProps = dispatch => ({
     signIn: (credentials) => dispatch(userSignIn(credentials)),
-    resettingPassword: (email) => dispatch(resettingPassword(email))
+    resettingPassword: (email) => dispatch(resettingPassword(email)),
+    hideResetPassword: () => dispatch(hideModalResetPassword()),
+    showResetPassword: () => dispatch(showModalResetPassword())
 });
+
 
 class LoginScreen extends Component {
     constructor(props){
       super(props);
-      this.state = {
-          email:'',
-          password:'',
-          emailValid:true,
-          passwordValid:true,
-          showForgotModal:false,
-          emailerror:null,
-      }
-      
+
     }
+
     componentDidUpdate(prevProps, prevState, snapshot){
-        if(this.props.data.loaded === true) {
+        if(this.props.auth.loaded === true) {
             this.redirect();
         }
-        if(this.props.data.error === true) {
+        if(this.props.auth.error === true) {
             Alert.alert('Error', 'Error al ingresar, intentalo nuevamente', null, {cancelable: true});
         }
-        if(this.props.data.messageSuccessResetting === true && prevState.showForgotModal === this.state.showForgotModal) {
+        if(this.props.auth.messageSuccessResetting === true) {
             Alert.alert('Mensaje', 'Se ha enviado correctamente', null, {cancelable: true});
-
         }
-        if(this.props.data.errorResetting === true && prevState.showForgotModal === this.state.showForgotModal) {
+        if(this.props.auth.errorResetting === true) {
             Alert.alert('Error', 'Error al enviar el correo, intentalo nuevamente', null, {cancelable: true});
         }
     }
-
     redirect = () => {
         this.props.navigation.navigate('Root');
     }
-
     //forgot password press
     forgotPassPress() {
-        this.setState({showForgotModal:true})
+        this.props.showResetPassword();
     }
     // close modal forgot password
-    closeModal(){ 
-        this.setState({ showForgotModal: false })
+    closeModal(){
+        this.props.hideResetPassword();
     }
 
     //go to register page
@@ -65,7 +58,7 @@ class LoginScreen extends Component {
     }
     // recober password
     onPressForgotPass(email) {
-        this.setState({showForgotModal:false});
+        this.props.hideResetPassword();
         this.props.resettingPassword(email);
     }
 
@@ -90,12 +83,12 @@ class LoginScreen extends Component {
               />
             </View>
               <ForgotPassModal
-                  modalvisable={this.state.showForgotModal}
+                  modalvisable={this.props.modal.showModalResetPassword}
                   requestmodalclose={()=>{this.closeModal()}}
                   onPressForgotPass={(email)=>this.onPressForgotPass(email)} 
               />
               <LoadModal
-                  modalvisable={this.props.data.loading}
+                  modalVisible={this.props.auth.loading}
               />
         </Background>
     );

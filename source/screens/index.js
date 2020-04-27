@@ -1,40 +1,28 @@
 import RideListPage from './RideListScreen';
-import NotificationPage from './NotificationScreen';
 import MapScreen from './MapScreen';
-import FareScreen from './FareScreen';
-import BookedCabScreen from './BookedCabScreen';
 import RegistrationPage from './Registration';
-import DriverTripCompleteSreen from './driverTripComplete';
 import LoginScreen from './LoginScreen';
 import ProfileScreen from './ProfileScreen';
-import CardDetailsScreen from './CardDetails'
-import RideDetails from './RideDetails';
-import SearchScreen from './SearchScreen';
-import EditProfilePage from './EditProfile';
 import AboutPage from './About';
-import TrackNow from './TrackNow';
-import OnlineChat from './OnlineChat';
-import WalletDetails from './WalletDetails'
-import ComponentesPrueba from "./ComponentesPrueba";
+import AcceptTripScreen from "./AcceptTripScreen";
+import DataPackageScreen from "./DataPackageScreen";
+import TypeTruckScreen from "./TypeTruckScreen";
+import PaymentScreen from "./PaymentScreen";
+import TripScreen from "./TripScreen";
+import CardsSettingScreen from "./CardsSettingScreen";
 
 
 export {
     MapScreen,
-    FareScreen,
-    BookedCabScreen,
-    DriverTripCompleteSreen,
     RegistrationPage,
     RideListPage,
     LoginScreen,
     ProfileScreen,
-    NotificationPage,
-    RideDetails,
-    SearchScreen,
-    EditProfilePage,
     AboutPage,
-    TrackNow,
-    OnlineChat,
-    CardDetailsScreen,
-    WalletDetails,
-    ComponentesPrueba
+    TypeTruckScreen,
+    AcceptTripScreen,
+    DataPackageScreen,
+    PaymentScreen,
+    TripScreen,
+    CardsSettingScreen
 };

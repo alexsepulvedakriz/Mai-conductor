@@ -1,16 +1,16 @@
 import React from 'react';
-import {View, Dimensions, StyleSheet, FlatList, Alert} from 'react-native';
+import {View, Dimensions, StyleSheet, FlatList} from 'react-native';
 import { ListItem} from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-import * as firebase from 'firebase'; //Database
+import * as firebase from 'firebase';
 import SideMenuHeader from './SideMenuHeader';
 import { colors } from '../common/theme';
-const { width,height } = Dimensions.get('window');
 import  languageJSON  from '../common/language';
 import { LinearGradient } from 'expo-linear-gradient';
-
 import {userSignOut} from "../actions/auth";
 import {connect} from "react-redux";
+
+const { width,height } = Dimensions.get('window');
 
 const mapStateToProps = state => {
     return{
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    signOutU: () => dispatch(userSignOut())
+    signOut: () => dispatch(userSignOut())
 });
 
 class SideMenu extends React.Component{
@@ -29,14 +29,12 @@ class SideMenu extends React.Component{
             sideMenuList: [
                 {key: 1, name: languageJSON.book_your_ride_menu, navigationName: 'Map', icon: 'home', type: 'font-awesome', child: 'firstChild'},
                 {key: 2, name: languageJSON.profile_setting_menu, navigationName: 'Profile', icon: 'ios-person-add', type: 'ionicon', child: 'secondChild'},
-                {key: 3, name: languageJSON.my_wallet_menu, icon: 'account-balance-wallet', navigationName: 'wallet', type:'MaterialIcons', child: 'thirdChild'},
-                {key: 4, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'car-sports', type: 'material-community', child: 'fourthChild'},
-                {key: 5, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
-                {key: 6, name: 'Componentes',  navigationName: 'ComponentesPrueba', icon: 'info', type: 'entypo', child: 'fifthChild'},
-                {key: 7, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
+                {key: 3, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'car-sports', type: 'material-community', child: 'fourthChild'},
+                {key: 4, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
+                {key: 5, name: languageJSON.cardsSettings,  navigationName: 'CardsSettings', icon: 'money', type: 'font-awesome', child: 'fifthChild'},
+                {key: 6, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
             ],
             profile_image:null,
-
         }
 
     }
@@ -73,7 +71,7 @@ class SideMenu extends React.Component{
 
     //sign out and clear all async storage
     async signOut() {
-        this.props.signOutU();
+        this.props.signOut();
     }
 
     //CHECKING TRIP END OR START
@@ -119,7 +117,7 @@ class SideMenu extends React.Component{
                             colors={ ['#245b84', '#3ea1c0']}
             >
                 <View style={ styles.containerList}>
-                    <SideMenuHeader userPhoto={this.state.profile_image} userEmail={this.props.data.email} userName ={this.props.data.nombre + ' '+ this.props.data.apellido} ></SideMenuHeader>
+                    <SideMenuHeader userPhoto={this.props.data.id_photo} userEmail={this.props.data.email} userName ={this.props.data.nombre + ' '+ this.props.data.apellido} ></SideMenuHeader>
                     <FlatList
                         data={this.state.sideMenuList}
                         keyExtractor={(item,index) => index.toString()}

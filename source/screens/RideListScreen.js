@@ -1,99 +1,98 @@
 import React from 'react';
-import { RideList } from '../components';
-import { 
-   StyleSheet,
-   View,
-   Text,
-   StatusBar,
-   TouchableWithoutFeedback
-  } from 'react-native';
-import { Header } from 'react-native-elements';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { colors } from '../common/theme';
-import * as firebase from 'firebase';
-import  languageJSON  from '../common/language';
-export default class RideListPage extends React.Component {
+import { tripLoad} from "../actions/trip";
+import stylesCommon from '../common/styles';
+import { connect } from 'react-redux';
+import {HeaderComponent, SmallMapComponent, RideDetailModal} from "../components";;
+
+
+const mapStateToProps = state => {
+    return{
+        profile: state.profile,
+        trip: state.trip
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    // para cambiar el precio y para cancelar la oferta
+    loadTrip:(info) => dispatch(tripLoad(info))
+});
+
+class RideListPage extends React.Component {
     constructor(props){
         super(props);
-        this.state ={
-            currentUser:firebase.auth().currentUser,
+        this.state = {
+            item: null,
+            showDetail: false
+        }
+        this.props.loadTrip({id_pasajero: this.props.profile.id_pasajero,});
+    }
+    date(date){
+        const a = new Date(date.seconds * 1000);
+        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        const year = a.getFullYear();
+        const month = months[a.getMonth()];
+        const date2 = a.getDate();
+        const time = date2 + ' ' + month + ' ' + year;
+        return(time);
+    }
+    listTrips(){
+        let region = {
+            latitude: -33.4488897,
+            longitude: -70.66926,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        };
+        if(this.props.trip.viajes){
+            if(this.props.trip.viajes.length > 0){
+                return(
+                    this.props.trip.viajes.map((item, i) => (
+                        <TouchableOpacity key={i} onPress={() => {this.setState({item: item, showDetail: true})}}>
+                            <View >
+                                <View style={ {marginHorizontal: 20, marginVertical: 10}}>
+                                    <View style={[stylesCommon.rowSpaceBetween ]}>
+                                        <Text style={{fontSize:16 , color: colors.BLACK}}>{this.date(item.fecha)}</Text>
+                                        <Text style={{fontSize:16, color: colors.BLACK}}>CLP ${item.precio}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={{fontSize:14, color: colors.GREY.Deep_Nobel}}>{item.vehiculo} {item.nombre_conductor}</Text>
+                                    </View>
+                                </View>
+                                <View style={{height: 200}}>
+                                    <SmallMapComponent
+                                        markerRef={marker => { this.marker = marker; }}
+                                        mapStyle={stylesCommon.map}
+                                        mapRegion={region}
+                                        origen={{latitude: item.latitude_inicio, longitude: item.longitude_inicio}}
+                                        destination={{latitude: item.latitude_fin, longitude: item.longitude_fin}}
+                                        distance = {() => {}}
+                                    />
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    ))
+                )
+
+            } else {
+                return (
+                    <View style={{marginVertical: 90}}>
+                        <ActivityIndicator size="large" color="#0000ff" />
+                    </View>
+                )
+            }
         }
     }
-
-    componentDidMount(){
-        this.getMyRides();
-    }
-
-  //Go to ride details page
-  goDetails(item, index){
-    if(item && item.trip_cost >0){
-        item.roundoffCost = Math.round(item.trip_cost).toFixed(2);
-        item.roundoff = (Math.round(item.roundoffCost)-item.trip_cost).toFixed(2);
-        this.props.navigation.push('RideDetails',{data:item});
-    }else{
-        item.roundoffCost = Math.round(item.estimate).toFixed(2);
-        item.roundoff = (Math.round(item.roundoffCost)-item.estimate).toFixed(2);
-        this.props.navigation.push('RideDetails',{data:item});
-    }
-    
-  }
-
-  //Fetching My Rides
-  getMyRides(){
-    const ridesListPath=firebase.database().ref('/users/'+this.state.currentUser.uid+ '/my-booking/');
-    ridesListPath.on('value',myRidesData=>{
-       if(myRidesData.val()){
-           var ridesOBJ = myRidesData.val();
-           var allRides =[];
-           for(let key in ridesOBJ){
-               ridesOBJ[key].bookingId = key;
-                var Bdate = new Date(ridesOBJ[key].tripdate);
-                ridesOBJ[key].bookingDate = Bdate.toDateString();
-                allRides.push(ridesOBJ[key]);   
-           }
-           if(allRides){
-            this.setState({
-                myrides:allRides.reverse()
-            },()=>{
-               
-            })
-           }
-       }
-    })
-  } 
-
-
   render() {
     return (
-        <View style={styles.mainView}>
-            <Header 
-                backgroundColor={colors.GREY.default}
-                leftComponent={{icon:'md-menu', type:'ionicon', color:colors.WHITE, size: 30, component: TouchableWithoutFeedback,onPress: ()=>{this.props.navigation.toggleDrawer();} }}
-                centerComponent={<Text style={styles.headerTitleStyle}>{languageJSON.ride_list_title}</Text>}
-                containerStyle={styles.headerStyle}
-                innerContainerStyles={{marginLeft:10, marginRight: 10}}
-            />
-            
-            <RideList onPressButton={(item, index) => {this.goDetails(item, index)}} data ={this.state.myrides}></RideList>
+        <View>
+            <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={'Detalles viajes'} type={'color'}/>
+            <View>
+                {this.listTrips()}
+            </View>
+            <RideDetailModal Visable={this.state.showDetail} item={this.state.item} close={() => {this.setState({showDetail: false})}}></RideDetailModal>
         </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    headerStyle: { 
-        backgroundColor: colors.GREY.default, 
-        borderBottomWidth: 0 
-    },
-    headerTitleStyle: { 
-        color: colors.WHITE,
-        fontFamily:'Roboto-Bold',
-        fontSize: 20
-    },
-    containerView:{ flex:1 },
-    textContainer:{textAlign:"center"},
-    mainView:{ 
-        flex:1, 
-        backgroundColor: colors.WHITE, 
-        //marginTop: StatusBar.currentHeight 
-    } 
-});
+export default connect(mapStateToProps, mapDispatchToProps)(RideListPage);

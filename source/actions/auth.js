@@ -10,7 +10,7 @@ import {
     SIGNUP_USER_FAILED,
     RESETTING_PASSWORD,
     RESETTING_PASSWORD_SUCCESS,
-    RESETTING_PASSWORD_FAILED
+    RESETTING_PASSWORD_FAILED,
 } from "../redux/actionTypes";
 
 export const userSignUp = (user) => {return {type: SIGNUP_USER, payload: user};};
@@ -25,3 +25,4 @@ export const userSignOutFailed = () => {return {type: SIGNOUT_USER_FAILED,}};
 export const resettingPassword = (email) => {return {type: RESETTING_PASSWORD, payload: email};};
 export const resettingPasswordSuccess = () => {return {type: RESETTING_PASSWORD_SUCCESS};};
 export const resettingPasswordFailed = () => {return {type: RESETTING_PASSWORD_FAILED};};
+

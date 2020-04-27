@@ -1,75 +1,96 @@
 import React from 'react';
 import { Header } from 'react-native-elements';
 import { colors } from '../common/theme';
-import { 
+import {
     StyleSheet,
     View,
     Text,
-    StatusBar,
     ScrollView,
     TouchableWithoutFeedback,
     Dimensions,
-    Image
-  } from 'react-native';
-  var {width} = Dimensions.get('window');
-  import * as firebase from 'firebase';
-  import  languageJSON  from '../common/language';
-export default class AboutPage extends React.Component {
+    Image,
+    ActivityIndicator
+} from 'react-native';
+import  languageJSON  from '../common/language';
+import { aboutLoad} from "../actions/about";
+import {connect} from "react-redux";
+
+var { height, width } = Dimensions.get('window');
+
+const mapStateToProps = state => {
+    return{
+        about: state.about
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    loadAbout: () => dispatch(aboutLoad())
+});
+
+class AboutPage extends React.Component {
     constructor(props){
         super(props);
-        this.state={}
-        const about=firebase.database().ref('About_Us/');
-        about.on('value',aboutData=>{
-            if(aboutData.val()){
-                let data = aboutData.val()
-                this.setState(data);
-            }
-        })
+        this.props.loadAbout();
     }
-    render() {  
+    loadOrNot(){
+        if(this.props.about.loaded){
+            return(
+                <ScrollView styles={{marginTop:10}}>
+                    <View style={styles.aboutcontentmainStyle}>
+                        <Image
+                            style={{width: '100%', height: 150}}
+                            source={{ uri:this.props.about.foto}}
+                        />
+                        <Text style={styles.aboutTitleStyle}>Nosotros</Text>
+                        <Text style={styles.aboutcontentStyle}>{this.props.about.descripcion}</Text>
+                        <Text style={styles.aboutTitleStyle}>Historial</Text>
+                        <Text style={styles.aboutcontentStyle}>{this.props.about.historial}</Text>
+                        <Text style={styles.aboutTitleStyle}>{languageJSON.contact_details}</Text>
+                        <View style={styles.contact}>
+                            <View style={{justifyContent:'flex-start',alignItems:'center',flexDirection:'row'}}>
+                                <Text style={styles.contacttype1}>{languageJSON.email_placeholder}: </Text>
+                                <Text style={styles.contacttype1}>{this.props.about.email}</Text>
+                            </View>
+                            <View style={{justifyContent:'flex-start',alignItems:'center',flexDirection:'row'}}>
+                                <Text style={styles.contacttype2}>{languageJSON.phone}: </Text>
+                                <Text style={styles.contacttype1}>{this.props.about.telefono}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            )
+        } else {
+            return(
+                <View style={{marginVertical: 30}}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            )
+        }
+    }
+    render() {
         return (
-        
             <View style={styles.mainView}>
-                <Header 
-                    backgroundColor={colors.GREY.default}
+                <Header
+                    backgroundColor={'transparent'}
+                    linearGradientProps={{
+                        colors: ['#245b84', '#3ea1c0'],
+                        start: [0, 1],
+                        end: [1, 1],
+                    }}
                     leftComponent={{icon:'md-menu', type:'ionicon', color:colors.WHITE, size: 30, component: TouchableWithoutFeedback,onPress: ()=>{this.props.navigation.toggleDrawer();} }}
                     centerComponent={<Text style={styles.headerTitleStyle}>{languageJSON.about_us_menu}</Text>}
                     containerStyle={styles.headerStyle}
                     innerContainerStyles={{marginLeft:10, marginRight: 10}}
+                    rightComponent={{icon:'md-share', type:'ionicon', color:colors.WHITE}}
                 />
-                <View>
-                <ScrollView styles={{marginTop:10}}>
-                    <Text style={styles.aboutTitleStyle}>{this.state.heading?this.state.heading:null}</Text>
-                    <View style={styles.aboutcontentmainStyle}>
-                    <Image
-                      style={{width: '100%', height: 150}}
-                      source={require('../../assets/images/about_us.png')}
-                    />
-                    
-                    <Text style={styles.aboutcontentStyle}>
-                       
-                       {this.state.contents?this.state.contents:null}
-                    </Text>
-                    <Text style={styles.aboutTitleStyle}>{languageJSON.contact_details}</Text>
-                    <View style={styles.contact}>
-                        <View style={{justifyContent:'flex-start',alignItems:'center',flexDirection:'row'}}>  
-                            <Text style={styles.contacttype1}>{languageJSON.email_placeholder} :</Text>
-                            <Text style={styles.contacttype1}> {this.state.email?this.state.email:null}</Text>
-                        </View>      
-                        <View style={{justifyContent:'flex-start',alignItems:'center',flexDirection:'row'}}>
-                            <Text style={styles.contacttype2}>{languageJSON.phone} :</Text>
-                            <Text style={styles.contacttype1}> {this.state.phone?this.state.phone:null}</Text>
-                        </View>
-                    </View>               
-                 </View>
-                </ScrollView>
-               </View>
+                {this.loadOrNot()}
            </View>
-           
         );
       }
     
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AboutPage);
+
 const styles = StyleSheet.create({
     mainView:{ 
         flex:1, 

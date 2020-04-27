@@ -16,7 +16,12 @@ import {
     resettingPasswordFailed,
     resettingPasswordSuccess
 } from "../actions/auth";
-import { getPerfil} from "../actions/perfil";
+import {profileCleanStore, profileLoad} from "../actions/profile";
+import {offerCleanStore} from "../actions/offer";
+import {offerDriverCleanStore} from "../actions/offer_driver";
+import {tripCleanStore} from "../actions/trip";
+import {aboutCleanStore} from "../actions/about";
+import {CardClean} from "../actions/card";
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.createUserWithEmailAndPassword(email, password)
@@ -38,7 +43,7 @@ const createUserWithFirestore = async (informacion, id) => {
 const uploadPhotoUserWithStorage = async (informacion, id) => {
     const {photo} = informacion;
     if(photo) {
-        const ref = storage.ref().child("images/" + id);
+        const ref = storage.ref().child("images/riders" + id);
         await ref.put(photo)
             .then(function() {
                 console.log("Photo successfully uploaded!");
@@ -72,9 +77,10 @@ function* createUserWithEmailPassword({payload}) {
     try {
         const signUpUser = yield call(createUserWithEmailPasswordRequest, email, password);
         yield call(uploadPhotoUserWithStorage, payload, signUpUser.user.uid);
+        payload = {...payload, id_pasajero: signUpUser.user.uid, conductores_bloqueados: []};
         yield call(createUserWithFirestore, payload, signUpUser.user.uid);
         yield put(userSignUpSuccess());
-        yield put(getPerfil(signUpUser.user.uid));
+        yield put(profileLoad(signUpUser.user.uid));
     } catch (error) {
         yield put(userSignUpFailed(error));
     }
@@ -91,22 +97,24 @@ function* signInUserWithEmailPassword({payload}) {
             yield put(userSignInFailed());
         } else {
             yield put(userSignInSuccess(userId));
-            yield put(getPerfil(userId));
+            yield put(profileLoad(userId));
         }
     } catch (error) {
-        console.log(error);
+        yield put(userSignInFailed());
     }
 }
 
 function* signOut() {
     try {
-        const signOutUser = yield call(signOutRequest);
-        if (signOutUser === undefined) {
-            localStorage.removeItem('user_id');
-            yield put(userSignOutSuccess(signOutUser));
-        } else {
-            yield put(userSignOutFailed());
-        }
+        yield call(signOutRequest);
+        yield put(userSignOutSuccess());
+        yield put(offerCleanStore());
+        yield put(offerDriverCleanStore());
+        yield put(profileCleanStore());
+        yield put(tripCleanStore());
+        yield put(aboutCleanStore());
+        yield put(CardClean());
+        localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());
     }
