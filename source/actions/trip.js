@@ -20,7 +20,7 @@ export const tripCurrencyLoadFailed = () => {return {type: TRIP_CURRENCY_LOAD_FA
 export const tripUpdate = (trip) => {return {type: TRIP_UPDATE, payload: trip}};
 export const tripUpdated = (trip) => {return {type: TRIP_UPDATED, payload: trip }};
 export const tripUpdateFailed = () => {return {type: TRIP_UPDATE_FAILED}};
-export const tripEnd = (trip) => {return{type: TRIP_FINISH,payload: trip}};
-export const tripEnded = () => {return{type: TRIP_FINISHED}};
-export const tripEndFail = () => {return{type: TRIP_FINISH_FAILED}};
+export const tripFinish = (trip) => {return{type: TRIP_FINISH,payload: trip}};
+export const tripFinished = () => {return{type: TRIP_FINISHED}};
+export const tripFinishFail = () => {return{type: TRIP_FINISH_FAILED}};
 export const tripCleanStore = () => {return {type: TRIP_CLEAN}};

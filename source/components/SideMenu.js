@@ -31,8 +31,9 @@ class SideMenu extends React.Component{
                 {key: 2, name: languageJSON.profile_setting_menu, navigationName: 'Profile', icon: 'ios-person-add', type: 'ionicon', child: 'secondChild'},
                 {key: 3, name: languageJSON.payment_information_menu, navigationName: 'PaymentInformation', icon: 'ios-cash', type: 'ionicon', child: 'secondChild'},
                 {key: 4, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'list', type: 'font-awesome', child: 'fourthChild'},
-                {key: 5, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
-                {key: 6, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
+                {key: 5, name: languageJSON.my_vehicles_menu, navigationName: 'Vehicles', icon: 'truck', type: 'font-awesome', child: 'fourthChild'},
+                {key: 6, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
+                {key: 7, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
             ],
             profile_image:null,
         }

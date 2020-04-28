@@ -6,7 +6,7 @@ import stylesCommon from '../common/styles';
 import { connect } from 'react-redux';
 import {MapComponent, AcceptOrCancelOverlay, EvaluatingTripOverlay, LoadOverlay, AccidentOverlay, HeaderComponent} from '../components';
 import  languageJSON  from '../common/language';
-import {tripUpdate, tripEnd} from "../actions/trip";
+import {tripUpdate, tripFinish} from "../actions/trip";
 import Collapsible from "react-native-collapsible";
 
 var { height, width } = Dimensions.get('window');
@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     // para cambiar el precio y para cancelar la oferta
     tripUpdate: (trip) => dispatch(tripUpdate(trip)),
-    endTrip: (info) => dispatch(tripEnd(info))
+    endTrip: (info) => dispatch(tripFinish(info))
 });
 
 class TripScreen extends React.Component {

@@ -9,7 +9,8 @@ import {
     TripScreen,
     FinishTripScreen,
     OfferListScreen,
-    PaymentInformationScreen
+    PaymentInformationScreen,
+    VehiclesScreen
 } from '../screens';
 import SideMenu from '../components/SideMenu';
 
@@ -54,6 +55,12 @@ import SideMenu from '../components/SideMenu';
         },
         PaymentInformation:{
             screen: PaymentInformationScreen,
+            navigationOptions:{
+                header: null
+            }
+        },
+        Vehicles:{
+            screen: VehiclesScreen,
             navigationOptions:{
                 header: null
             }
@@ -104,6 +111,10 @@ import SideMenu from '../components/SideMenu';
         'About': {
             name: 'About',
             screen: createStackNavigator(AppStack, { initialRouteName: 'About', headerMode: 'none' })
+        },
+        'Vehicles': {
+            name: 'Vehicles',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'Vehicles', headerMode: 'none' })
         }
     };
 

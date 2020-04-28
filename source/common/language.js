@@ -3,6 +3,7 @@ export default {
     offer_list_header: 'Lista de viajes',
     payment_information_header: 'Informacion pagos',
     finish_trip_header: 'Termino del viaje',
+    my_vehicles_header: 'Mis vehiculos',
     // Cards
     add_card: 'Agregar nueva tarjeta',
     no_cards_message: 'Registra tu tarjeta y realiza tus pagos',
@@ -114,6 +115,7 @@ export default {
     payment_information_menu: 'Datos de pago',
     my_wallet_menu:'Mi billetera',
     my_rides_menu:'Mis viajes',
+    my_vehicles_menu: 'Mis vehiculos',
     about_us_menu:'Acerca de nosotros',
     //
     cardsSettings: 'Configuracion de pago',

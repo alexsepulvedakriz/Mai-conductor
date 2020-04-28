@@ -7,6 +7,7 @@ import TripScreen from "./TripScreen";
 import OfferListScreen from "./OfferListScreen";
 import PaymentInformationScreen from "./PaymentInformationScreen";
 import FinishTripScreen from "./FinishTripScreen";
+import VehiclesScreen from "./VehiclesScreen";
 
 export {
     RegistrationPage,
@@ -17,5 +18,6 @@ export {
     TripScreen,
     OfferListScreen,
     PaymentInformationScreen,
-    FinishTripScreen
+    FinishTripScreen,
+    VehiclesScreen
 };

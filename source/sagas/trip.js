@@ -10,8 +10,8 @@ import {
     tripCurrencyLoaded,
     tripCurrencyLoadFailed,
     tripCleanStore,
-    tripEndFail,
-    tripEnded
+    tripFinishFail,
+    tripFinished
 } from "../actions/trip";
 
 const loadTripFirestore  = (id_pasajero) => eventChannel(emitter => {
@@ -57,29 +57,25 @@ function* updateTrip({payload}) {
         const viaje = payload;
         const todosChannel = updateTripFirestore(viaje);
         yield takeEvery(todosChannel, function*() {
-            // TODO revisar lo que recibe esta funcion
             yield put(tripUpdated());
         });
-        yield take('UNWATCH-TODOS');
         todosChannel.close();
     } catch (error) {
         yield put(tripUpdateFailed());
     }
 }
 
-function* endTrip({payload}) {
+function* finishTrip({payload}) {
     try {
         const viaje = payload;
         const todosChannel = updateTripFirestore(viaje);
         yield takeEvery(todosChannel, function*() {
-            // TODO revisar lo que recibe esta funcion
-            yield put(tripEnded());
+            yield put(tripFinished());
             yield put(tripCleanStore());
         });
-        yield take('UNWATCH-TODOS');
         todosChannel.close();
     } catch (error) {
-        yield put(tripEndFail());
+        yield put(tripFinishFail());
     }
 }
 
@@ -127,7 +123,7 @@ export function* triggerLoadCurrencyTrip() {
 }
 
 export function* triggerEndCurrencyTrip() {
-    yield takeEvery(TRIP_FINISH, endTrip);
+    yield takeEvery(TRIP_FINISH, finishTrip);
 }
 
 // permite agregar las funciones de este archivo al sagas root
