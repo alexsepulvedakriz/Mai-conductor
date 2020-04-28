@@ -14,12 +14,12 @@ export default class ProfileComponent extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            nombre:this.props.dataUser?this.props.dataUser.nombre:'desconocido',
-            apellido:this.props.dataUser?this.props.dataUser.apellido:'desconocido',
+            nombre:this.props.dataUser?this.props.dataUser.name:'desconocido',
+            apellido:this.props.dataUser?this.props.dataUser.last_name:'desconocido',
             email:this.props.dataUser?this.props.dataUser.email:'desconocido',
             rut: this.props.dataUser?this.props.dataUser.rut:'desconocido',
             movil:  this.props.dataUser?this.props.dataUser.movil:'desconocido',
-            id_photo: this.props.dataUser?this.props.dataUser.id_photo:'desconocido',
+            id_photo: this.props.dataUser?this.props.dataUser.ref_photo:'desconocido',
             nombreValid: true,
             rutValid: true,
             apellidoValid: true,

@@ -37,15 +37,15 @@ class ProfileScreen extends React.Component {
         });
         return promise;
     }
-  profileEdit(nombre, apellido, rut, photo){
-      this.props.editProfile({nombre: nombre, apellido: apellido, rut: rut, id_pasajero: this.props.profile.id_pasajero, photo: photo})
+  profileEdit(name, last_name, rut, photo){
+      this.props.editProfile({name: name, last_name: last_name, rut: rut, id_driver: this.props.profile.id_driver, photo: photo})
   }
 
     render() {
         return (        
         <View style={styles.mainView}>
             <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={languageJSON.profile_page_title} type={'color'}/>
-            <ProfileComponent dataUser={this.props.profile} onPressRegister={(nombre, apellido, rut, photo) => {this.profileEdit(nombre, apellido, rut, photo)}}/>
+            <ProfileComponent dataUser={this.props.profile.profile} onPressRegister={(name, last_name, rut, photo) => {this.profileEdit(name, last_name, rut, photo)}}/>
             <LoadOverlay Visible={this.props.profile.loading} message={languageJSON.profile_edit}></LoadOverlay>
             <SuccessOrErrorOverlay Visible={this.props.modal.showModalCheck} correct={true}/>
             <SuccessOrErrorOverlay Visible={this.props.profile.error} correct={false}/>

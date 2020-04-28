@@ -1,44 +1,34 @@
 import {
-    CONTRAOFERTAS_LOAD,
-    CONTRAOFERTAS_LOADED,
-    CONTRAOFERTAS_LOAD_FAILED,
-    CONTRAOFERTAS_DECLINE,
-    CONTRAOFERTAS_DECLINED,
-    CONTRAOFERTAS_DECLINE_FAILED,
-    CONTRAOFERTAS_CLEAN,
-    CONTRAOFERTAS_ACCEPT,
-    CONTRAOFERTAS_ACCEPTED,
-    CONTRAOFERTAS_ACCEPT_FAILED
+    OFFER_DRIVER_CLEAN,
+    OFFER_DRIVER_ADD,
+    OFFER_DRIVER_ADDED,
+    OFFER_DRIVER_ADD_FAIL,
+    OFFER_DRIVER_UPDATE,
+    OFFER_DRIVER_UPDATE_FAIL,
+    OFFER_DRIVER_UPDATED,
 } from "../redux/actionTypes";
 
+const offer_driver_detail = {};
+
 const initialState = {
-        loading: false,
-        loaded: false,
-        error: false,
-        contra_ofertas: []
+        adding: false,
+        added: false,
+        error_add: false,
+        updating: false,
+        updated: false,
+        error_update: false,
+        offers_driver: offer_driver_detail
 }
 
 export const offer_driver = (state = initialState, action) => {
     switch (action.type) {
-        case CONTRAOFERTAS_LOAD: {return {...state, loading: true, loaded: false, error: false, ... action.payload}
-        }
-        case CONTRAOFERTAS_LOADED: {return {...state, loading: false, loaded: true, error: false,  ... action.payload}
-        }
-        case CONTRAOFERTAS_LOAD_FAILED: {return {...state, loading: false, loaded: false, error: true}
-        }
-        case CONTRAOFERTAS_DECLINE: {return {...state}
-        }
-        case CONTRAOFERTAS_DECLINED: {return {...state}
-        }
-        case CONTRAOFERTAS_DECLINE_FAILED: {return {...state, loading: false, loaded: false, error: true}
-        }
-        case CONTRAOFERTAS_ACCEPT: {return {...state, loading: true, loaded: false, error: false}
-        }
-        case CONTRAOFERTAS_ACCEPTED: {return {...state, loading: false, loaded: false, error: false}
-        }
-        case CONTRAOFERTAS_ACCEPT_FAILED: {return {...state, loading: false, loaded: false, error: true}
-        }
-        case CONTRAOFERTAS_CLEAN: {return initialState}
+        case OFFER_DRIVER_ADD: {return {...state, adding: true, added: false, error_add: false}}
+        case OFFER_DRIVER_ADDED: {return {...state, adding: true, added: false, error_add: false}}
+        case OFFER_DRIVER_ADD_FAIL: {return {...state, adding: true, added: false, error_add: false}}
+        case OFFER_DRIVER_UPDATE: {return {...state, updating: true, updated: false, error_update: false, offers_driver: action.payload}}
+        case OFFER_DRIVER_UPDATED: {return {...state, updating: true, updated: false, error_update: false}}
+        case OFFER_DRIVER_UPDATE_FAIL: {return {...state, updating: true, updated: false, error_update: false}}
+        case OFFER_DRIVER_CLEAN: {return initialState}
         default:
             return state;
     }

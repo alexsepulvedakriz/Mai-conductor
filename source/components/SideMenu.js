@@ -14,7 +14,7 @@ const { width,height } = Dimensions.get('window');
 
 const mapStateToProps = state => {
     return{
-        data: state.profile,
+        profile: state.profile,
     }
 }
 const mapDispatchToProps = dispatch => ({
@@ -117,7 +117,7 @@ class SideMenu extends React.Component{
                             colors={ ['#245b84', '#3ea1c0']}
             >
                 <View style={ styles.containerList}>
-                    <SideMenuHeader userPhoto={this.props.data.id_photo} userEmail={this.props.data.email} userName ={this.props.data.nombre + ' '+ this.props.data.apellido} ></SideMenuHeader>
+                    <SideMenuHeader userPhoto={this.props.profile.profile.ref_photo} userEmail={this.props.profile.profile.email} userName ={this.props.profile.profile.name + ' '+ this.props.profile.profile.lastname} ></SideMenuHeader>
                     <FlatList
                         data={this.state.sideMenuList}
                         keyExtractor={(item,index) => index.toString()}

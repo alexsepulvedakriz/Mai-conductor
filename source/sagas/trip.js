@@ -1,7 +1,7 @@
 import {all, fork, put, takeEvery, take} from "redux-saga/effects";
 import { firestore } from "../firebase/firebase";
 import { eventChannel} from 'redux-saga';
-import {VIAJE_CURRENCY_LOAD, VIAJE_END, VIAJES_LOAD, VIAJES_UPDATE} from "../redux/actionTypes";
+import {TRIP_CURRENCY_LOAD, TRIP_FINISH, TRIP_LOAD, TRIP_UPDATE} from "../redux/actionTypes";
 import {
     tripLoaded,
     tripLoadFailed,
@@ -115,19 +115,19 @@ function* loadCurrencyTrip({payload}) {
 }
 
 export function* triggerUpdateTrip() {
-    yield takeEvery(VIAJES_UPDATE, updateTrip);
+    yield takeEvery(TRIP_UPDATE, updateTrip);
 }
 
 export function* triggerLoadTrip() {
-    yield takeEvery(VIAJES_LOAD, loadTrip);
+    yield takeEvery(TRIP_LOAD, loadTrip);
 }
 
 export function* triggerLoadCurrencyTrip() {
-    yield takeEvery(VIAJE_CURRENCY_LOAD, loadCurrencyTrip);
+    yield takeEvery(TRIP_CURRENCY_LOAD, loadCurrencyTrip);
 }
 
 export function* triggerEndCurrencyTrip() {
-    yield takeEvery(VIAJE_END, endTrip);
+    yield takeEvery(TRIP_FINISH, endTrip);
 }
 
 // permite agregar las funciones de este archivo al sagas root

@@ -1,14 +1,13 @@
 import {all, fork, put, takeEvery, take, call} from "redux-saga/effects";
 import {firestore, storage} from "../firebase/firebase";
-import { PERFIL_LOAD, PERFIL_UPDATE } from "../redux/actionTypes";
+import { PROFILE_LOAD, PROFILE_UPDATE } from "../redux/actionTypes";
 import {profileLoaded, profileUpdated, profileLoadFail, profileUpdateFail} from "../actions/profile";
 import { eventChannel} from 'redux-saga';
-import {showModalCheck} from "../actions/modals";
 
-const uploadPhotoProfileWithStorage = async (informacion) => {
-    const {photo, id_pasajero, id_photo} = informacion;
+const uploadPhotoProfileWithStorage = async (profile) => {
+    const {photo, id_driver, id_photo} = profile;
     if(photo) {
-        const ref = storage.ref().child("images/profile/" + id_pasajero+ '/' + id_photo);
+        const ref = storage.ref().child("images/profile/" + id_driver+ '/' + id_photo);
         await ref.put(photo)
             .then(function() {
                 console.log("Photo successfully uploaded!");
@@ -21,10 +20,10 @@ const uploadPhotoProfileWithStorage = async (informacion) => {
     }
 }
 
-const actualizarPerfilFirestore  = (infoPerfil) => eventChannel(emitter => {
-    delete infoPerfil.photo;
-    const {id_pasajero} = infoPerfil;
-    firestore.collection('pasajeros/' + id_pasajero + '/perfil').doc(id_pasajero).update(infoPerfil)
+const updateProfileFirestore  = (profile) => eventChannel(emitter => {
+    delete profile.photo;
+    const {id_driver} = profile;
+    firestore.collection('drivers/' + id_driver + '/profile').doc(id_driver).update(profile)
         .then(_=> {emitter({
             data: {cambiado: true}})})
         .catch( error => {
@@ -35,27 +34,24 @@ const actualizarPerfilFirestore  = (infoPerfil) => eventChannel(emitter => {
     return () => unsubscribe();
 });
 
-const consultaPerfilFirestore  = (id_pasajero) => eventChannel(emitter => {
-    const unsubscribe = firestore.collection('pasajeros/' + id_pasajero + '/perfil').onSnapshot(snapshot => {
+const loadProfileFirestore  = (id_driver) => eventChannel(emitter => {
+    const unsubscribe = firestore.collection('drivers/' + id_driver + '/profile').onSnapshot(snapshot => {
         snapshot.forEach((change) => {
             emitter({
-                data: {...change.data(), id_pasajero: id_pasajero}
+                data: {...change.data(), id_driver: id_driver}
             })
         });
     });
     return () => unsubscribe();
 });
 
-function* obtenerPerfil({payload}) {
-    const id_pasajero = payload;
+function* loadProfile({payload}) {
+    const id_driver = payload;
     try {
-        // consulta directa a firestore, una vez conectado emite un evento
-        const todosChannel = consultaPerfilFirestore(id_pasajero);
-        // escucha eventos emitidos por la funcion anteriorm activandose y emitiendo una accion manejable por los reducers
+        const todosChannel = loadProfileFirestore(id_driver);
         yield takeEvery(todosChannel, function*(action) {
             yield put(profileLoaded(action.data));
         });
-        // detener la ejecucion de la consulta directa a firestore
         yield take('UNWATCH-TODOS');
         todosChannel.close();
     } catch (error) {
@@ -64,18 +60,12 @@ function* obtenerPerfil({payload}) {
 
 }
 
-function* actualizarPerfil({payload}) {
-    const copyProfile = Object.assign({}, payload);
+function* updateProfile({payload}) {
     try {
-// consulta directa a firestore, una vez conectado emite un evento
-        const todosChannel = actualizarPerfilFirestore(copyProfile);
-        // escucha eventos emitidos por la funcion anteriorm activandose y emitiendo una accion manejable por los reducers
+        const todosChannel = updateProfileFirestore(payload);
         yield takeEvery(todosChannel, function*() {
             yield put(profileUpdated());
-            yield put(showModalCheck());
         });
-        // detener la ejecucion de la consulta directa a firestore
-
         yield call(uploadPhotoProfileWithStorage, payload);
         yield take('UNWATCH-TODOS');
         todosChannel.close();
@@ -84,15 +74,12 @@ function* actualizarPerfil({payload}) {
     }
 
 }
-
-export function* activadorObtenerPerfil() {
-    yield takeEvery(PERFIL_LOAD, obtenerPerfil);
+export function* triggerLoadProfile() {
+    yield takeEvery(PROFILE_LOAD, loadProfile);
 }
-export function* activadorActualizarPerfil() {
-    yield takeEvery(PERFIL_UPDATE, actualizarPerfil);
+export function* triggerUpdateProfile() {
+    yield takeEvery(PROFILE_UPDATE, updateProfile);
 }
-
-// permite agregar las funciones de este archivo al sagas root
 export default function* rootSaga() {
-    yield all([fork(activadorObtenerPerfil), fork(activadorActualizarPerfil)]);
+    yield all([fork(triggerLoadProfile), fork(triggerUpdateProfile)]);
 }

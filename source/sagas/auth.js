@@ -21,7 +21,6 @@ import {offerCleanStore} from "../actions/offer";
 import {offerDriverCleanStore} from "../actions/offer_driver";
 import {tripCleanStore} from "../actions/trip";
 import {aboutCleanStore} from "../actions/about";
-import {CardClean} from "../actions/card";
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.createUserWithEmailAndPassword(email, password)
@@ -113,7 +112,6 @@ function* signOut() {
         yield put(profileCleanStore());
         yield put(tripCleanStore());
         yield put(aboutCleanStore());
-        yield put(CardClean());
         localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());
