@@ -1,4 +1,8 @@
 export default {
+    // Headers
+    offer_list_header: 'Lista de viajes',
+    payment_information_header: 'Informacion pagos',
+    finish_trip_header: 'Termino del viaje',
     // Cards
     add_card: 'Agregar nueva tarjeta',
     no_cards_message: 'Registra tu tarjeta y realiza tus pagos',
@@ -103,11 +107,15 @@ export default {
     email_exist_error:'El correo ingresado ya está asociado a una cuenta.',
     Account_linking_error:'Error de enlace de cuentas',
     send_email_button:'Enviar email',
+    // menu
     book_your_ride_menu:'Agende su viaje',
     profile_setting_menu:'Ajustes de perfil',
+    offer_list_menu: 'Ofertas de viajes',
+    payment_information_menu: 'Datos de pago',
     my_wallet_menu:'Mi billetera',
     my_rides_menu:'Mis viajes',
     about_us_menu:'Acerca de nosotros',
+    //
     cardsSettings: 'Configuracion de pago',
     logout:'Cerrar sesión',
     photo_upload_action_sheet_title:'Elige un medio',

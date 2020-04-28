@@ -3,16 +3,13 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import {
     ProfileScreen,
     RideListPage,
-    MapScreen,
     RegistrationPage,
     LoginScreen,
     AboutPage,
-    TypeTruckScreen,
-    AcceptTripScreen,
-    DataPackageScreen,
-    PaymentScreen,
     TripScreen,
-    CardsSettingScreen
+    FinishTripScreen,
+    OfferListScreen,
+    PaymentInformationScreen
 } from '../screens';
 import SideMenu from '../components/SideMenu';
 
@@ -37,44 +34,26 @@ import SideMenu from '../components/SideMenu';
                 header: null
             }
         },
-        Map: {
-            screen: MapScreen,
-            navigationOptions:{
-                header: null
-            }
-        },
-        AcceptTrip:{
-            screen: AcceptTripScreen,
-            navigationOptions:{
-                header: null
-            }
-        },
         Trip:{
             screen: TripScreen,
             navigationOptions:{
                 header: null
             }
         },
-        DataPackage:{
-            screen: DataPackageScreen,
+        FinishTrip:{
+            screen: FinishTripScreen,
             navigationOptions:{
                 header: null
             }
         },
-        TypeTruck:{
-            screen: TypeTruckScreen,
+        OfferList:{
+            screen: OfferListScreen,
             navigationOptions:{
                 header: null
             }
         },
-        Payment:{
-            screen: PaymentScreen,
-            navigationOptions:{
-                header: null
-            }
-        },
-        CardsSettings:{
-            screen: CardsSettingScreen,
+        PaymentInformation:{
+            screen: PaymentInformationScreen,
             navigationOptions:{
                 header: null
             }
@@ -83,7 +62,6 @@ import SideMenu from '../components/SideMenu';
 
     //authentication stack for user before login
     export const AuthStack = createStackNavigator({
-       
         Reg: {
             screen: RegistrationPage,
             navigationOptions:{
@@ -103,15 +81,6 @@ import SideMenu from '../components/SideMenu';
 
     //drawer routes, you can add routes here for drawer or sidemenu
     const DrawerRoutes = {
-        'Map': {
-            name: 'Map',
-            screen: createStackNavigator(AppStack, {
-                initialRouteName: 'Map', 
-                navigationOptions:{
-                    header: null
-                } 
-            })
-        },
         'RideList': {
             name: 'RideList',
             screen: createStackNavigator(AppStack, { initialRouteName: 'RideList',headerMode: 'none' })
@@ -120,18 +89,22 @@ import SideMenu from '../components/SideMenu';
             name: 'Profile',
             screen: createStackNavigator(AppStack, { initialRouteName: 'Profile', headerMode: 'none' })
         },
+        'PaymentInformation': {
+            name: 'PaymentInformation',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'PaymentInformation', headerMode: 'none' })
+        },
+        'OfferList': {
+            name: 'OfferList',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'OfferList', headerMode: 'none' })
+        },
+        'FinishTrip': {
+            name: 'FinishTrip',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'FinishTrip', headerMode: 'none' })
+        },
         'About': {
             name: 'About',
             screen: createStackNavigator(AppStack, { initialRouteName: 'About', headerMode: 'none' })
-        },
-        'Payment': {
-            name: 'Payment',
-            screen: createStackNavigator(AppStack, { initialRouteName: 'Payment', headerMode: 'none' })
-        },
-        'CardsSettings': {
-            name: 'CardsSettings',
-            screen: createStackNavigator(AppStack, { initialRouteName: 'CardsSettings', headerMode: 'none' })
-        },
+        }
     };
 
     //main navigator for user end
@@ -139,7 +112,7 @@ import SideMenu from '../components/SideMenu';
         DrawerRoutes,
         {
         drawerWidth: 300,
-        initialRouteName:'Map',
+        initialRouteName:'RideList',
         contentComponent: SideMenu,
       });
 

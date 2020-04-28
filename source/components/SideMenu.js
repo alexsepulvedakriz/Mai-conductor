@@ -27,11 +27,11 @@ class SideMenu extends React.Component{
         this.state = {
             heightIphoneSix : false,
             sideMenuList: [
-                {key: 1, name: languageJSON.book_your_ride_menu, navigationName: 'Map', icon: 'home', type: 'font-awesome', child: 'firstChild'},
+                {key: 1, name: languageJSON.offer_list_menu, navigationName: 'OfferList', icon: 'car-sports', type: 'material-community', child: 'secondChild'},
                 {key: 2, name: languageJSON.profile_setting_menu, navigationName: 'Profile', icon: 'ios-person-add', type: 'ionicon', child: 'secondChild'},
-                {key: 3, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'car-sports', type: 'material-community', child: 'fourthChild'},
-                {key: 4, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
-                {key: 5, name: languageJSON.cardsSettings,  navigationName: 'CardsSettings', icon: 'money', type: 'font-awesome', child: 'fifthChild'},
+                {key: 3, name: languageJSON.payment_information_menu, navigationName: 'PaymentInformation', icon: 'ios-cash', type: 'ionicon', child: 'secondChild'},
+                {key: 4, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'list', type: 'font-awesome', child: 'fourthChild'},
+                {key: 5, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
                 {key: 6, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
             ],
             profile_image:null,
