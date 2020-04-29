@@ -4,14 +4,14 @@ import {
     ProfileScreen,
     RideListPage,
     RegistrationPage,
-    LoginScreen,
     AboutPage,
     TripScreen,
     FinishTripScreen,
     OfferListScreen,
     PaymentInformationScreen,
     VehiclesScreen
-} from '../screens';
+} from '../screensNavigation';
+import {LoginScreen} from '../screensAuth';
 import SideMenu from '../components/SideMenu';
 
 //app stack for user end

@@ -1,7 +1,19 @@
 import AddVehicleModal from "./AddVehicleModal";
-import DriverModal from "./DriverModal";
+import AddCardModal from "./AddCardModal";
+import ChangePasswordModal from "./ChangePasswordModal";
+import ForgotPassModal from "./ForgotPassModal";
+import ListOfferModal from "./ListOfferModal";
+import LoadModal from "./LoadModal";
+import RideDetailModal from "./RideDetailModal";
+import TutorialModal from "./TutorialModal";
 
 export {
     AddVehicleModal,
-    DriverModal
+    AddCardModal,
+    ChangePasswordModal,
+    ForgotPassModal,
+    ListOfferModal,
+    LoadModal,
+    RideDetailModal,
+    TutorialModal
 }

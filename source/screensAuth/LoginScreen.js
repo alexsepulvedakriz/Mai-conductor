@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, View, Image, Alert} from 'react-native';
-import { LoginComponent, Background, ForgotPassModal, LoadModal} from '../components';
+import { LoginComponent, Background } from '../components';
+import { ForgotPassModal, LoadModal} from '../modals'
 import { userSignIn, resettingPassword} from "../actions/auth";
 import { hideModalResetPassword, showModalResetPassword} from "../actions/modals";
 import { connect } from 'react-redux';

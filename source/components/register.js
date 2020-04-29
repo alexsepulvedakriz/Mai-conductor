@@ -277,7 +277,7 @@ export default class Registration extends React.Component {
     terminosCondiciones() {
         return(
             <Modal
-                animationType="slide"
+                animationType="fade"
                 presentationStyle="fullScreen"
                 transparent={false}
                 visible={this.state.openModalTerminosYCondiciones}
@@ -368,200 +368,198 @@ export default class Registration extends React.Component {
 
         const { onPressBack,registrationData,reqData, loading }=this.props;
         return(
-            <Background>
-                <ScrollView style={styles.scrollViewStyle}>
-                    <View style={styles.logo}>
-                        <Image source={require('../../assets/images/logo.png')} />
-                    </View>
-                    <KeyboardAvoidingView behavior={Platform.OS=='ios'?"padding":"padding"} style={styles.form}> 
-                        <View style={styles.containerStyle}>
-                            <Text style={styles.headerStyle}>{languageJSON.registration_title}</Text>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.nombreInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.first_name_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.nombre}
-                                    keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({nombre: text})}}
-                                    errorMessage={this.state.nombreValid ? null : languageJSON.first_name_blank_error}
-                                    secureTextEntry={false}
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validateFirstName(); this.apellidoInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.apellidoInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.last_name_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.apellido}
-                                    keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({apellido: text})}}
-                                    errorMessage={this.state.apellidoValid ? null : languageJSON.last_name_blank_error}
-                                    secureTextEntry={false}
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validateLastname(); this.emailInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.rutInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.rut_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.rut}
-                                    keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({rut: text})}}
-                                    errorMessage={this.state.rutValid ? null : languageJSON.rut_blank_error}
-                                    secureTextEntry={false}
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validateRut(); this.rutInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'id-card', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.emailInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.email_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.email}
-                                    keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({email: text})}}
-                                    errorMessage={this.state.emailValid ? null : languageJSON.valid_email_check}
-                                    secureTextEntry={false}
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validateEmail(); this.movilInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'envelope-o', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.movilInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.movil_no_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.movil}
-                                    keyboardType={'number-pad'}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({movil: text})}}
-                                    errorMessage={this.state.movilValid ? null : languageJSON.movil_no_blank_error}
-                                    secureTextEntry={false}
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validateMovil(); this.passwordInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'mobile-phone', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.passwordInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.password_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.password}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({password: text})}}
-                                    errorMessage={this.state.passwordValid ? null : this.state.pwdErrorMsg}
-                                    secureTextEntry
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validatePassword(); this.cnfPwdInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Input
-                                    ref={input => (this.cnfPwdInput = input)}
-                                    editable={true}
-                                    underlineColorAndroid={colors.TRANSPARENT}
-                                    placeholder={languageJSON.confrim_password_placeholder}
-                                    placeholderTextColor={colors.WHITE}
-                                    value={this.state.confPassword}
-                                    inputStyle={styles.inputTextStyle}
-                                    onChangeText={(text)=>{this.setState({confPassword: text})}}
-                                    errorMessage={this.state.cnfPwdValid ? null : languageJSON.confrim_password_not_match_err}
-                                    secureTextEntry
-                                    blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.validateConfPassword(); this.refferalInput.focus() }}
-                                    errorStyle={styles.errorMessageStyle}
-                                    containerStyle={styles.textInputStyle}
-                                    rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <Button
-                                    onPress={this._pickImage}
-                                    title={languageJSON.upload_photo}
-                                    loading={loading}
-                                    titleStyle={styles.photoButtonTitle}
-                                    buttonStyle={styles.photoButton}
-                                    icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
-                                    iconRight={true}
-                                />
-                            </View>
-                            <View style={styles.textInputContainerStyle}>
-                                <CheckBox
-                                    checked={this.state.checkBox}
-                                    containerStyle={styles.checkboxStyle}
-                                    checkedColor={'white'}
-                                    uncheckedColor={'white'}
-                                    onPress={()=>{this.setState({checkBox: !this.state.checkBox})}}
-                                />
-                                <Text
-                                    style={styles.inputTextStyleTerminos}
-                                    onPress={() => {this.setState({openModalTerminosYCondiciones: true})}}>{languageJSON.terminos_condiciones_link}</Text>
-                            </View>
-                            <View style={styles.buttonContainer}>
-                                <Button
-                                    onPress={()=>{this.validateInputs()}}
-                                    title={languageJSON.register_button}
-                                    loading={loading}
-                                    titleStyle={styles.buttonTitle}
-                                    buttonStyle={styles.registerButton}
-                                />
-                            </View>
-                            <View style={styles.buttonContainer}>
-                                <Button
-                                    onPress={()=>{this.props.onPressBack()}}
-                                    title={languageJSON.come_back_button}
-                                    titleStyle={styles.volverTitleStyle}
-                                    buttonStyle={styles.volverButton}
-                                />
-                            </View>
-                            <View style={styles.gapView}/>
+            <ScrollView style={styles.scrollViewStyle}>
+                <View style={styles.logo}>
+                    <Image source={require('../../assets/images/logo.png')} />
+                </View>
+                <KeyboardAvoidingView behavior={Platform.OS=='ios'?"padding":"padding"} style={styles.form}>
+                    <View style={styles.containerStyle}>
+                        <Text style={styles.headerStyle}>{languageJSON.registration_title}</Text>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.nombreInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.first_name_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.nombre}
+                                keyboardType={'email-address'}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({nombre: text})}}
+                                errorMessage={this.state.nombreValid ? null : languageJSON.first_name_blank_error}
+                                secureTextEntry={false}
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validateFirstName(); this.apellidoInput.focus()}}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
+                            />
                         </View>
-                    </KeyboardAvoidingView>
-                </ScrollView>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.apellidoInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.last_name_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.apellido}
+                                keyboardType={'email-address'}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({apellido: text})}}
+                                errorMessage={this.state.apellidoValid ? null : languageJSON.last_name_blank_error}
+                                secureTextEntry={false}
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validateLastname(); this.emailInput.focus()}}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.rutInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.rut_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.rut}
+                                keyboardType={'email-address'}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({rut: text})}}
+                                errorMessage={this.state.rutValid ? null : languageJSON.rut_blank_error}
+                                secureTextEntry={false}
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validateRut(); this.rutInput.focus()}}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'id-card', color: 'white' }}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.emailInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.email_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.email}
+                                keyboardType={'email-address'}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({email: text})}}
+                                errorMessage={this.state.emailValid ? null : languageJSON.valid_email_check}
+                                secureTextEntry={false}
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validateEmail(); this.movilInput.focus()}}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'envelope-o', color: 'white' }}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.movilInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.movil_no_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.movil}
+                                keyboardType={'number-pad'}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({movil: text})}}
+                                errorMessage={this.state.movilValid ? null : languageJSON.movil_no_blank_error}
+                                secureTextEntry={false}
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validateMovil(); this.passwordInput.focus()}}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'mobile-phone', color: 'white' }}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.passwordInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.password_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.password}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({password: text})}}
+                                errorMessage={this.state.passwordValid ? null : this.state.pwdErrorMsg}
+                                secureTextEntry
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validatePassword(); this.cnfPwdInput.focus()}}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <Input
+                                ref={input => (this.cnfPwdInput = input)}
+                                editable={true}
+                                underlineColorAndroid={colors.TRANSPARENT}
+                                placeholder={languageJSON.confrim_password_placeholder}
+                                placeholderTextColor={colors.WHITE}
+                                value={this.state.confPassword}
+                                inputStyle={styles.inputTextStyle}
+                                onChangeText={(text)=>{this.setState({confPassword: text})}}
+                                errorMessage={this.state.cnfPwdValid ? null : languageJSON.confrim_password_not_match_err}
+                                secureTextEntry
+                                blurOnSubmit={true}
+                                onSubmitEditing={() => { this.validateConfPassword(); this.refferalInput.focus() }}
+                                errorStyle={styles.errorMessageStyle}
+                                containerStyle={styles.textInputStyle}
+                                rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <Button
+                                onPress={this._pickImage}
+                                title={languageJSON.upload_photo}
+                                loading={loading}
+                                titleStyle={styles.photoButtonTitle}
+                                buttonStyle={styles.photoButton}
+                                icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
+                                iconRight={true}
+                            />
+                        </View>
+                        <View style={styles.textInputContainerStyle}>
+                            <CheckBox
+                                checked={this.state.checkBox}
+                                containerStyle={styles.checkboxStyle}
+                                checkedColor={'white'}
+                                uncheckedColor={'white'}
+                                onPress={()=>{this.setState({checkBox: !this.state.checkBox})}}
+                            />
+                            <Text
+                                style={styles.inputTextStyleTerminos}
+                                onPress={() => {this.setState({openModalTerminosYCondiciones: true})}}>{languageJSON.terminos_condiciones_link}</Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Button
+                                onPress={()=>{this.validateInputs()}}
+                                title={languageJSON.register_button}
+                                loading={loading}
+                                titleStyle={styles.buttonTitle}
+                                buttonStyle={styles.registerButton}
+                            />
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Button
+                                onPress={()=>{this.props.onPressBack()}}
+                                title={languageJSON.come_back_button}
+                                titleStyle={styles.volverTitleStyle}
+                                buttonStyle={styles.volverButton}
+                            />
+                        </View>
+                        <View style={styles.gapView}/>
+                    </View>
+                </KeyboardAvoidingView>
                 {this.loading()}
                 {this.verifyMobile()}
                 {this.terminosCondiciones()}
-            </Background>
+            </ScrollView>
         ); 
     }
 };

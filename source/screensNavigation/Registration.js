@@ -1,8 +1,11 @@
 import React from 'react';
-import {LoadModal, Registration, TutorialModal} from '../components';
+import {Registration} from '../components';
+import {TutorialModal} from '../modals'
+import {LoadModal} from '../modals'
 import {Alert, StyleSheet, View} from 'react-native';
 import {userSignUp} from "../actions/auth";
 import {connect} from "react-redux";
+import Background from "../components/Background";
 
 const mapStateToProps = state => {
     return{
@@ -49,10 +52,11 @@ class RegistrationPage extends React.Component {
     const registrationData= this.props.navigation.getParam("requireData");
     return (
         <View style={styles.containerView}>
-            <LoadModal
-                modalvisable={this.props.data.loading}
-            />
-            <Registration reqData={registrationData?registrationData:""} complexity={'any'} onPressRegister={(nombre, apellido, email, movil, password, photo)=>this.clickRegister(nombre, apellido, email, movil, password, photo)} onPressBack={()=>{this.props.navigation.goBack()}} loading={this.props.loading}></Registration>
+            {/*<Registration reqData={registrationData?registrationData:""} complexity={'any'} onPressRegister={(nombre, apellido, email, movil, password, photo)=>this.clickRegister(nombre, apellido, email, movil, password, photo)} onPressBack={()=>{this.props.navigation.goBack()}} loading={this.props.loading}></Registration>*/}
+            <Background>
+                <Registration reqData={registrationData?registrationData:""} complexity={'any'} onPressRegister={(nombre, apellido, email, movil, password, photo)=>this.clickRegister(nombre, apellido, email, movil, password, photo)} onPressBack={()=>{this.props.navigation.goBack()}} loading={this.props.loading}></Registration>
+            </Background>
+            <LoadModal modalvisable={this.props.data.loading}/>
             <TutorialModal modalVisible={this.state.showTutorial} close={() => this.setState({showTutorial: false})}/>
         </View>
     );

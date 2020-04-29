@@ -1,7 +1,8 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import  languageJSON  from '../common/language';
-import {HeaderComponent, LoadOverlay, ProfileComponent, SuccessOrErrorOverlay} from '../components';
+import {HeaderComponent, ProfileComponent} from '../components';
+import { LoadOverlay, SuccessOrErrorOverlay} from '../overlays'
 import { connect } from 'react-redux';
 import {profileUpdate} from "../actions/profile";
 import {hideModalCheck} from "../actions/modals";

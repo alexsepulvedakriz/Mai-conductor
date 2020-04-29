@@ -5,7 +5,7 @@ import { colors } from '../common/theme';
 import stylesCommon from "../common/styles";
 import {hideModalSocial, showModalSocial} from "../actions/modals";
 import {connect} from "react-redux";
-import {ShareOverlay} from "./index";
+import {ShareOverlay} from '../overlays';
 
 const mapStateToProps = state => {
     return{

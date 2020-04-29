@@ -4,7 +4,8 @@ import { colors } from '../common/theme';
 import { tripLoad} from "../actions/trip";
 import stylesCommon from '../common/styles';
 import { connect } from 'react-redux';
-import {HeaderComponent, SmallMapComponent, RideDetailModal} from "../components";;
+import {HeaderComponent, SmallMapComponent} from "../components";
+import {RideDetailModal} from '../modals'
 
 
 const mapStateToProps = state => {

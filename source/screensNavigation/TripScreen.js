@@ -4,7 +4,8 @@ import {Button, Card, ListItem, Rating, Input} from 'react-native-elements';
 import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
 import { connect } from 'react-redux';
-import {MapComponent, AcceptOrCancelOverlay, EvaluatingTripOverlay, LoadOverlay, AccidentOverlay, HeaderComponent} from '../components';
+import {MapComponent, HeaderComponent} from '../components';
+import {AcceptOrCancelOverlay, EvaluatingTripOverlay,LoadOverlay, AccidentOverlay,} from '../overlays'
 import  languageJSON  from '../common/language';
 import {tripUpdate, tripFinish} from "../actions/trip";
 import Collapsible from "react-native-collapsible";

@@ -53,7 +53,7 @@ class SideMenu extends React.Component{
         }
     }
 
-    //navigation to screens from side menu
+    //navigation to screensNavigation from side menu
     navigateToScreen = (route) => () => {
         const navigateAction = NavigationActions.navigate({
             routeName: route
