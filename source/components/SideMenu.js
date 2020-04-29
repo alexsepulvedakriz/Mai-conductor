@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Dimensions, StyleSheet, FlatList} from 'react-native';
 import { ListItem} from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-import * as firebase from 'firebase';
 import SideMenuHeader from './SideMenuHeader';
 import { colors } from '../common/theme';
 import  languageJSON  from '../common/language';
@@ -42,14 +41,6 @@ class SideMenu extends React.Component{
 
     componentDidMount(){
         this.heightReponsive();
-        var curuser = firebase.auth().currentUser.uid;
-        const userRoot=firebase.database().ref('users/'+curuser);
-        userRoot.on('value',userData=>{
-            if(userData.val()){
-                this.setState(userData.val());
-            }
-        })
-        this.tripSatusCheck()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
@@ -74,51 +65,13 @@ class SideMenu extends React.Component{
     async signOut() {
         this.props.signOut();
     }
-
-    //CHECKING TRIP END OR START
-    tripSatusCheck(){
-        var curuser = firebase.auth().currentUser;
-        this.setState({currentUser:curuser},()=>{
-            const userData=firebase.database().ref('users/'+this.state.currentUser.uid);
-            userData.on('value',userData=>{
-                if(userData.val()){
-                    var data = userData.val()
-                    if(data['my-booking']){
-                        let bookingData = userData.val()['my-booking']
-                        for(key in bookingData){
-
-                            bookingData[key].bookingKey = key
-                            if(bookingData[key].payment_status){
-                                if(bookingData[key].payment_status == "WAITING" && bookingData[key].status == 'END' && bookingData[key].skip != true){
-                                    console.log(bookingData[key].skip)
-                                    bookingData[key].firstname = userData.val().firstName;
-                                    bookingData[key].lastname = userData.val().lastName;
-                                    bookingData[key].email =userData.val().email;
-                                    bookingData[key].phonenumber =userData.val().mobile;
-                                    this.props.navigation.navigate('CardDetails',{data:bookingData[key]});
-                                }
-                                else if( bookingData[key].rating_queue == true && bookingData[key].payment_mode == 'Card'){
-                                    this.props.navigation.navigate('ratingPage',{data:bookingData[key]});
-                                }
-                            }
-
-                        }
-                    }
-                }
-            })
-        })
-    }
-
-
-
-
     render(){
         return(
             <LinearGradient style={ styles.imgBackground }
                             colors={ ['#245b84', '#3ea1c0']}
             >
                 <View style={ styles.containerList}>
-                    <SideMenuHeader userPhoto={this.props.profile.profile.ref_photo} userEmail={this.props.profile.profile.email} userName ={this.props.profile.profile.name + ' '+ this.props.profile.profile.lastname} ></SideMenuHeader>
+                    <SideMenuHeader userPhoto={this.props.profile.profile.ref_photo} userEmail={this.props.profile.profile.email} userName ={this.props.profile.profile.name + ' '+ this.props.profile.profile.last_name} ></SideMenuHeader>
                     <FlatList
                         data={this.state.sideMenuList}
                         keyExtractor={(item,index) => index.toString()}

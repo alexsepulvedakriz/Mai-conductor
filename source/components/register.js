@@ -367,7 +367,6 @@ export default class Registration extends React.Component {
     render(){
 
         const { onPressBack,registrationData,reqData, loading }=this.props;
-
         return(
             <Background>
                 <ScrollView style={styles.scrollViewStyle}>

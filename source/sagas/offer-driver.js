@@ -34,5 +34,5 @@ export function* triggerAddOfferDriver() {
     yield takeEvery(OFFER_DRIVER_ADD, addOfferDriver);
 }
 export default function* rootSaga() {
-    yield all([fork(addOfferDriver)]);
+    yield all([fork(triggerAddOfferDriver)]);
 }

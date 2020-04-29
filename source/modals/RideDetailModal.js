@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Modal} from 'react-native';
 import stylesCommon from '../common/styles';
 import {SmallMapComponent} from "../components";
-import {Header, ListItem} from "react-native-elements";
+import {Header, ListItem, Rating} from "react-native-elements";
 import {colors} from "../common/theme";
 import  languageJSON  from '../common/language';
 
@@ -35,27 +35,36 @@ export default class RideDetailModal extends React.Component {
                             mapStyle={stylesCommon.map}
                             mapRegion={region}
                             markerCord={this.passData}
-                            origen={{latitude: item.latitude_inicio, longitude: item.longitude_inicio}}
-                            destination={{latitude: item.latitude_fin, longitude: item.longitude_fin}}
+                            origen={{latitude: item.latitude_init, longitude: item.longitude_init}}
+                            destination={{latitude: item.latitude_end, longitude: item.longitude_end}}
                             distance = {() => {}}
                         />
                     </View>
 
                     <View style={{marginHorizontal: 10, marginVertical: 20}}>
                         <ListItem
-                            title={'Tu viaje con ' + item.nombre_conductor}
-                            subtitle={item.vehiculo}
+                            title={'Tu viaje con ' + item.name_driver + ' ' + item.last_name_driver}
+                            subtitle={
+                                <View style={stylesCommon.rowSpaceBetween}>
+                                    <Text style={{fontSize:12, color: colors.GREY.btnPrimary}}> {item.vehicle}</Text>
+                                    <Rating
+                                        imageSize={12}
+                                        readonly
+                                        startingValue={item.review_rider}
+                                    />
+                                </View>
+                            }
                             titleStyle={{fontSize:14, color: colors.GREY.iconSecondary}}
                             containerStyle={{backgroundColor: 'transparent', margin: 0, padding: 0}}
-                            leftAvatar={{ source: {uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/nuraika/128.jpg'} }}
+                            leftAvatar={{ source: {uri: item.ref_photo_rider} }}
                         />
                     </View>
                     <View style={{marginHorizontal: 10}}>
-                        <Text style={stylesCommon.listItem}>{languageJSON.from + item.direccion_inicio}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.to +item.direccion_fin}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.description +item.descripcion}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.date +this.date(item.fecha)}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.money +item.precio}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.from + item.adress_from}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.to + item.adress_to}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.description + item.description}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.date +this.date(item.date)}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.money +item.price}</Text>
                     </View>
                 </View>
             )

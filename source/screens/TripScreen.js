@@ -38,7 +38,7 @@ class TripScreen extends React.Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot){
         if(this.props.trip.ended === true) {
-            this.props.navigation.navigate('Map');
+            this.props.navigation.navigate('OfferList');
         }
     }
     simpleTimer() {
@@ -48,13 +48,13 @@ class TripScreen extends React.Component {
         return promise;
     }
     tripEvaluate(object){
-        const {id_pasajero, id_viaje} = this.props.trip.viajeActual;
+        const {id_pasajero, id_viaje} = this.props.trip.currencyTrip;
         const tripData = {...object, id_pasajero: id_pasajero, id_viaje: id_viaje, evaluando: false, activo: false};
         this.props.endTrip(tripData);
     }
     // phone
     _pressCall=()=>{
-        const url= 'tel:' + this.props.trip.viajeActual.movil_conductor;
+        const url= 'tel:' + this.props.trip.currencyTrip.movil_conductor;
         Linking.openURL(url)
     }
     // Contra ofertas
@@ -62,8 +62,8 @@ class TripScreen extends React.Component {
         this.props.navigation.navigate('DataPackage');
     }
     tripOncourse(){
-        if(this.props.trip.viajeActual) {
-            if(this.props.trip.viajeActual.en_curso){
+        if(this.props.trip.currencyTrip) {
+            if(this.props.trip.currencyTrip.en_curso){
             } else {
                 return(
                     <Button
@@ -77,7 +77,7 @@ class TripScreen extends React.Component {
         }
     }
     cardWaitOrLoaded(){
-        if(this.props.trip.loaded && this.props.trip.viajeActual){
+        if(this.props.trip.loaded && this.props.trip.currencyTrip){
             return(
                 <View>
                     <TouchableHighlight onPress={() => {this.setState({cardCollapsible: !this.state.cardCollapsible});}} style={{width: '100%'}} underlayColor={'transparent'}>
@@ -94,12 +94,12 @@ class TripScreen extends React.Component {
                                         title={
                                             <View style={stylesCommon.rowSpaceBetween}>
                                                 <View style={{marginLeft: 0}}>
-                                                    <Text style={{fontSize:15, fontWeight: 'bold', maxWidth: 100}}>{this.props.trip.viajeActual.nombre_conductor}</Text>
-                                                    <Text style={{fontSize:11}}>{this.props.trip.viajeActual.vehiculo}</Text>
+                                                    <Text style={{fontSize:15, fontWeight: 'bold', maxWidth: 100}}>{this.props.trip.currencyTrip.name_driver}</Text>
+                                                    <Text style={{fontSize:11}}>{this.props.trip.currencyTrip.vehicle}</Text>
                                                     <Rating
                                                         imageSize={14}
                                                         readonly
-                                                        startingValue={this.props.trip.viajeActual.evaluacion_conductor}
+                                                        startingValue={this.props.trip.currencyTrip.review_rider}
                                                     />
                                                 </View>
                                                 <Button
@@ -135,12 +135,12 @@ class TripScreen extends React.Component {
                                                 />
                                             </View>
                                         }
-                                        leftAvatar={{ source: {uri: this.props.trip.viajeActual.id_photo_conductor}, size: 60 }}
+                                        leftAvatar={{ source: {uri: this.props.trip.currencyTrip.ref_photo_rider}, size: 60 }}
                                     />
                                     <View style={stylesCommon.rowSpaceAround}>
                                         <Input
                                             placeholder='Desde'
-                                            value={this.props.trip.viajeActual.direccion_inicio}
+                                            value={this.props.trip.currencyTrip.adress_from}
                                             inputStyle={{
                                                 color: 'black',
                                                 paddingLeft: 10,
@@ -159,7 +159,7 @@ class TripScreen extends React.Component {
                                     <View style={stylesCommon.rowSpaceAround}>
                                         <Input
                                             placeholder='  Hasta'
-                                            value={this.props.trip.viajeActual.direccion_fin}
+                                            value={this.props.trip.currencyTrip.adress_to}
                                             inputStyle={{
                                                 color: 'black',
                                                 paddingLeft: 10,
@@ -193,8 +193,8 @@ class TripScreen extends React.Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
         };
-        if(this.props.trip.loaded && this.props.trip.viajeActual){
-            const nearbyMarkers =  [{latitude: this.props.trip.viajeActual.latitude_conductor, longitude: this.props.trip.viajeActual.longitude_conductor}];
+        if(this.props.trip.loaded && this.props.trip.currencyTrip){
+            const nearbyMarkers =  [{latitude: this.props.trip.currencyTrip.latitude_conductor, longitude: this.props.trip.currencyTrip.longitude_conductor}];
             return(
                 <View style={stylesCommon.backgroundMap}>
                     <MapComponent
@@ -202,14 +202,14 @@ class TripScreen extends React.Component {
                         mapStyle={stylesCommon.map}
                         mapRegion={region}
                         nearby = {nearbyMarkers}
-                        origen={{latitude: this.props.trip.viajeActual.latitude_inicio, longitude: this.props.trip.viajeActual.longitude_inicio}}
-                        destination={{latitude: this.props.trip.viajeActual.latitude_fin, longitude: this.props.trip.viajeActual.longitude_fin}}
+                        origen={{latitude: this.props.trip.currencyTrip.latitude_inicio, longitude: this.props.trip.currencyTrip.longitude_inicio}}
+                        destination={{latitude: this.props.trip.currencyTrip.latitude_fin, longitude: this.props.trip.currencyTrip.longitude_fin}}
                         distance = {() => {}}
                     />
                 </View>
             )
         }
-        if(this.props.trip.viajeActual){
+        if(this.props.trip.currencyTrip){
         } else {
             return (
                 <View style={[stylesCommon.backgroundMap,{marginVertical: 30}]}>
@@ -220,7 +220,7 @@ class TripScreen extends React.Component {
     }
     // update trip
     endTrip(object){
-        const trip = { id_pasajero: this.props.trip.viajeActual.id_pasajero, id_viaje: this.props.trip.viajeActual.id_viaje, ... object };
+        const trip = { id_pasajero: this.props.trip.currencyTrip.id_pasajero, id_viaje: this.props.trip.currencyTrip.id_viaje, ... object };
         this.props.endTrip(trip);
     }
     render() {
@@ -230,8 +230,8 @@ class TripScreen extends React.Component {
                 <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={'Viaje en curso'} type={'color'}/>
                 {this.cardWaitOrLoaded()}
                 <LoadOverlay Visible={this.props.trip.end} message={languageJSON.end_trip}/>
-                <EvaluatingTripOverlay viajeActual={this.props.trip.viajeActual} tripUpdate={(info) => {this.tripEvaluate(info)}}/>
-                <AccidentOverlay viajeActual={this.props.trip.viajeActual} accept={() =>{this.endTrip({activo: false})}} />
+                <EvaluatingTripOverlay currencyTrip={this.props.trip.currencyTrip} tripUpdate={(info) => {this.tripEvaluate(info)}}/>
+                <AccidentOverlay currencyTrip={this.props.trip.currencyTrip} accept={() =>{this.endTrip({activo: false})}} />
                 <AcceptOrCancelOverlay visible={this.state.overlayCancel} message={'Esta seguro que quiere cancelar viaje?'} accept={() => {this.setState({overlayCancel: false}); this.endTrip({activo: false, cancelado: true})}} cancel={() => {this.setState({overlayCancel: false})}}/>
             </View>
         );

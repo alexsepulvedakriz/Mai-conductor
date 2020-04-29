@@ -123,7 +123,7 @@ import SideMenu from '../components/SideMenu';
         DrawerRoutes,
         {
         drawerWidth: 300,
-        initialRouteName:'RideList',
+        initialRouteName:'OfferList',
         contentComponent: SideMenu,
       });
 

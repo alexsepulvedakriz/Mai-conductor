@@ -17,7 +17,6 @@ const profile_detail = {
     movil: '',
     language: '',
     ref_photo: '',
-    photo: null,
     rut: '',
     active: false,
 }
@@ -35,7 +34,7 @@ const initialState = {
 export const profile = (state = initialState, action) => {
     switch (action.type) {
         case PROFILE_LOAD: {return {...state, loading: true, loaded: false, error_load: false}}
-        case PROFILE_LOADED: {return {...state, loading: false, loaded: true, error_load: false, profile: {profile_detail, ...action.payload}}}
+        case PROFILE_LOADED: {return {...state, loading: false, loaded: true, error_load: false, profile: {...profile_detail, ... action.payload}}}
         case PROFILE_LOAD_FAILED: {return {...state, loading: false, loaded: false, error_load: true}}
         case PROFILE_UPDATE: {return {...state, updating: true, updated: false, error_update: false}}
         case PROFILE_UPDATED: {return {...state, updating: false, updated: true, error_update: false}}

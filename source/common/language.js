@@ -1,6 +1,6 @@
 export default {
     // Headers
-    offer_list_header: 'Lista de viajes',
+    offer_list_header: 'Inicio',
     payment_information_header: 'Informacion pagos',
     finish_trip_header: 'Termino del viaje',
     my_vehicles_header: 'Mis vehiculos',

@@ -25,8 +25,11 @@ class RideListPage extends React.Component {
             item: null,
             showDetail: false
         }
-        this.props.loadTrip({id_pasajero: this.props.profile.id_pasajero,});
+        this.props.loadTrip({id_driver: this.props.profile.profile.id_driver});
+        console.log('trip id', this.props.profile.profile.id_driver);
+        console.log('trip detail', this.props.trip);
     }
+
     date(date){
         const a = new Date(date.seconds * 1000);
         const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -43,19 +46,19 @@ class RideListPage extends React.Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         };
-        if(this.props.trip.viajes){
-            if(this.props.trip.viajes.length > 0){
+        if(this.props.trip.trips){
+            if(this.props.trip.trips.length > 0){
                 return(
-                    this.props.trip.viajes.map((item, i) => (
+                    this.props.trip.trips.map((item, i) => (
                         <TouchableOpacity key={i} onPress={() => {this.setState({item: item, showDetail: true})}}>
                             <View >
                                 <View style={ {marginHorizontal: 20, marginVertical: 10}}>
                                     <View style={[stylesCommon.rowSpaceBetween ]}>
-                                        <Text style={{fontSize:16 , color: colors.BLACK}}>{this.date(item.fecha)}</Text>
-                                        <Text style={{fontSize:16, color: colors.BLACK}}>CLP ${item.precio}</Text>
+                                        <Text style={{fontSize:16 , color: colors.BLACK}}>{this.date(item.date)}</Text>
+                                        <Text style={{fontSize:16, color: colors.BLACK}}>CLP ${item.price}</Text>
                                     </View>
                                     <View>
-                                        <Text style={{fontSize:14, color: colors.GREY.Deep_Nobel}}>{item.vehiculo} {item.nombre_conductor}</Text>
+                                        <Text style={{fontSize:14, color: colors.GREY.Deep_Nobel}}>{item.vehicle} {item.name_driver} {item.last_name_driver}</Text>
                                     </View>
                                 </View>
                                 <View style={{height: 200}}>
@@ -63,8 +66,8 @@ class RideListPage extends React.Component {
                                         markerRef={marker => { this.marker = marker; }}
                                         mapStyle={stylesCommon.map}
                                         mapRegion={region}
-                                        origen={{latitude: item.latitude_inicio, longitude: item.longitude_inicio}}
-                                        destination={{latitude: item.latitude_fin, longitude: item.longitude_fin}}
+                                        origen={{latitude: item.latitude_init, longitude: item.longitude_init}}
+                                        destination={{latitude: item.latitude_end, longitude: item.longitude_end}}
                                         distance = {() => {}}
                                     />
                                 </View>

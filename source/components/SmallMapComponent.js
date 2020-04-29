@@ -12,11 +12,13 @@ export default class SmallMapComponent extends Component {
 
     markerOrigen(markerRef, origen) {
         if(origen){
+            const latInit = parseFloat(origen.latitude);
+            const longInit = parseFloat(origen.longitude);
             if(origen.longitude) {
                 return(
                     <Marker.Animated
                         ref={markerRef}
-                        coordinate={origen}
+                        coordinate={{latitude: latInit, longitude: longInit}}
                     />
                 )
             }
@@ -24,17 +26,23 @@ export default class SmallMapComponent extends Component {
     }
     markerDestination(markerRef, destination) {
         if(destination){
+            const latEnd = parseFloat(destination.latitude);
+            const longEnd = parseFloat(destination.longitude);
             if(destination.longitude){
                 return(
                     <Marker.Animated
                         ref={markerRef}
-                        coordinate={destination}
+                        coordinate={{latitude: latEnd, longitude: longEnd}}
                     />
                 )
             }
         }
     }
     defineRegion(mapRegion, origen, destination){
+            const latInit = parseFloat(origen.latitude);
+            const latEnd = parseFloat(destination.latitude);
+            const longInit = parseFloat(origen.longitude);
+            const longEnd = parseFloat(destination.longitude);
         const region = {
             latitude: mapRegion.latitude,
             longitude: mapRegion.longitude,
@@ -42,23 +50,23 @@ export default class SmallMapComponent extends Component {
             longitudeDelta: mapRegion.longitudeDelta,
         };
         if (origen){
-            if(origen.latitude){
-                region.latitude = origen.latitude;
-                region.longitude = origen.longitude;
+            if(latInit){
+                region.latitude = latInit;
+                region.longitude = longInit;
             }
         }
         if ( destination){
-            if(destination.latitude){
-                region.latitude = destination.latitude;
-                region.longitude = destination.longitude;
+            if(latEnd){
+                region.latitude = latEnd;
+                region.longitude = longEnd;
             }
         }
         if (origen && destination){
-            if(origen.latitude && destination.latitude){
-                region.latitude = (origen.latitude + destination.latitude)/2;
-                region.longitude = (origen.longitude + destination.longitude)/2;
-                region.latitudeDelta = (Math.abs(origen.latitude - destination.latitude))*2;
-                region.longitudeDelta = (Math.abs(origen.longitude - destination.longitude))*2;
+            if(latInit && latEnd){
+                region.latitude = (latInit + latEnd)/2;
+                region.longitude = (longInit + longEnd)/2;
+                region.latitudeDelta = (Math.abs(latInit - latEnd))*2;
+                region.longitudeDelta = (Math.abs(longInit - longEnd))*2;
             }
         }
         return region;

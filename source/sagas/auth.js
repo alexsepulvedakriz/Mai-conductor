@@ -18,7 +18,7 @@ import {
 } from "../actions/auth";
 import {profileCleanStore, profileLoad} from "../actions/profile";
 import {offerCleanStore} from "../actions/offer";
-import {offerDriverCleanStore} from "../actions/offer_driver";
+import {offersDriverCleanStore} from "../actions/offer_driver";
 import {tripCleanStore} from "../actions/trip";
 import {aboutCleanStore} from "../actions/about";
 
@@ -108,7 +108,7 @@ function* signOut() {
         yield call(signOutRequest);
         yield put(userSignOutSuccess());
         yield put(offerCleanStore());
-        yield put(offerDriverCleanStore());
+        yield put(offersDriverCleanStore());
         yield put(profileCleanStore());
         yield put(tripCleanStore());
         yield put(aboutCleanStore());

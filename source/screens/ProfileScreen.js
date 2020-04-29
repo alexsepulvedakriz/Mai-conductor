@@ -21,13 +21,14 @@ class ProfileScreen extends React.Component {
 
   constructor(props) {
       super(props);
+      console.log('Cargar2', this.props.profile.profile);
   }
 
     componentDidUpdate(prevProps, prevState, snapshot){
         if(this.props.modal.showModalCheck) {
             this.simpleTimer().then( _ => {
                 this.props.hideModalCheck();
-                this.props.navigation.navigate('Map');
+                this.props.navigation.navigate('OfferList');
             })
         }
     }
