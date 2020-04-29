@@ -14,8 +14,8 @@ const initialState = {
     loading: false,
     loaded: false,
     error: false,
-    viajes: [],
-    viajeActual: null,
+    trips: [],
+    currencyTrip: null,
     ended: false,
     end: false
 }
