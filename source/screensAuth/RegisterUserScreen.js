@@ -8,6 +8,7 @@ import languageJSON from "../common/language";
 import stylesCommon from "../common/styles";
 import {Button, Input} from "react-native-elements";
 import {validateRut, validateConfPassword, validateEmail, validatePassword, validatePhoto, validateText} from "../functions/validations";
+import {takePhoto} from "../functions/photo";
 
 var { width } = Dimensions.get('window');
 
@@ -21,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-class RegistrationPage extends React.Component {
+class RegistrationUserScreen extends React.Component {
     constructor(props){
         super(props);
         this.state={
@@ -54,11 +55,11 @@ class RegistrationPage extends React.Component {
             <View style={{height: '100%'}}>
                 <Background>
                     <ScrollView>
-                        <View style={styles.logo}>
+                        <View style={stylesCommon.imageRegister}>
                             <Image source={require('../../assets/images/logo.png')} />
                         </View>
                         <View style={[stylesCommon.columnSpaceBetween, {marginHorizontal: 40}]}>
-                            <Text style={styles.headerStyle}>{languageJSON.registration_title}</Text>
+                            <Text style={stylesCommon.headerTitleStyle}>{languageJSON.registration_user}</Text>
                             <View>
                                 <Input
                                     ref={input => (this.nameInput = input)}
@@ -68,13 +69,13 @@ class RegistrationPage extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.name}
                                     keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({name: text})}}
                                     errorMessage={this.state.name_valid ? null : languageJSON.first_name_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
                                     onSubmitEditing={() => { this.setState({name_valid : validateText(this.state.name)}); this.nameInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
                                 />
@@ -88,13 +89,13 @@ class RegistrationPage extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.last_name}
                                     keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({last_name: text})}}
                                     errorMessage={this.state.last_name_valid ? null : languageJSON.last_name_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
                                     onSubmitEditing={() => { this.setState({last_name_valid : validateText(this.state.last_name)}); this.last_nameInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
                                 />
@@ -108,13 +109,13 @@ class RegistrationPage extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.rut}
                                     keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({rut: text})}}
                                     errorMessage={this.state.rut_valid ? null : languageJSON.rut_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
                                     onSubmitEditing={() => { this.setState({rut_valid : validateRut(this.state.rut)}); this.rutInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'id-card', color: 'white' }}
                                 />
@@ -128,13 +129,13 @@ class RegistrationPage extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.email}
                                     keyboardType={'email-address'}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({email: text})}}
                                     errorMessage={this.state.email_valid ? null : languageJSON.valid_email_check}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
                                     onSubmitEditing={() => { this.setState({email_valid : validateEmail(this.state.email)}); this.emailInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'envelope-o', color: 'white' }}
                                 />
@@ -148,13 +149,13 @@ class RegistrationPage extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.movil}
                                     keyboardType={'number-pad'}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({movil: text})}}
                                     errorMessage={this.state.movil_valid ? null : languageJSON.movil_no_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
                                     onSubmitEditing={() => { this.setState({movil_valid : validateText(this.state.movil)}); this.movilInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'mobile-phone', color: 'white' }}
                                 />
@@ -167,13 +168,13 @@ class RegistrationPage extends React.Component {
                                     placeholder={languageJSON.password_placeholder}
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.password}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({password: text})}}
                                     errorMessage={this.state.password_valid ? null : this.state.pwdErrorMsg}
                                     secureTextEntry
                                     blurOnSubmit={true}
                                     onSubmitEditing={() => { this.setState({password_valid : validatePassword(this.state.password)}); this.passwordInput.focus()}}
-                                    errorStyle={styles.errorMessageStyle}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
                                 />
@@ -186,36 +187,31 @@ class RegistrationPage extends React.Component {
                                     placeholder={languageJSON.confirm_password_placeholder}
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.confPassword}
-                                    inputStyle={styles.inputTextStyle}
+                                    inputStyle={stylesCommon.inputRegisterStyle}
                                     onChangeText={(text)=>{this.setState({confPassword: text})}}
                                     errorMessage={this.state.cnf_pwd_valid ? null : languageJSON.confirm_password_not_match_err}
                                     secureTextEntry
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({cnf_pwd_valid : validateText(this.state.confPassword)}); this.cnfPwdInput.focus() }}
-                                    errorStyle={styles.errorMessageStyle}
+                                    onSubmitEditing={() => { this.setState({cnf_pwd_valid : validateConfPassword(this.state.confPassword)}); this.cnfPwdInput.focus() }}
+                                    errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
                                 />
                             </View>
                             <View >
                                 <Button
-                                    onPress={this._pickImage}
+                                    onPress={() => takePhoto()}
                                     title={languageJSON.upload_photo}
-                                    titleStyle={styles.photoButtonTitle}
-                                    buttonStyle={{
-                                        backgroundColor: '#5ba2be',
-                                        width: width-80,
-                                        height: 40,
-                                        borderColor: colors.TRANSPARENT,
-                                        borderWidth: 0,
-                                        borderRadius:10,
-                                        marginVertical: 15
+                                    titleStyle={{
+                                        color: colors.WHITE,
+                                        fontSize:10
                                     }}
+                                    buttonStyle={stylesCommon.buttonRegisterInput}
                                     icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
                                     iconRight={true}
                                 />
                             </View>
-                            <View style={styles.buttonContainer}>
+                            <View>
                                 <Button
                                     onPress={()=>{this.props.navigation.navigate('RegisterDriver')}}
                                     title={languageJSON.button_continue}
@@ -223,32 +219,21 @@ class RegistrationPage extends React.Component {
                                         color: colors.BLUE.Deep_Blue,
                                         fontWeight: "600",
                                         fontSize: 14}}
-                                    buttonStyle={{
-                                        backgroundColor: colors.WHITE,
-                                        width: '100%',
-                                        height: 50,
-                                        borderColor: colors.TRANSPARENT,
-                                        borderWidth: 0,
-                                        borderRadius:30,
-                                        marginVertical: 15
-                                    }}
+                                    buttonStyle={stylesCommon.buttonRegisterWhite}
                                 />
                             </View>
                             <View>
                                 <Button
+                                    onPress={()=>{this.props.navigation.navigate('Login')}}
                                     title={languageJSON.come_back_button}
-                                    titleStyle={styles.volverTitleStyle}
-                                    buttonStyle={{
-                                        backgroundColor: '#3ea1c0',
-                                        borderColor: 'white',
-                                        width: '100%',
-                                        borderWidth: 2,
-                                        borderRadius: 30,
-                                        marginVertical: 15
+                                    titleStyle={{
+                                        fontWeight: "500",
+                                        fontSize: 16,
+                                        width:"100%",
                                     }}
+                                    buttonStyle={stylesCommon.buttonRegisterTransparent}
                                 />
                             </View>
-                            <View style={styles.gapView}/>
                         </View>
                     </ScrollView>
                 </Background>
@@ -256,52 +241,4 @@ class RegistrationPage extends React.Component {
         );
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPage);
-
-const styles = StyleSheet.create({
-    logo:{
-        marginVertical:50,
-        width:'100%',
-        justifyContent:"flex-end",
-        alignItems:'center'
-    },
-    headerStyle:{
-        fontSize:18,
-        color:colors.WHITE,
-        textAlign:'center',
-        flexDirection:'row',
-        marginTop:0
-    },
-    InputContainer: {
-        borderRadius:10,
-        backgroundColor: colors.FOURTH,
-        width: width-40,
-        marginBottom: 10
-    },
-    inputTextStyle: {
-        color:colors.WHITE,
-        fontSize:15
-    },
-    emailInputContainerStyle: {
-        paddingBottom: 15
-    },
-    pwdInputContainerStyle: {
-        paddingBottom: 15
-    },
-    verticalLineStyle: {
-        height: 25,
-        width:2,
-        top: 12,
-        backgroundColor: colors.WHITE
-    },
-    buttonTitleStyle: {
-        fontWeight: "700",
-        width:"100%",
-        color: 'white'
-    },
-    forgotTitleStyle: {
-        fontWeight: "500",
-        fontSize: 16,
-        width:"100%"
-    }
-});
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationUserScreen);

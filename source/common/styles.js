@@ -3,6 +3,13 @@ import {colors, theme} from './theme';
 var { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
+    // image
+    imageRegister: {
+        marginVertical:50,
+        width:'100%',
+        justifyContent:"flex-end",
+        alignItems:'center'
+    },
     // buttom
     bottomDistance:{
         height: height - 200
@@ -76,6 +83,31 @@ export default StyleSheet.create({
         borderRadius: 10,
         marginVertical: 10
     },
+    buttonRegisterWhite: {
+        backgroundColor: colors.WHITE,
+        width: '100%',
+        borderColor: 'white',
+        borderWidth: 2,
+        borderRadius:30,
+        marginVertical: 10
+    },
+    buttonRegisterTransparent: {
+        backgroundColor: '#3ea1c0',
+        borderColor: 'white',
+        width: '100%',
+        borderWidth: 2,
+        borderRadius: 30,
+        marginVertical: 10
+    },
+    buttonRegisterInput: {
+        backgroundColor: '#5ba2be',
+        width: width-80,
+        height: 40,
+        borderColor: colors.TRANSPARENT,
+        borderWidth: 0,
+        borderRadius:10,
+        marginVertical: 15
+    },
     // errores
     errorMessageStyle: {
         fontSize: 12,
@@ -124,6 +156,10 @@ export default StyleSheet.create({
         marginBottom: 0,
         marginVertical: 15
     },
+    inputRegisterStyle: {
+        color:colors.WHITE,
+        fontSize:15
+    },
     textInputMultiRow: {
         height: 80,
         marginBottom: 10,
@@ -140,7 +176,8 @@ export default StyleSheet.create({
     headerTitleStyle: {
         color: colors.WHITE,
         fontFamily:'Roboto-Bold',
-        fontSize: 20
+        fontSize: 20,
+        textAlign: 'center',
     },
     headerTitleBlackStyle: {
         color: colors.BLACK,

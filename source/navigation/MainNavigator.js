@@ -3,7 +3,6 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import {
     ProfileScreen,
     RideListPage,
-    RegistrationPage,
     AboutPage,
     TripScreen,
     FinishTripScreen,
@@ -74,12 +73,6 @@ import SideMenu from '../components/SideMenu';
 
     //authentication stack for user before login
     export const AuthStack = createStackNavigator({
-        Reg: {
-            screen: RegistrationPage,
-            navigationOptions:{
-            header:null,
-            }
-        },
         Login: {
             screen: LoginScreen,
             navigationOptions:{

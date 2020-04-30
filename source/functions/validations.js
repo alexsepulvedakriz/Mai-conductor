@@ -27,8 +27,8 @@ export const validatePassword= (arg) => {
     const passwordValid1 = password.length >=1;
     const passwordValid2 = regx1.test(password);
     const passwordValid3 = regx2.test(password);
-    return (passwordValid1 && passwordValid2 )
-    if(passwordValid1) {
+    return (passwordValid1 && passwordValid2 && passwordValid3 );
+/*    if(passwordValid1) {
         return  languageJSON.password_blank_messege;
     }
     else if(passwordValid2) {
@@ -36,7 +36,7 @@ export const validatePassword= (arg) => {
     }
     else if (passwordValid3) {
         return languageJSON.password_complexity_check
-    }
+    }*/
 };
 // confirm password validation
 export const validateConfPassword= (password, confPassword) => {

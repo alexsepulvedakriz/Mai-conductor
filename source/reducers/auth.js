@@ -42,9 +42,9 @@ const initialState = {
     reset_error: false,
     sing_out_loading: false,
     sing_out_loaded: false,
-    new_user: null,
-    new_driver: null,
-    new_vehicle: null
+    new_user: new_user,
+    new_driver: new_driver,
+    new_vehicle: new_vehicle
 }
 
 export const auth = (state = initialState, action) => {

@@ -92,6 +92,8 @@ export default {
     refferal_code_validation_modal:'Validando tu código de referido...',
     refferal_id_not_match_error:'Este no es un ID de referidos válido.',
     registration_title:'Registro',
+    registration_user: 'Datos usuario',
+    registration_driver: 'Datos Conductor',
     first_name_placeholder:'Nombre',
     first_name_blank_error:"Por favor ingrese su nombre.",
     last_name_placeholder:'Apellidos',
