@@ -11,7 +11,12 @@ import {
     PaymentInformationScreen,
     VehiclesScreen
 } from '../screensNavigation';
-import {LoginScreen} from '../screensAuth';
+import {
+    LoginScreen,
+    RegisterDriverScreen,
+    RegisterUserScreen,
+    RegisterVehicleScreen
+} from '../screensAuth';
 import SideMenu from '../components/SideMenu';
 
 //app stack for user end
@@ -77,6 +82,24 @@ import SideMenu from '../components/SideMenu';
         },
         Login: {
             screen: LoginScreen,
+            navigationOptions:{
+                header:null,
+            }
+        },
+        RegisterUser: {
+            screen: RegisterUserScreen,
+            navigationOptions:{
+                header:null,
+            }
+        },
+        RegisterDriver: {
+            screen: RegisterDriverScreen,
+            navigationOptions:{
+                header:null,
+            }
+        },
+        RegisterVehicle: {
+            screen: RegisterVehicleScreen,
             navigationOptions:{
                 header:null,
             }

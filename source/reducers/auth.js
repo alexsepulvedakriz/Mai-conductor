@@ -6,8 +6,28 @@ import {
     SIGNIN_USER,
     SIGNIN_USER_FAILED,
     SIGNUP_USER_FAILED,
-    SIGNOUT_USER, RESETTING_PASSWORD, RESETTING_PASSWORD_SUCCESS, RESETTING_PASSWORD_FAILED
+    SIGNOUT_USER,
+    RESETTING_PASSWORD,
+    RESETTING_PASSWORD_SUCCESS,
+    RESETTING_PASSWORD_FAILED
 } from "../redux/actionTypes";
+const new_user = {
+    name: '',
+    last_name: '',
+    email: '',
+    review: '',
+    movil: '',
+    language: '',
+    ref_photo: '',
+    rut: '',
+    active: false,
+    password: '',
+    conf_password: '',
+};
+const new_driver = {
+
+};
+const new_vehicle = {};
 
 const initialState = {
     sing_in_loading: false,

@@ -24,7 +24,7 @@ class RegistrationPage extends React.Component {
     }
     render() {
         return (
-            <View style={styles.containerView}>
+            <View>
 
             </View>
         );

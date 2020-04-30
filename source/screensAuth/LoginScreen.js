@@ -6,6 +6,7 @@ import { userSignIn, resettingPassword} from "../actions/auth";
 import { hideModalResetPassword, showModalResetPassword} from "../actions/modals";
 import { connect } from 'react-redux';
 
+
 const mapStateToProps = state => {
     return{
         auth: state.auth,
@@ -53,7 +54,7 @@ class LoginScreen extends Component {
 
     //go to register page
     onPressRegister() {
-        this.props.navigation.navigate('Reg');
+        this.props.navigation.navigate('RegisterUser');
         // console.log("register clicked");
     }
     // recober password

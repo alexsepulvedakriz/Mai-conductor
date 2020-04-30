@@ -118,6 +118,12 @@ export default StyleSheet.create({
         color: colors.GREY.Deep_Nobel,
         padding:10
     },
+    textInputRegister:{
+        borderRadius:10,
+        backgroundColor: '#5ba2be',
+        marginBottom: 0,
+        marginVertical: 15
+    },
     textInputMultiRow: {
         height: 80,
         marginBottom: 10,

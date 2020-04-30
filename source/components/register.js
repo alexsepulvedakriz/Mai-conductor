@@ -499,12 +499,12 @@ export default class Registration extends React.Component {
                                 ref={input => (this.cnfPwdInput = input)}
                                 editable={true}
                                 underlineColorAndroid={colors.TRANSPARENT}
-                                placeholder={languageJSON.confrim_password_placeholder}
+                                placeholder={languageJSON.confirm_password_placeholder}
                                 placeholderTextColor={colors.WHITE}
                                 value={this.state.confPassword}
                                 inputStyle={styles.inputTextStyle}
                                 onChangeText={(text)=>{this.setState({confPassword: text})}}
-                                errorMessage={this.state.cnfPwdValid ? null : languageJSON.confrim_password_not_match_err}
+                                errorMessage={this.state.cnfPwdValid ? null : languageJSON.confirm_password_not_match_err}
                                 secureTextEntry
                                 blurOnSubmit={true}
                                 onSubmitEditing={() => { this.validateConfPassword(); this.refferalInput.focus() }}
