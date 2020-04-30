@@ -25,7 +25,7 @@ class RideListPage extends React.Component {
         this.state = {
             item: null,
             showDetail: false
-        }
+        };
         this.props.loadTrip({id_driver: this.props.profile.profile.id_driver});
         console.log('trip id', this.props.profile.profile.id_driver);
         console.log('trip detail', this.props.trip);

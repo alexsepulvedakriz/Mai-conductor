@@ -10,41 +10,40 @@ import {
 } from "../redux/actionTypes";
 
 const initialState = {
-    data: {
-        loading: false,
-        loaded: false,
-        error: false,
-        allRegData:"",
-        messageSuccessResetting: false,
-        errorResetting: false,
-        errorLoading: false,
-    }
+    sing_in_loading: false,
+    sing_in_loaded: false,
+    sing_in_error: false,
+    error_loading: false,
+    sing_up_loading: false,
+    sing_up_loaded: false,
+    sing_up_error: false,
+    reset_loading: false,
+    reset_loaded: false,
+    reset_error: false,
+    sing_out_loading: false,
+    sing_out_loaded: false,
+    new_user: null,
+    new_driver: null,
+    new_vehicle: null
 }
 
 export const auth = (state = initialState, action) => {
     switch (action.type) {
-        case SIGNUP_USER: {return {...state, loading: true, loaded: false, error: false, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNUP_USER_SUCCESS: {return {...state, loading: false, loaded: true, error: false, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNIN_USER_SUCCESS: {return {...state, loading: false, loaded: true, authUser: action.payload, error: false, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNIN_USER: {return {...state, loading: true, loaded: false, error: false, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNIN_USER_FAILED: {return {...state, loading: false, loaded: false, error: true, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNUP_USER_FAILED: {return {...state, loading: false, loaded: false, error: true, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNOUT_USER: {return {...state, loading: false, loaded: false, error: false, errorResetting: false, messageSuccessResetting: false}
-        }
-        case SIGNOUT_USER_SUCCESS: {return initialState
-        }
-        case RESETTING_PASSWORD: {return {...state, errorResetting: false, messageSuccessResetting: false, errorLoading: true}
-        }
-        case RESETTING_PASSWORD_SUCCESS: {return {...state, errorResetting: false, messageSuccessResetting: true, errorLoading: false}
-        }
-        case RESETTING_PASSWORD_FAILED: {return {...state, errorResetting: true, messageSuccessResetting: false, errorLoading: false}
-        }
+        // sign up
+        case SIGNUP_USER: {return {...state, sing_up_loading: true, sing_up_loaded: false, sing_up_error: false }}
+        case SIGNUP_USER_FAILED: {return {...state,sing_up_loading: false, sing_up_loaded: false, sing_up_error: true }}
+        case SIGNUP_USER_SUCCESS: {return {...state, sing_up_loading: false, sing_up_loaded: true, sing_up_error: false }}
+        // sign in
+        case SIGNIN_USER: {return {...state, sing_in_loading: true, sing_in_loaded: false, sing_in_error: false }}
+        case SIGNIN_USER_SUCCESS: {return {...state, sing_in_loading: false, sing_in_loaded: true, sing_in_error: false }}
+        case SIGNIN_USER_FAILED: {return {...state, sing_in_loading: false, sing_in_loaded: false, sing_in_error: true}}
+        // sign out
+        case SIGNOUT_USER: {return {...state, sing_out_loading: true, sing_out_loaded: false}}
+        case SIGNOUT_USER_SUCCESS: {return initialState}
+        // resette password
+        case RESETTING_PASSWORD: {return {...state, reset_loading: true, reset_loaded: false, reset_error: false}}
+        case RESETTING_PASSWORD_SUCCESS: {return {...state, reset_loading: false, reset_loaded: true, reset_error: false}}
+        case RESETTING_PASSWORD_FAILED: {return {...state, reset_loading: false, reset_loaded: false, reset_error: true}}
         default:
             return state;
     }

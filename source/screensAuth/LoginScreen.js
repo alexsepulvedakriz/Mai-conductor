@@ -25,18 +25,17 @@ class LoginScreen extends Component {
       super(props);
 
     }
-
     componentDidUpdate(prevProps, prevState, snapshot){
-        if(this.props.auth.loaded === true) {
+        if(this.props.auth.sing_in_loaded === true) {
             this.redirect();
         }
         if(this.props.auth.error === true) {
             Alert.alert('Error', 'Error al ingresar, intentalo nuevamente', null, {cancelable: true});
         }
-        if(this.props.auth.messageSuccessResetting === true) {
+        if(this.props.auth.reset_loaded === true) {
             Alert.alert('Mensaje', 'Se ha enviado correctamente', null, {cancelable: true});
         }
-        if(this.props.auth.errorResetting === true) {
+        if(this.props.auth.reset_error === true) {
             Alert.alert('Error', 'Error al enviar el correo, intentalo nuevamente', null, {cancelable: true});
         }
     }
@@ -89,7 +88,7 @@ class LoginScreen extends Component {
                   onPressForgotPass={(email)=>this.onPressForgotPass(email)} 
               />
               <LoadModal
-                  modalVisible={this.props.auth.loading}
+                  modalVisible={this.props.auth.sing_in_loading}
               />
         </Background>
     );
