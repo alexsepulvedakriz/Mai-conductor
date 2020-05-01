@@ -1,14 +1,13 @@
 import React from 'react';
-import {ScrollView, Image, View, StyleSheet, Dimensions, Text} from 'react-native';
-import {userSignUp} from "../actions/auth";
+import {ScrollView, Image, View, Dimensions, Text} from 'react-native';
 import {connect} from "react-redux";
 import {Background} from "../components";
 import { colors } from '../common/theme';
 import languageJSON from "../common/language";
 import stylesCommon from "../common/styles";
 import {Button, Input} from "react-native-elements";
-import {validateRut, validateConfPassword, validateEmail, validatePassword, validatePhoto, validateText} from "../functions/validations";
-import {takePhoto} from "../functions/photo";
+import {validateRut, validateConfPassword, validateEmail, validatePassword, validateText} from "../functions/validations";
+import {updateNewUserState} from "../actions/auth";
 
 var { width } = Dimensions.get('window');
 
@@ -18,9 +17,8 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    signUp: (credentials) => dispatch(userSignUp(credentials))
+    updateNewUserStateProps: (new_user) => dispatch(updateNewUserState(new_user))
 });
-
 
 class RegistrationUserScreen extends React.Component {
     constructor(props){
@@ -50,6 +48,23 @@ class RegistrationUserScreen extends React.Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot){
     }
+    updateNewUserState(arg){
+        this.props.updateNewUserStateProps(arg);
+        // this.props.navigation.navigate('RegisterDriver');
+    }
+    validateInputs(){
+        const nombreValid = this.validateFirstName(this.props.auth.new_user.name);
+        const apellidoValid = this.validateLastname(this.props.auth.new_user.name);
+        const emailValid = this.validateEmail(this.props.auth.new_user.name);
+        const movilValid = this.validateMovil(this.props.auth.new_user.name);
+        const passwordValid = this.validatePassword(this.props.auth.new_user.name);
+        const cnfPwdValid = this.validateConfPassword(this.props.auth.new_user.name);
+        const rutValid = this.validateRut(this.props.auth.new_user.name);
+        // validar las reglas, falta confirmar la foto
+        if ( nombreValid && apellidoValid && emailValid && movilValid && passwordValid && cnfPwdValid && rutValid) {
+            this.props.navigation.navigate('RegisterDriver');
+        }
+    }
     render() {
         return (
             <View style={{height: '100%'}}>
@@ -67,14 +82,14 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.first_name_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.name}
+                                    value={this.props.auth.new_user.name}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({name: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({name: text})}}
                                     errorMessage={this.state.name_valid ? null : languageJSON.first_name_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({name_valid : validateText(this.state.name)}); this.nameInput.focus()}}
+                                    onSubmitEditing={() => { this.setState({name_valid : validateText(this.props.auth.new_user.name)}); this.nameInput.focus()}}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
@@ -87,14 +102,14 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.last_name_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.last_name}
+                                    value={this.props.auth.new_user.last_name}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({last_name: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({last_name: text})}}
                                     errorMessage={this.state.last_name_valid ? null : languageJSON.last_name_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({last_name_valid : validateText(this.state.last_name)}); this.last_nameInput.focus()}}
+                                    onSubmitEditing={() => { this.setState({last_name_valid : validateText(this.props.auth.new_user.last_name)}); this.last_nameInput.focus()}}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'user', color: 'white' }}
@@ -107,14 +122,14 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.rut_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.rut}
+                                    value={this.props.auth.new_user.rut}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({rut: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({rut: text})}}
                                     errorMessage={this.state.rut_valid ? null : languageJSON.rut_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({rut_valid : validateRut(this.state.rut)}); this.rutInput.focus()}}
+                                    onSubmitEditing={() => { this.setState({rut_valid : validateRut(this.props.auth.new_user.rut)}); this.rutInput.focus()}}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'id-card', color: 'white' }}
@@ -127,14 +142,14 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.email_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.email}
+                                    value={this.props.auth.new_user.email}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({email: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({email: text})}}
                                     errorMessage={this.state.email_valid ? null : languageJSON.valid_email_check}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({email_valid : validateEmail(this.state.email)}); this.emailInput.focus()}}
+                                    onSubmitEditing={() => { this.setState({email_valid : validateEmail(this.props.auth.new_user.email)}); this.emailInput.focus()}}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'envelope-o', color: 'white' }}
@@ -147,14 +162,14 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.movil_no_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.movil}
+                                    value={this.props.auth.new_user.movil}
                                     keyboardType={'number-pad'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({movil: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({movil: text})}}
                                     errorMessage={this.state.movil_valid ? null : languageJSON.movil_no_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({movil_valid : validateText(this.state.movil)}); this.movilInput.focus()}}
+                                    onSubmitEditing={() => { this.setState({movil_valid : validateText(this.props.auth.new_user.movil)}); this.movilInput.focus()}}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'mobile-phone', color: 'white' }}
@@ -167,13 +182,13 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.password_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.password}
+                                    value={this.props.auth.new_user.password}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({password: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({password: text})}}
                                     errorMessage={this.state.password_valid ? null : this.state.pwdErrorMsg}
                                     secureTextEntry
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({password_valid : validatePassword(this.state.password)}); this.passwordInput.focus()}}
+                                    onSubmitEditing={() => { this.setState({password_valid : validatePassword(this.props.auth.new_user.password)}); this.passwordInput.focus()}}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
@@ -186,34 +201,21 @@ class RegistrationUserScreen extends React.Component {
                                     underlineColorAndroid={colors.TRANSPARENT}
                                     placeholder={languageJSON.confirm_password_placeholder}
                                     placeholderTextColor={colors.WHITE}
-                                    value={this.state.confPassword}
+                                    value={this.props.auth.new_user.confPassword}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({confPassword: text})}}
+                                    onChangeText={(text)=>{this.updateNewUserState({confPassword: text})}}
                                     errorMessage={this.state.cnf_pwd_valid ? null : languageJSON.confirm_password_not_match_err}
                                     secureTextEntry
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({cnf_pwd_valid : validateConfPassword(this.state.confPassword)}); this.cnfPwdInput.focus() }}
+                                    onSubmitEditing={() => { this.setState({cnf_pwd_valid : validateConfPassword(this.props.auth.new_user.confPassword)}); this.cnfPwdInput.focus() }}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
                                 />
                             </View>
-                            <View >
-                                <Button
-                                    onPress={() => takePhoto()}
-                                    title={languageJSON.upload_photo}
-                                    titleStyle={{
-                                        color: colors.WHITE,
-                                        fontSize:10
-                                    }}
-                                    buttonStyle={stylesCommon.buttonRegisterInput}
-                                    icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
-                                    iconRight={true}
-                                />
-                            </View>
                             <View>
                                 <Button
-                                    onPress={()=>{this.props.navigation.navigate('RegisterDriver')}}
+                                    onPress={()=>{this.validateInputs()}}
                                     title={languageJSON.button_continue}
                                     titleStyle={{
                                         color: colors.BLUE.Deep_Blue,

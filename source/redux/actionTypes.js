@@ -6,15 +6,19 @@ export const HIDE_MODAL_CHECK = 'HIDE_MODAL_CHECK';
 export const SHOW_MODAL_SOCIAL = 'SHOW_MODAL_SOCIAL';
 export const HIDE_MODAL_SOCIAL = 'HIDE_MODAL_SOCIAL';
 //Auth const
-export const SIGNUP_USER = 'signup_user';
-export const SIGNUP_USER_SUCCESS = 'signup_user_success';
-export const SIGNUP_USER_FAILED = 'signup_user_failed';
-export const SIGNIN_USER = 'signin_user';
-export const SIGNIN_USER_SUCCESS = 'signin_user_success';
-export const SIGNIN_USER_FAILED = 'signin_user_failed';
-export const SIGNOUT_USER = 'signout_user';
-export const SIGNOUT_USER_SUCCESS = 'signout_user_success';
-export const SIGNOUT_USER_FAILED = 'signout_user_failed';
+export const SIGN_UP_USER = 'SIGN_UP_USER';
+export const SIGN_UP_USER_SUCCESS = 'SIGN_UP_USER_SUCCESS';
+export const SIGN_UP_USER_FAILED = 'SIGN_UP_USER_FAILED';
+export const SIGN_IN_USER = 'SIGN_IN_USER';
+export const SIGN_IN_USER_SUCCESS = 'SIGN_IN_USER_SUCCESS';
+export const SIGN_IN_USER_FAILED = 'SIGN_IN_USER_FAILED';
+export const SIGN_OUT_USER = 'SIGN_OUT_USER';
+export const SIGN_OUT_USER_SUCCESS = 'SIGN_OUT_USER_SUCCESS';
+export const SIGN_OUT_USER_FAILED = 'SIGN_OUT_USER_FAILED';
+// Save state
+export const UPDATE_NEW_USER_STATE = 'UPDATE_NEW_USER_STATE';
+export const UPDATE_NEW_VEHICLE_STATE = 'UPDATE_NEW_VEHICLE_STATE';
+export const UPDATE_NEW_DRIVER_STATE = 'UPDATE_NEW_DRIVER_STATE';
 // RESSETTING
 export const RESETTING_PASSWORD_SUCCESS = 'resetting_password_success';
 export const RESETTING_PASSWORD = 'resetting_password';

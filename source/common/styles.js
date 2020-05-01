@@ -70,6 +70,11 @@ export default StyleSheet.create({
         //marginTop: StatusBar.currentHeight,
     },
     // vista principal
+    // botones titulos
+    buttonRegisterTitle: {
+        color: colors.WHITE,
+        fontSize:15
+    },
     // botones tipos
     buttonNegative: {
         backgroundColor: '#f7ab00',

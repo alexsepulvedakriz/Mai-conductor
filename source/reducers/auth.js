@@ -1,16 +1,20 @@
 import {
-    SIGNIN_USER_SUCCESS,
-    SIGNOUT_USER_SUCCESS,
-    SIGNUP_USER_SUCCESS,
-    SIGNUP_USER,
-    SIGNIN_USER,
-    SIGNIN_USER_FAILED,
-    SIGNUP_USER_FAILED,
-    SIGNOUT_USER,
+    SIGN_IN_USER_SUCCESS,
+    SIGN_OUT_USER_SUCCESS,
+    SIGN_UP_USER_SUCCESS,
+    SIGN_UP_USER,
+    SIGN_IN_USER,
+    SIGN_IN_USER_FAILED,
+    SIGN_UP_USER_FAILED,
+    SIGN_OUT_USER,
     RESETTING_PASSWORD,
     RESETTING_PASSWORD_SUCCESS,
-    RESETTING_PASSWORD_FAILED
+    RESETTING_PASSWORD_FAILED,
+    UPDATE_NEW_USER_STATE,
+    UPDATE_NEW_VEHICLE_STATE,
+    UPDATE_NEW_DRIVER_STATE
 } from "../redux/actionTypes";
+
 const new_user = {
     name: '',
     last_name: '',
@@ -25,7 +29,6 @@ const new_user = {
     conf_password: '',
 };
 const new_driver = {
-
 };
 const new_vehicle = {};
 
@@ -50,20 +53,24 @@ const initialState = {
 export const auth = (state = initialState, action) => {
     switch (action.type) {
         // sign up
-        case SIGNUP_USER: {return {...state, sing_up_loading: true, sing_up_loaded: false, sing_up_error: false }}
-        case SIGNUP_USER_FAILED: {return {...state,sing_up_loading: false, sing_up_loaded: false, sing_up_error: true }}
-        case SIGNUP_USER_SUCCESS: {return {...state, sing_up_loading: false, sing_up_loaded: true, sing_up_error: false }}
+        case SIGN_UP_USER: {return {...state, sing_up_loading: true, sing_up_loaded: false, sing_up_error: false }}
+        case SIGN_UP_USER_FAILED: {return {...state,sing_up_loading: false, sing_up_loaded: false, sing_up_error: true }}
+        case SIGN_UP_USER_SUCCESS: {return {...state, sing_up_loading: false, sing_up_loaded: true, sing_up_error: false }}
         // sign in
-        case SIGNIN_USER: {return {...state, sing_in_loading: true, sing_in_loaded: false, sing_in_error: false }}
-        case SIGNIN_USER_SUCCESS: {return {...state, sing_in_loading: false, sing_in_loaded: true, sing_in_error: false }}
-        case SIGNIN_USER_FAILED: {return {...state, sing_in_loading: false, sing_in_loaded: false, sing_in_error: true}}
+        case SIGN_IN_USER: {return {...state, sing_in_loading: true, sing_in_loaded: false, sing_in_error: false }}
+        case SIGN_IN_USER_SUCCESS: {return {...state, sing_in_loading: false, sing_in_loaded: true, sing_in_error: false }}
+        case SIGN_IN_USER_FAILED: {return {...state, sing_in_loading: false, sing_in_loaded: false, sing_in_error: true}}
         // sign out
-        case SIGNOUT_USER: {return {...state, sing_out_loading: true, sing_out_loaded: false}}
-        case SIGNOUT_USER_SUCCESS: {return initialState}
+        case SIGN_OUT_USER: {return {...state, sing_out_loading: true, sing_out_loaded: false}}
+        case SIGN_OUT_USER_SUCCESS: {return initialState}
         // resette password
         case RESETTING_PASSWORD: {return {...state, reset_loading: true, reset_loaded: false, reset_error: false}}
         case RESETTING_PASSWORD_SUCCESS: {return {...state, reset_loading: false, reset_loaded: true, reset_error: false}}
         case RESETTING_PASSWORD_FAILED: {return {...state, reset_loading: false, reset_loaded: false, reset_error: true}}
+        //
+        case UPDATE_NEW_USER_STATE: { return {...state, new_user: {... state.new_user, ... action.payload }}}
+        case UPDATE_NEW_VEHICLE_STATE: {return {...state, new_vehicle:  {... state.new_vehicle, ... action.payload }}}
+        case UPDATE_NEW_DRIVER_STATE: {return {...state, new_driver:  {... state.new_driver, ... action.payload } }}
         default:
             return state;
     }

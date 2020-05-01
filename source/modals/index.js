@@ -6,6 +6,7 @@ import ListOfferModal from "./ListOfferModal";
 import LoadModal from "./LoadModal";
 import RideDetailModal from "./RideDetailModal";
 import TutorialModal from "./TutorialModal";
+import TermsAndConditions from "./TermsAndConditions";
 
 export {
     AddVehicleModal,
@@ -15,5 +16,6 @@ export {
     ListOfferModal,
     LoadModal,
     RideDetailModal,
-    TutorialModal
+    TutorialModal,
+    TermsAndConditions
 }

@@ -1,9 +1,29 @@
 export default {
+    // Register
+    register_upload_type_licence: 'Tipo de licencia',
+    register_upload_driver_licence: 'Licencia de conducir',
+    register_upload_criminal_record: 'Certificado de antecedentes',
+    register_upload_id_card: 'Cedula de identidad',
+    register_upload_photo_driver: 'Foto de conductor',
+    register_add_new_vehicle: 'Agregar nuevo vehiculo',
     // Headers
     offer_list_header: 'Inicio',
     payment_information_header: 'Informacion pagos',
     finish_trip_header: 'Termino del viaje',
     my_vehicles_header: 'Mis vehiculos',
+    // vehiculo
+    add_new_vehicle: 'Agregar un nuevo vehiculo',
+    licence_plate: 'Patente',
+    year: 'Ano',
+    type: 'Tipo',
+    vehicle_roll: 'Padron del vehiculo',
+    annotation_certificate: 'Certificado de anotaciones',
+    photo_authorization: 'Foto de autorizacion de conductor',
+    photo_vehicle: 'Foto de vehiculo',
+    permission_to_circulate: 'Foto de permiso de circulacion',
+    car_make: 'Marca',
+    model: 'Modelo',
+    add_vehicle: 'Agregar Vehiculo',
     // Cards
     add_card: 'Agregar nueva tarjeta',
     no_cards_message: 'Registra tu tarjeta y realiza tus pagos',
@@ -94,6 +114,7 @@ export default {
     registration_title:'Registro',
     registration_user: 'Datos usuario',
     registration_driver: 'Datos Conductor',
+    registration_vehicle: 'Datos Vehiculo',
     first_name_placeholder:'Nombre',
     first_name_blank_error:"Por favor ingrese su nombre.",
     last_name_placeholder:'Apellidos',

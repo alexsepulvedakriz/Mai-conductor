@@ -1,6 +1,5 @@
 import React from 'react';
 import {Image, ScrollView, Text, View, Picker} from 'react-native';
-import {userSignUp} from "../actions/auth";
 import {connect} from "react-redux";
 import {Background} from "../components";
 import stylesCommon from "../common/styles";
@@ -8,6 +7,7 @@ import languageJSON from "../common/language";
 import {Button, Input} from "react-native-elements";
 import {colors} from "../common/theme";
 import {takePhoto} from "../functions/photo";
+import {updateNewDriverState} from "../actions/auth";
 
 const mapStateToProps = state => {
     return{
@@ -15,7 +15,7 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    signUp: (credentials) => dispatch(userSignUp(credentials))
+    updateNewDriverStateProps: (new_driver) => dispatch(updateNewDriverState(new_driver))
 });
 
 
@@ -27,6 +27,7 @@ class RegistrationPage extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
+        console.log(this.props.auth);
     }
     render() {
         return (
@@ -53,11 +54,8 @@ class RegistrationPage extends React.Component {
                             <View >
                                 <Button
                                     onPress={() => takePhoto()}
-                                    title={languageJSON.upload_photo}
-                                    titleStyle={{
-                                        color: colors.WHITE,
-                                        fontSize:10
-                                    }}
+                                    title={languageJSON.register_upload_driver_licence}
+                                    titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
                                     icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
                                     iconRight={true}
@@ -66,50 +64,28 @@ class RegistrationPage extends React.Component {
                             <View >
                                 <Button
                                     onPress={() => takePhoto()}
-                                    title={languageJSON.upload_photo}
-                                    titleStyle={{
-                                        color: colors.WHITE,
-                                        fontSize:10
-                                    }}
+                                    title={languageJSON.register_upload_criminal_record}
+                                    titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
-                                    icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
+                                    icon={{ type: 'font-awesome', name: 'file-pdf-o', color: 'white' }}
                                     iconRight={true}
                                 />
                             </View>
                             <View >
                                 <Button
                                     onPress={() => takePhoto()}
-                                    title={languageJSON.upload_photo}
-                                    titleStyle={{
-                                        color: colors.WHITE,
-                                        fontSize:10
-                                    }}
+                                    title={languageJSON.register_upload_id_card}
+                                    titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
-                                    icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
+                                    icon={{ type: 'font-awesome', name: 'file-pdf-o', color: 'white' }}
                                     iconRight={true}
                                 />
                             </View>
                             <View >
                                 <Button
                                     onPress={() => takePhoto()}
-                                    title={languageJSON.upload_photo}
-                                    titleStyle={{
-                                        color: colors.WHITE,
-                                        fontSize:10
-                                    }}
-                                    buttonStyle={stylesCommon.buttonRegisterInput}
-                                    icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
-                                    iconRight={true}
-                                />
-                            </View>
-                            <View >
-                                <Button
-                                    onPress={() => takePhoto()}
-                                    title={languageJSON.upload_photo}
-                                    titleStyle={{
-                                        color: colors.WHITE,
-                                        fontSize:10
-                                    }}
+                                    title={languageJSON.register_upload_photo_driver}
+                                    titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
                                     icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
                                     iconRight={true}

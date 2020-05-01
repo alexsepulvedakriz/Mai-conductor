@@ -2,9 +2,9 @@ import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {auth, firestore, storage} from "../firebase/firebase";
 import {
     RESETTING_PASSWORD,
-    SIGNIN_USER,
-    SIGNOUT_USER,
-    SIGNUP_USER
+    SIGN_IN_USER,
+    SIGN_OUT_USER,
+    SIGN_UP_USER
 } from "../redux/actionTypes";
 import {
     userSignInSuccess,
@@ -64,7 +64,7 @@ const resetPasswordFirebase = async (email) =>
 const signInUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.signInWithEmailAndPassword(email, password)
         .then(authUser => authUser)
-        .catch(error => error);
+        .catch(error => console.log(error));
 
 const signOutRequest = async () =>
     await  auth.signOut()
@@ -133,15 +133,15 @@ export function* resettingPassword() {
 }
 
 export function* createUserAccount() {
-    yield takeEvery(SIGNUP_USER, createUserWithEmailPassword);
+    yield takeEvery(SIGN_UP_USER, createUserWithEmailPassword);
 }
 
 export function* signInUser() {
-    yield takeEvery(SIGNIN_USER, signInUserWithEmailPassword);
+    yield takeEvery(SIGN_IN_USER, signInUserWithEmailPassword);
 }
 
 export function* signOutUser() {
-    yield takeEvery(SIGNOUT_USER, signOut);
+    yield takeEvery(SIGN_OUT_USER, signOut);
 }
 
 export default function* rootSaga() {
