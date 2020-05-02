@@ -7,7 +7,7 @@ import languageJSON from "../common/language";
 import stylesCommon from "../common/styles";
 import {Button, Input} from "react-native-elements";
 import {validateRut, validateConfPassword, validateEmail, validatePassword, validateText} from "../functions/validations";
-import {authCleanStore, updateNewUserState} from "../actions/auth";
+import {updateNewUserState} from "../actions/auth";
 
 var { width } = Dimensions.get('window');
 
@@ -17,8 +17,7 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    updateNewUserStateProps: (new_user) => dispatch(updateNewUserState(new_user)),
-    cleanStore: () => dispatch(authCleanStore())
+    updateNewUserStateProps: (new_user) => dispatch(updateNewUserState(new_user))
 });
 
 class RegistrationUserScreen extends React.Component {
@@ -215,7 +214,7 @@ class RegistrationUserScreen extends React.Component {
                             </View>
                             <View>
                                 <Button
-                                    onPress={()=>{this.props.navigation.navigate('Login'); this.props.cleanStore()}}
+                                    onPress={()=>{this.props.navigation.navigate('Login');}}
                                     title={languageJSON.come_back_button}
                                     titleStyle={{
                                         fontWeight: "500",

@@ -14,7 +14,7 @@ import {
     userSignUpFailed,
     userSignOutFailed,
     resettingPasswordFailed,
-    resettingPasswordSuccess
+    resettingPasswordSuccess, authCleanStore
 } from "../actions/auth";
 import {profileCleanStore, profileLoad} from "../actions/profile";
 import {offerCleanStore} from "../actions/offer";
@@ -112,6 +112,7 @@ function* signOut() {
         yield put(profileCleanStore());
         yield put(tripCleanStore());
         yield put(aboutCleanStore());
+        yield put(authCleanStore());
         localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());
