@@ -6,7 +6,7 @@ import stylesCommon from "../common/styles";
 import languageJSON from "../common/language";
 import {Button, Input} from "react-native-elements";
 import {colors} from "../common/theme";
-import {takePhoto} from "../functions/photo";
+import {documentPicker} from '../functions/documentPicker';
 import {updateNewDriverState} from "../actions/auth";
 
 const mapStateToProps = state => {
@@ -27,7 +27,6 @@ class RegistrationPage extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
-        console.log(this.props.auth);
     }
     render() {
         return (
@@ -41,9 +40,9 @@ class RegistrationPage extends React.Component {
                             <Text style={stylesCommon.headerTitleStyle}>{languageJSON.registration_driver}</Text>
                             <View style={[{borderColor: colors.GREY.Deep_Nobel, borderWidth: 1, borderRadius: 10, marginBottom: 15, height: 45}, stylesCommon.buttonRegisterInput]}>
                                 <Picker
-                                    selectedValue={'a4'}
+                                    selectedValue={this.props.auth.new_vehicle.type_licence}
                                     style={{color: 'white', padding: 0, textAlign: 'center'}}
-                                    onValueChange={(itemValue, itemIndex) => {}}
+                                    onValueChange={(itemValue, itemIndex) => {this.props.updateNewDriverStateProps({type_licence: itemValue})}}
                                 >
                                     <Picker.Item label={'A4'}  value={'a4'} />
                                     <Picker.Item label={'B'}  value={'b'} />
@@ -53,7 +52,7 @@ class RegistrationPage extends React.Component {
                             </View>
                             <View >
                                 <Button
-                                    onPress={() => takePhoto()}
+                                    onPress={() => documentPicker().then(res => this.props.updateNewDriverStateProps({photo_driver_licence: res}))}
                                     title={languageJSON.register_upload_driver_licence}
                                     titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
@@ -63,7 +62,7 @@ class RegistrationPage extends React.Component {
                             </View>
                             <View >
                                 <Button
-                                    onPress={() => takePhoto()}
+                                    onPress={() => documentPicker().then(res => this.props.updateNewDriverStateProps({file_criminal_record: res}))}
                                     title={languageJSON.register_upload_criminal_record}
                                     titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
@@ -73,7 +72,7 @@ class RegistrationPage extends React.Component {
                             </View>
                             <View >
                                 <Button
-                                    onPress={() => takePhoto()}
+                                    onPress={() => documentPicker().then(res => this.props.updateNewDriverStateProps({photo_id_card: res}))}
                                     title={languageJSON.register_upload_id_card}
                                     titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
@@ -83,7 +82,7 @@ class RegistrationPage extends React.Component {
                             </View>
                             <View >
                                 <Button
-                                    onPress={() => takePhoto()}
+                                    onPress={() => documentPicker().then(res => this.props.updateNewDriverStateProps({photo_driver: res}))}
                                     title={languageJSON.register_upload_photo_driver}
                                     titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}

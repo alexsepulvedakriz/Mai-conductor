@@ -4,6 +4,7 @@ import {Button, Header, Icon} from "react-native-elements";
 import stylesCommon from "../common/styles";
 import languageJSON from "../common/language";
 import {colors} from "../common/theme";
+import {documentPicker} from '../functions/documentPicker';
 
 var { height, width } = Dimensions.get('window');
 
@@ -15,18 +16,40 @@ export default class AddVehicleModal extends Component {
             year: '',
             type: '',
             car_make: '',
-            vehicle_roll: '',
-            annotation_certificate: '',
-            photo_authorization: '',
-            photo_vehicle: '',
-            permission_to_circulate: '',
-            model: '',
+            vehicle_roll: null,
+            annotation_certificate: null,
+            photo_authorization: null,
+            photo_vehicle: null,
+            permission_to_circulate: null,
+            model: null,
         }
     }
 
-    addCard(){
-        this.props.addCard(this.state.card_number, this.state.expiration_date, this.state.cvv, this.state.name, this.state.lastName);
-        this.setState({card_number: '', expiration_date: '', cvv: '', name: '', lastName: ''});
+    addVehicle(){
+        this.props.addVehicle(
+            this.licence_plate,
+            this.year,
+            this.type,
+            this.car_make,
+            this.vehicle_roll,
+            this.annotation_certificate,
+            this.photo_authorization,
+            this.photo_vehicle,
+            this.permission_to_circulate,
+            this.model,
+            );
+        this.setState({
+            licence_plate: '',
+            year: '',
+            type: '',
+            car_make: '',
+            vehicle_roll: null,
+            annotation_certificate: null,
+            photo_authorization: null,
+            photo_vehicle: null,
+            permission_to_circulate: null,
+            model: null,
+        });
     }
 
     render() {
@@ -133,7 +156,7 @@ export default class AddVehicleModal extends Component {
                             start: [1, 0],
                             end: [0.2, 0],
                         }}
-                        onPress={() => {}}
+                        onPress={() => documentPicker().then(res => this.setState({vehicle_roll: res}))}
                         buttonStyle={[stylesCommon.buttonPositive,{marginHorizontal: 20, marginTop: 10}]}
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
@@ -146,7 +169,7 @@ export default class AddVehicleModal extends Component {
                             start: [1, 0],
                             end: [0.2, 0],
                         }}
-                        onPress={() => {}}
+                        onPress={() =>  documentPicker().then(res => this.setState({annotation_certificate: res}))}
                         buttonStyle={[stylesCommon.buttonPositive,{marginHorizontal: 20, marginTop: 10}]}
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
@@ -159,7 +182,7 @@ export default class AddVehicleModal extends Component {
                             start: [1, 0],
                             end: [0.2, 0],
                         }}
-                        onPress={() => {}}
+                        onPress={() =>  documentPicker().then(res => this.setState({photo_authorization: res}))}
                         buttonStyle={[stylesCommon.buttonPositive,{marginHorizontal: 20, marginTop: 10}]}
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
@@ -172,7 +195,7 @@ export default class AddVehicleModal extends Component {
                             start: [1, 0],
                             end: [0.2, 0],
                         }}
-                        onPress={() => { this.addCard()}}
+                        onPress={() => documentPicker().then(res => this.setState({photo_vehicle: res}))}
                         buttonStyle={[stylesCommon.buttonPositive,{marginHorizontal: 20, marginTop: 10}]}
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
@@ -185,7 +208,7 @@ export default class AddVehicleModal extends Component {
                             start: [1, 0],
                             end: [0.2, 0],
                         }}
-                        onPress={() => { this.addCard()}}
+                        onPress={() => documentPicker().then(res => this.setState({permission_to_circulate: res}))}
                         buttonStyle={[stylesCommon.buttonPositive,{marginHorizontal: 20, marginTop: 10}]}
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
@@ -198,7 +221,7 @@ export default class AddVehicleModal extends Component {
                             start: [1, 0],
                             end: [0.2, 0],
                         }}
-                        onPress={() => { this.addCard()}}
+                        onPress={() => { this.addVehicle()}}
                         icon={{ type: 'font-awesome', name: 'truck', color: 'white' }}
                         iconRight={true}
                         buttonStyle={[stylesCommon.buttonPositive,{marginHorizontal: 20, marginTop: 10}]}

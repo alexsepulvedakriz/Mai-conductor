@@ -101,7 +101,8 @@ class RegistrationPage extends React.Component {
                 <AddVehicleModal
                     modalVisible={this.state.show_modal_add_vehicle}
                     close={() => this.setState({show_modal_add_vehicle: false})}
-                    addVehicle={() => this.setState({show_modal_add_vehicle: false})}
+                    addVehicle={(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model) => {this.setState({show_modal_add_vehicle: false});
+                        this.props.updateNewVehicleStateProps(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model)}}
                 />
             </View>
         );

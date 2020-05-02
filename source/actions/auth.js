@@ -13,7 +13,8 @@ import {
     RESETTING_PASSWORD_FAILED,
     UPDATE_NEW_USER_STATE,
     UPDATE_NEW_VEHICLE_STATE,
-    UPDATE_NEW_DRIVER_STATE
+    UPDATE_NEW_DRIVER_STATE,
+    AUTH_CLEAN_STORE
 } from "../redux/actionTypes";
 
 export const userSignUp = (user) => {return {type: SIGN_UP_USER, payload: user};};
@@ -31,4 +32,5 @@ export const resettingPasswordFailed = () => {return {type: RESETTING_PASSWORD_F
 export const updateNewUserState = (new_user) => {return {type: UPDATE_NEW_USER_STATE, payload: new_user};};
 export const updateNewDriverState = (new_driver) => {return {type: UPDATE_NEW_DRIVER_STATE, payload: new_driver};};
 export const updateNewVehicleState = (new_vehicle) => {return {type: UPDATE_NEW_VEHICLE_STATE, payload: new_vehicle};};
+export const authCleanStore = () => {return {type: AUTH_CLEAN_STORE};};
 

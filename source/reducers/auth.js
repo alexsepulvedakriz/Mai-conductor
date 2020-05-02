@@ -12,7 +12,8 @@ import {
     RESETTING_PASSWORD_FAILED,
     UPDATE_NEW_USER_STATE,
     UPDATE_NEW_VEHICLE_STATE,
-    UPDATE_NEW_DRIVER_STATE
+    UPDATE_NEW_DRIVER_STATE,
+    AUTH_CLEAN_STORE, OFFERS_CLEAN
 } from "../redux/actionTypes";
 
 const new_user = {
@@ -29,6 +30,11 @@ const new_user = {
     conf_password: '',
 };
 const new_driver = {
+    type_licence: '',
+    photo_driver_licence: '',
+    file_criminal_record: null,
+    photo_id_card: null,
+    photo_driver: null,
 };
 const new_vehicle = {};
 
@@ -71,6 +77,8 @@ export const auth = (state = initialState, action) => {
         case UPDATE_NEW_USER_STATE: { return {...state, new_user: {... state.new_user, ... action.payload }}}
         case UPDATE_NEW_VEHICLE_STATE: {return {...state, new_vehicle:  {... state.new_vehicle, ... action.payload }}}
         case UPDATE_NEW_DRIVER_STATE: {return {...state, new_driver:  {... state.new_driver, ... action.payload } }}
+        //
+        case AUTH_CLEAN_STORE: { return initialState}
         default:
             return state;
     }

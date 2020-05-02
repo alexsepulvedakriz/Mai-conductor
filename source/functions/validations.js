@@ -20,8 +20,7 @@ export const validateEmail= (arg) => {
     return emailValid;
 }
 // password validation
-export const validatePassword= (arg) => {
-    const { password } = this.state;
+export const validatePassword= (password) => {
     const regx1 = /^([a-zA-Z0-9@*#]{8,15})$/
     const regx2 = /(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/
     const passwordValid1 = password.length >=1;
