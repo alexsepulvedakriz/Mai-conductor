@@ -8,6 +8,13 @@ import {Button, Input} from "react-native-elements";
 import {colors} from "../common/theme";
 import {documentPicker} from '../functions/documentPicker';
 import {updateNewDriverState} from "../actions/auth";
+import {
+    validateConfPassword,
+    validateEmail, validateFile,
+    validatePassword,
+    validateRut,
+    validateText
+} from "../functions/validations";
 
 const mapStateToProps = state => {
     return{
@@ -28,6 +35,19 @@ class RegistrationPage extends React.Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot){
     }
+    validateInputs(){
+        const typeLicence = validateText(this.props.auth.new_driver.type_licence);
+        const photoDriverLicence = validateFile(this.props.auth.new_driver.photo_driver_licence);
+        const fileCriminalRecord = validateFile(this.props.auth.new_driver.file_criminal_record);
+        const idCard = validateFile(this.props.auth.new_user.photo_id_card);
+        const photoDriver = validateFile(this.props.auth.new_user.photo_driver);
+        // validar las reglas, falta confirmar la foto
+        if ( typeLicence && photoDriverLicence && photoDriver && fileCriminalRecord && idCard) {
+            this.props.navigation.navigate('RegisterVehicle');
+        } else{
+
+        }
+    }
     render() {
         return (
             <View style={{height: '100%'}}>
@@ -40,7 +60,7 @@ class RegistrationPage extends React.Component {
                             <Text style={stylesCommon.headerTitleStyle}>{languageJSON.registration_driver}</Text>
                             <View style={[{borderColor: colors.GREY.Deep_Nobel, borderWidth: 1, borderRadius: 10, marginBottom: 15, height: 45}, stylesCommon.buttonRegisterInput]}>
                                 <Picker
-                                    selectedValue={this.props.auth.new_vehicle.type_licence}
+                                    selectedValue={this.props.auth.new_driver.type_licence}
                                     style={{color: 'white', padding: 0, textAlign: 'center'}}
                                     onValueChange={(itemValue, itemIndex) => {this.props.updateNewDriverStateProps({type_licence: itemValue})}}
                                 >
@@ -59,6 +79,7 @@ class RegistrationPage extends React.Component {
                                     icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
                                     iconRight={true}
                                 />
+                                <Text>Campo obligatorio</Text>
                             </View>
                             <View >
                                 <Button
@@ -92,7 +113,7 @@ class RegistrationPage extends React.Component {
                             </View>
                             <View>
                                 <Button
-                                    onPress={()=>{this.props.navigation.navigate('RegisterVehicle')}}
+                                    onPress={()=>{this.validateInputs()}}
                                     title={languageJSON.button_continue}
                                     titleStyle={{
                                         color: colors.BLUE.Deep_Blue,

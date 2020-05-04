@@ -37,13 +37,29 @@ export const validatePassword= (password) => {
         return languageJSON.password_complexity_check
     }*/
 };
+export const messageErrorValidatePassword = (password) => {
+    const regx1 = /^([a-zA-Z0-9@*#]{8,15})$/
+    const regx2 = /(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/
+    const passwordValid1 = password.length === 0;
+    const passwordValid2 = regx1.test(password);
+    const passwordValid3 = regx2.test(password);
+    if(passwordValid1) {
+        return  languageJSON.password_blank_messege;
+        }
+        else if(passwordValid2) {
+            return languageJSON.password_alphaNumeric_check;
+        }
+        else if (passwordValid3) {
+            return languageJSON.password_complexity_check
+        }
+}
 // confirm password validation
 export const validateConfPassword= (password, confPassword) => {
     const cnfPwdValid = (password == confPassword);
     return cnfPwdValid
 };
 // confirmar photo
-export const validatePhoto= (photo) =>{
-    const photoValid = (photo != null);
-    return photoValid
+export const validateFile= (file) =>{
+    const fileValid = (file != null);
+    return fileValid
 };

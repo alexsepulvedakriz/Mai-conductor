@@ -36,7 +36,18 @@ const new_driver = {
     photo_id_card: null,
     photo_driver: null,
 };
-const new_vehicle = {};
+const new_vehicle = {
+    licence_plate: '',
+    year: '',
+    type: '',
+    car_make: '',
+    vehicle_roll: null,
+    annotation_certificate: null,
+    photo_authorization: null,
+    photo_vehicle: null,
+    permission_to_circulate: null,
+    model: '',
+};
 
 const initialState = {
     sing_in_loading: false,

@@ -21,7 +21,7 @@ export default class AddVehicleModal extends Component {
             photo_authorization: null,
             photo_vehicle: null,
             permission_to_circulate: null,
-            model: null,
+            model: '',
         }
     }
 

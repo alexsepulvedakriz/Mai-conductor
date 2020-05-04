@@ -7,7 +7,8 @@ import languageJSON from "../common/language";
 import {colors} from "../common/theme";
 import {Button, CheckBox} from "react-native-elements";
 import {AddVehicleModal, TermsAndConditions} from '../modals';
-import {updateNewVehicleState} from "../actions/auth";
+import {updateNewVehicleState, userSignUp} from "../actions/auth";
+import {validateFile, validateText} from "../functions/validations";
 
 
 const mapStateToProps = state => {
@@ -16,7 +17,8 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    updateNewVehicleStateProps: (new_vehicle) => dispatch(updateNewVehicleState(new_vehicle))
+    updateNewVehicleStateProps: (new_vehicle) => dispatch(updateNewVehicleState(new_vehicle)),
+    userSignUpProps: (user) => dispatch(userSignUp(user))
 });
 
 
@@ -30,6 +32,15 @@ class RegistrationPage extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
+    }
+    validateInputs(){
+        const anyInformation = validateText(this.props.auth.new_vehicle.annotation_certificate);
+        // validar las reglas, falta confirmar la foto
+        if ( this.state.accept_terms_and_conditions && anyInformation) {
+            this.props.userSignUpProps({new_user: this.props.auth.new_user, new_vehicle: this.props.auth.new_vehicle, new_driver: this.props.auth.new_driver })
+        } else{
+
+        }
     }
     render() {
         return (
@@ -69,7 +80,7 @@ class RegistrationPage extends React.Component {
                             </View>
                             <View>
                                 <Button
-                                    onPress={()=>{}}
+                                    onPress={()=>{this.validateInputs()}}
                                     title={languageJSON.button_continue}
                                     titleStyle={{
                                         color: colors.BLUE.Deep_Blue,

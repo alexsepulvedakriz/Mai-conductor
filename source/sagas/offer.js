@@ -4,6 +4,7 @@ import { eventChannel} from 'redux-saga';
 import {OFFERS_LOAD, OFFERS_STOP_LISTEN_lOAD} from "../redux/actionTypes";
 import {offersLoaded, offersLoadFail} from "../actions/offer";
 
+
 const loadOffersFirestore  = (id_driver) => eventChannel(emitter => {
     const unsubscribe = firestore.collection('drivers/' + id_driver + '/offers').onSnapshot(snapshot => {
         const offers = [];

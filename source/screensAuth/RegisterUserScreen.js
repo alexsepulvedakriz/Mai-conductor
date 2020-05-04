@@ -6,7 +6,7 @@ import { colors } from '../common/theme';
 import languageJSON from "../common/language";
 import stylesCommon from "../common/styles";
 import {Button, Input} from "react-native-elements";
-import {validateRut, validateConfPassword, validateEmail, validatePassword, validateText} from "../functions/validations";
+import {validateRut, validateConfPassword, validateEmail, validatePassword, validateText, messageErrorValidatePassword} from "../functions/validations";
 import {updateNewUserState} from "../actions/auth";
 
 var { width } = Dimensions.get('window');
@@ -33,7 +33,6 @@ class RegistrationUserScreen extends React.Component {
             email_valid: true,
             password_valid: true,
             cnf_pwd_valid: true,
-            photo_valid: true,
             pwdErrorMsg: ''
         }
     }
@@ -47,11 +46,21 @@ class RegistrationUserScreen extends React.Component {
         const passwordValid = validatePassword(this.props.auth.new_user.password);
         const cnfPwdValid = validateConfPassword(this.props.auth.new_user.password, this.state.confPassword);
         const rutValid = validateRut(this.props.auth.new_user.rut);
+        this.setState({
+            name_valid: nombreValid,
+            rut_valid: rutValid,
+            last_name_valid: apellidoValid,
+            movil_valid: movilValid,
+            email_valid: emailValid,
+            password_valid: passwordValid,
+            cnf_pwd_valid: cnfPwdValid,
+            pwdErrorMsg: messageErrorValidatePassword(this.props.auth.new_user.password)
+        });
+        console.log(messageErrorValidatePassword(this.props.auth.new_user.password));
         // validar las reglas, falta confirmar la foto
         if ( nombreValid && apellidoValid && emailValid && movilValid && passwordValid && cnfPwdValid && rutValid) {
             this.props.navigation.navigate('RegisterDriver');
         }
-        this.props.navigation.navigate('RegisterDriver');
     }
     render() {
         return (
@@ -73,7 +82,7 @@ class RegistrationUserScreen extends React.Component {
                                     value={this.props.auth.new_user.name}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({name: text})}}
+                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({name: text}); this.setState({name_valid : validateText(this.props.auth.new_user.name)});}}
                                     errorMessage={this.state.name_valid ? null : languageJSON.first_name_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
@@ -93,7 +102,7 @@ class RegistrationUserScreen extends React.Component {
                                     value={this.props.auth.new_user.last_name}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({last_name: text})}}
+                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({last_name: text}); this.setState({last_name_valid : validateText(this.props.auth.new_user.last_name)});}}
                                     errorMessage={this.state.last_name_valid ? null : languageJSON.last_name_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
@@ -113,7 +122,7 @@ class RegistrationUserScreen extends React.Component {
                                     value={this.props.auth.new_user.rut}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({rut: text})}}
+                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({rut: text}); this.setState({rut_valid : validateRut(this.props.auth.new_user.rut)}); }}
                                     errorMessage={this.state.rut_valid ? null : languageJSON.rut_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
@@ -133,7 +142,7 @@ class RegistrationUserScreen extends React.Component {
                                     value={this.props.auth.new_user.email}
                                     keyboardType={'email-address'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({email: text})}}
+                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({email: text});  this.setState({email_valid : validateEmail(this.props.auth.new_user.email)});}}
                                     errorMessage={this.state.email_valid ? null : languageJSON.valid_email_check}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
@@ -153,7 +162,7 @@ class RegistrationUserScreen extends React.Component {
                                     value={this.props.auth.new_user.movil}
                                     keyboardType={'number-pad'}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({movil: text})}}
+                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({movil: text}); this.setState({movil_valid : validateText(this.props.auth.new_user.movil)});}}
                                     errorMessage={this.state.movil_valid ? null : languageJSON.movil_no_blank_error}
                                     secureTextEntry={false}
                                     blurOnSubmit={true}
@@ -172,7 +181,7 @@ class RegistrationUserScreen extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.props.auth.new_user.password}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({password: text})}}
+                                    onChangeText={(text)=>{this.props.updateNewUserStateProps({password: text}); this.setState({password_valid : validatePassword(this.props.auth.new_user.password)})}}
                                     errorMessage={this.state.password_valid ? null : this.state.pwdErrorMsg}
                                     secureTextEntry
                                     blurOnSubmit={true}
@@ -191,11 +200,11 @@ class RegistrationUserScreen extends React.Component {
                                     placeholderTextColor={colors.WHITE}
                                     value={this.state.confPassword}
                                     inputStyle={stylesCommon.inputRegisterStyle}
-                                    onChangeText={(text)=>{this.setState({confPassword: text})}}
+                                    onChangeText={(text)=>{this.setState({confPassword: text}); this.setState({cnf_pwd_valid : validateConfPassword(this.state.confPassword, this.props.auth.new_user.password)});}}
                                     errorMessage={this.state.cnf_pwd_valid ? null : languageJSON.confirm_password_not_match_err}
                                     secureTextEntry
                                     blurOnSubmit={true}
-                                    onSubmitEditing={() => { this.setState({cnf_pwd_valid : validateConfPassword(this.state.confPassword)}); this.cnfPwdInput.focus() }}
+                                    onSubmitEditing={() => { this.setState({cnf_pwd_valid : validateConfPassword(this.state.confPassword, this.props.auth.new_user.password)}); this.cnfPwdInput.focus() }}
                                     errorStyle={stylesCommon.errorMessageStyle}
                                     containerStyle={stylesCommon.textInputRegister}
                                     rightIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}

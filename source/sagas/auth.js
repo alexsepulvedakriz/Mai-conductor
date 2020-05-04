@@ -21,16 +21,26 @@ import {offerCleanStore} from "../actions/offer";
 import {offersDriverCleanStore} from "../actions/offer_driver";
 import {tripCleanStore} from "../actions/trip";
 import {aboutCleanStore} from "../actions/about";
+import * as Random from 'expo-random';
+
+const generateUIDD = async () => {
+    const randomBytes = await Random.getRandomBytesAsync(8);
+    /* Some crypto operation... */
+    let id = 'file';
+    randomBytes.map( number => {
+        id = id + '-' + number;
+    });
+    return id;
+};
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.createUserWithEmailAndPassword(email, password)
         .then(authUser => authUser)
         .catch(error => error);
 
-const createUserWithFirestore = async (informacion, id) => {
-    delete informacion.password;
-    delete informacion.photo;
-    await  firestore.collection('pasajeros/' + id + '/perfil').doc(id).set(informacion)
+const createUserWithFirestore = async (user, id) => {
+    console.log('driver firestore');
+    await  firestore.collection('driver/' + id + '/profile').doc(id).set(user)
         .then(function() {
             console.log("Document successfully written!");
         })
@@ -39,16 +49,15 @@ const createUserWithFirestore = async (informacion, id) => {
         });
 }
 
-const uploadPhotoUserWithStorage = async (informacion, id) => {
-    const {photo} = informacion;
-    if(photo) {
-        const ref = storage.ref().child("images/riders" + id);
-        await ref.put(photo)
+const uploadFileUserWithStorage = async (file, id) => {
+    if(file) {
+        const ref = storage.ref().child("files/driver/" + id);
+        await ref.put(file)
             .then(function() {
-                console.log("Photo successfully uploaded!");
+                console.log("File suben!");
             })
             .catch(function(error) {
-                console.error("Error upload photo: ", error);
+                console.error("Error upload file: ", error);
             });
     }    else {
         console.log('error de carga: foto perfil');
@@ -72,14 +81,40 @@ const signOutRequest = async () =>
         .catch(error => error);
 
 function* createUserWithEmailPassword({payload}) {
-    const {email, password} = payload;
+    let id_base= yield call(generateUIDD);
+    const {new_user, new_driver, new_vehicle} = payload;
+    const document_new_user = {
+        ... new_user,
+        type_licence: new_driver.type_licence,
+        ref_photo_driver_licence: 'photo_driver_licence' + id_base,
+        ref_file_criminal_record: 'file_criminal_record' + id_base,
+        ref_photo_id_card: 'photo_id_card' + id_base,
+        ref_photo_driver: 'photo_driver' + id_base,
+        licence_plate: new_vehicle.licence_plate,
+        year: new_vehicle.year,
+        type: new_vehicle.type,
+        car_make: new_vehicle.car_make,
+        model: new_vehicle.model,
+        vehicle_roll: 'vehicle_roll' + id_base,
+        annotation_certificate: 'annotation_certificate' + id_base,
+        photo_authorization: 'photo_authorization' + id_base,
+        photo_vehicle: 'photo_vehicle' + id_base,
+        permission_to_circulate: 'permission_to_circulate' + id_base,
+    };
     try {
-        const signUpUser = yield call(createUserWithEmailPasswordRequest, email, password);
-        yield call(uploadPhotoUserWithStorage, payload, signUpUser.user.uid);
-        payload = {...payload, id_pasajero: signUpUser.user.uid, conductores_bloqueados: []};
-        yield call(createUserWithFirestore, payload, signUpUser.user.uid);
+        const sign_up_user = yield call(createUserWithEmailPasswordRequest, new_user.email, new_user.password);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_driver_licence' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'file_criminal_record' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_id_card' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_driver' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'vehicle_roll' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'annotation_certificate' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_authorization' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_vehicle' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'permission_to_circulate' + id_base);
+        yield call(createUserWithFirestore, document_new_user, sign_up_user.user.uid);
         yield put(userSignUpSuccess());
-        yield put(profileLoad(signUpUser.user.uid));
+        yield put(authCleanStore());
     } catch (error) {
         yield put(userSignUpFailed(error));
     }
