@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Modal} from 'react-native';
 import stylesCommon from '../common/styles';
 import {SmallMapComponent} from "../components";
-import {Header, ListItem, Rating} from "react-native-elements";
+import {Header, ListItem, Rating, Button} from "react-native-elements";
 import {colors} from "../common/theme";
 import  languageJSON  from '../common/language';
 
@@ -60,9 +60,9 @@ export default class RideDetailModal extends React.Component {
                         />
                     </View>
                     <View style={{marginHorizontal: 10}}>
-                        <Text style={stylesCommon.listItem}>{languageJSON.from + item.adress_from}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.to + item.adress_to}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.description + item.description}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.from + item.address_from}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.to + item.address_to}</Text>
+                        <Text style={stylesCommon.listItem}>{languageJSON.description}:  {item.description}</Text>
                         <Text style={stylesCommon.listItem}>{languageJSON.date +this.date(item.date)}</Text>
                         <Text style={stylesCommon.listItem}>{languageJSON.money +item.price}</Text>
                     </View>

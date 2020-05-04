@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Dimensions, Text} from 'react-native';
+import {View, Dimensions, Text, Button} from 'react-native';
 import { Avatar, Rating} from "react-native-elements";
 import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
@@ -7,6 +7,7 @@ import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
 import {HeaderComponent} from "../components";
 import {offersLoad} from "../actions/offer";
+import {DetailOfferModal} from "../modals";
 
 var { height, width } = Dimensions.get('window');
 
@@ -49,12 +50,15 @@ const mapDispatchToProps = dispatch => ({
 class OfferListScreen extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            showModalDetail: false,
+            item: null
+        }
     }
     componentWillMount() {
         this.props.offersLoadProps(this.props.auth.id_driver)
     }
     componentDidUpdate(prevProps, prevState, snapshot){
-        console.log(this.props.offer.offers);
     }
     listOffers(){
         if(this.props.offer.offers.length > 0){
@@ -64,8 +68,7 @@ class OfferListScreen extends React.Component {
                         this.props.offer.offers.map((item, i) => (
                             <View
                                 key={i}
-                                style={[ { flexDirection: 'row',
-                                    width: '100%',borderBottomWidth: 1, borderColor: colors.GREY.Deep_Nobel,}]}
+                                style={[ { flexDirection: 'row', width: '100%',borderBottomWidth: 1, borderColor: colors.GREY.Deep_Nobel,}]}
                             >
                                 <View style={{marginVertical: 10, marginHorizontal: 10}}>
                                     <Avatar
@@ -88,6 +91,9 @@ class OfferListScreen extends React.Component {
                                     <Text style={{fontSize: 18, color: 'black'}}>{item.address_to}</Text>
                                     <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>${item.price} {item.distance} km</Text>
                                 </View>
+                                <View>
+                                    <Button title={'l'} onPress={() => {this.setState({showModalDetail: true, item: item})}}/>
+                                </View>
                             </View>
                         ))
                     }
@@ -103,6 +109,7 @@ class OfferListScreen extends React.Component {
             <View>
                 <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={languageJSON.offer_list_header} type={'color'}/>
                 {this.listOffers()}
+                <DetailOfferModal modalVisible={this.state.showModalDetail} item={this.state.item} close={() => this.setState({showModalDetail: false, item: null})}/>
             </View>
         );
     }
