@@ -57,10 +57,10 @@ export default class MapComponent extends Component {
         }
         if (origen && destination){
             if(origen.latitude && destination.latitude){
-                region.latitude = ((origen.latitude + destination.latitude)/2)*(1 + (Math.abs(origen.latitude - destination.latitude))*2/200);
+                region.latitude = ((origen.latitude + destination.latitude)/2)*(1 + (Math.abs(origen.latitude - destination.latitude))*2/100);
                 region.longitude = (origen.longitude + destination.longitude)/2;
-                region.latitudeDelta = (Math.abs(origen.latitude - destination.latitude))*2;
-                region.longitudeDelta = (Math.abs(origen.longitude - destination.longitude))*2;
+                region.latitudeDelta = (Math.abs(origen.latitude - destination.latitude))*3;
+                region.longitudeDelta = (Math.abs(origen.longitude - destination.longitude))*3;
             }
         }
         return region;

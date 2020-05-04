@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Dimensions, Text, Button} from 'react-native';
+import {View, Dimensions, Text, Button, TouchableOpacity} from 'react-native';
 import { Avatar, Rating} from "react-native-elements";
 import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
@@ -7,44 +7,24 @@ import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
 import {HeaderComponent} from "../components";
 import {offersLoad} from "../actions/offer";
+import {offerDriverAdd} from "../actions/offer_driver";
+import {profileLoad} from "../actions/profile";
 import {DetailOfferModal} from "../modals";
 
 var { height, width } = Dimensions.get('window');
 
-const list = [
-    {
-        name: 'Amy Farha',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        subtitle: 'Vice President',
-        name_rider: 'Chris',
-        last_name_rider: 'Jackson',
-        price: '3000',
-        distance: '4',
-        review_rider: 5,
-        address_from: 'Santiago ventisqueros 500',
-        address_to: 'moneda 973 santiago',
-    },
-    {
-        name_rider: 'Chris',
-        last_name_rider: 'Jackson',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Vice Chairman',
-        address_from: 'Santiago',
-        address_to: 'Valparaiso',
-        price: '3000',
-        distance: '4',
-        review_rider: 5
-    },
-]
 
 const mapStateToProps = state => {
     return{
         auth: state.auth,
-        offer: state.offer
+        offer: state.offer,
+        profile: state.profile
     }
 }
 const mapDispatchToProps = dispatch => ({
-    offersLoadProps: (id_driver) => dispatch(offersLoad(id_driver))
+    offersLoadProps: (id_driver) => dispatch(offersLoad(id_driver)),
+    offerDriverAddProps: (offer_driver) => dispatch(offerDriverAdd(offer_driver)),
+    profileLoadProps: (id_driver) => dispatch(profileLoad(id_driver))
 });
 
 class OfferListScreen extends React.Component {
@@ -56,9 +36,26 @@ class OfferListScreen extends React.Component {
         }
     }
     componentWillMount() {
-        this.props.offersLoadProps(this.props.auth.id_driver)
+        this.props.profileLoadProps(this.props.auth.id_driver);
+        this.props.offersLoadProps(this.props.auth.id_driver);
     }
     componentDidUpdate(prevProps, prevState, snapshot){
+    }
+    addNewOfferDriver(offer){
+        const offer_driver = {
+            id_rider: offer.id_rider,
+            id_driver: this.props.profile.profile.id_driver,
+            last_name_driver: this.props.profile.profile.last_name_driver,
+            name_driver: this.props.profile.profile.name_driver,
+            ref_photo_driver: this.props.profile.profile.ref_photo_driver,
+            review_driver: this.props.profile.profile.review_driver,
+            longitude_driver: 0,
+            latitude_driver: 0,
+            price: offer.price,
+            time_to_arrive: offer.time_to_arrive,
+            accept: false,
+        }
+        this.props.offerDriverAddProps(offer_driver);
     }
     listOffers(){
         if(this.props.offer.offers.length > 0){
@@ -66,8 +63,9 @@ class OfferListScreen extends React.Component {
                 <View>
                     {
                         this.props.offer.offers.map((item, i) => (
-                            <View
+                            <TouchableOpacity
                                 key={i}
+                                onPress={() => {this.setState({showModalDetail: true, item: item})}}
                                 style={[ { flexDirection: 'row', width: '100%',borderBottomWidth: 1, borderColor: colors.GREY.Deep_Nobel,}]}
                             >
                                 <View style={{marginVertical: 10, marginHorizontal: 10}}>
@@ -91,10 +89,7 @@ class OfferListScreen extends React.Component {
                                     <Text style={{fontSize: 18, color: 'black'}}>{item.address_to}</Text>
                                     <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>${item.price} {item.distance} km</Text>
                                 </View>
-                                <View>
-                                    <Button title={'l'} onPress={() => {this.setState({showModalDetail: true, item: item})}}/>
-                                </View>
-                            </View>
+                            </TouchableOpacity>
                         ))
                     }
                 </View>
@@ -109,7 +104,12 @@ class OfferListScreen extends React.Component {
             <View>
                 <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={languageJSON.offer_list_header} type={'color'}/>
                 {this.listOffers()}
-                <DetailOfferModal modalVisible={this.state.showModalDetail} item={this.state.item} close={() => this.setState({showModalDetail: false, item: null})}/>
+                <DetailOfferModal
+                    modalVisible={this.state.showModalDetail}
+                    offerDriver={(offer) => {this.addNewOfferDriver(offer); this.setState({showModalDetail: false, item: null})}}
+                    item={this.state.item}
+                    close={() => this.setState({showModalDetail: false, item: null})}
+                />
             </View>
         );
     }

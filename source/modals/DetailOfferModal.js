@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
-import {Modal, View, StyleSheet, Text, Button} from 'react-native';
 import stylesCommon from "../common/styles";
 import languageJSON from "../common/language";
-import {Avatar, Header, ListItem, Rating} from "react-native-elements";
-import {SmallMapComponent} from "../components";
+import {StyleSheet, View, Dimensions, Text, TouchableHighlight, Modal} from 'react-native';
+import {Button, Card, Input, Header, Avatar, Rating} from 'react-native-elements';
+import {MapComponent, SmallMapComponent} from "../components";
 import {colors} from "../common/theme";
+import Collapsible from "react-native-collapsible";
+
+var { height, width } = Dimensions.get('window');
 
 export default class DetailOfferModal extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            cardCollapsible: false,
+            price: 0
+        }
+    }
+    sendOfferDriver(item){
+        const offerDriver = {
+            ... item,
+            price: (this.state.price + parseFloat(item.price))
+        };
+        this.props.offerDriver(offerDriver);
     }
     detailRender(item){
-        console.log(item);
         let region = {
             latitude: -33.4488897,
             longitude: -70.66926,
@@ -20,82 +33,127 @@ export default class DetailOfferModal extends Component {
         };
         if(item){
             return(
-                <View>
-                    <View style={{height: 200}}>
-                        <SmallMapComponent
+                <View style={[stylesCommon.columnSpaceBetween, {height: 500}]}>
+                    <View style={stylesCommon.backgroundMap}>
+                        <MapComponent
                             markerRef={marker => { this.marker = marker; }}
-                            mapStyle={stylesCommon.map}
-                            mapRegion={region}
+                            mapStyle={stylesCommon.map} mapRegion={region}
                             origen={{latitude: item.latitude_init, longitude: item.longitude_init}}
                             destination={{latitude: item.latitude_end, longitude: item.longitude_end}}
                             distance = {() => {}}
                         />
                     </View>
-                    <View style={{marginHorizontal: 10, marginVertical: 20}}>
-                        <ListItem
-                            title={'Tu viaje con ' + item.name_rider + ' ' + item.last_name_rider}
-                            subtitle={
-                                <View style={stylesCommon.rowSpaceBetween}>
-                                    <Text style={{fontSize:12, color: colors.GREY.btnPrimary}}> {item.vehicle}</Text>
-                                    <Rating
-                                        imageSize={12}
-                                        readonly
-                                        startingValue={item.review_rider}
-                                    />
-                                </View>
-                            }
-                            titleStyle={{fontSize:14, color: colors.GREY.iconSecondary}}
-                            containerStyle={{backgroundColor: 'transparent', margin: 0, padding: 0}}
-                            leftAvatar={{ source: {uri: item.ref_photo_rider} }}
-                        />
-                    </View>
-                    <View style={{marginHorizontal: 10}}>
-                        <Text style={stylesCommon.listItem}>{languageJSON.from + item.address_from}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.to + item.address_to}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.description}:  {item.description}</Text>
-                        <Text style={stylesCommon.listItem}>{languageJSON.money +item.price}</Text>
-                    </View>
-                    <View style={[ { flexDirection: 'row', justifyContent: 'space-between',marginHorizontal: 30, marginVertical: 10}]}>
-                        <Button
-                            title="- $200"
-                            titleStyle={{ fontWeight: '500' }}
-                            buttonStyle={{
-                                backgroundColor: '#d8d8d8',
-                                borderColor: 'transparent',
-                                borderWidth: 0,
-                                borderRadius: 10,
-                                paddingHorizontal:20
-                            }}
-                            onPress={()=> {}}
-                        />
-                        <Button
+                    <View>
+                        <Header
                             linearGradientProps={{
                                 colors: ['#245b84', '#3ea1c0'],
-                                start: [1, 0],
-                                end: [0.2, 0],
+                                start: [0, 1],
+                                end: [1, 1],
                             }}
-                            title={'$ ' + item.price}
-                            buttonStyle={{
-                                borderWidth: 0,
-                                borderRadius: 10,
-                                paddingHorizontal:20
-                            }}
-                        />
-                        <Button
-                            title="+ $200"
-                            titleStyle={{ fontWeight: '500' }}
-                            buttonStyle={{
-                                backgroundColor: '#d8d8d8',
-                                borderColor: 'transparent',
-                                borderWidth: 0,
-                                borderRadius: 10,
-                                paddingHorizontal:20
-                            }}
-                            onPress={()=> {}}
+                            centerComponent={<Text style={stylesCommon.headerTitleStyle}>{languageJSON.offer_detail}</Text>}
+                            containerStyle={stylesCommon.headerStyle}
+                            innerContainerStyles={{marginLeft:10, marginRight: 10}}
+                            leftComponent={{icon:'arrow-left', type:'font-awesome', color: 'white', onPress: ()=>{this.props.close();}}}
                         />
                     </View>
+                    <View>
+                        <TouchableHighlight onPress={() => {this.setState({cardCollapsible: !this.state.cardCollapsible});}} style={{width: '100%'}} underlayColor={'transparent'}>
+                            <Collapsible collapsed={this.state.cardCollapsible}
+                                         collapsedHeight={50}
+                            >
+                                <Card containerStyle={styles.cardWithMargin}>
+                                    <View style={stylesCommon.rowSpaceAround}>
+                                        <View
+                                            style={{ backgroundColor: 'transparent', borderTopWidth: 4, borderColor: colors.GREY.secondary, width: 60, marginVertical: 0}}
+                                        />
+                                    </View>
+                                    <View style={{ flexDirection: 'row', width: '100%', borderColor: colors.GREY.Deep_Nobel,}}>
+                                        <View style={{marginVertical: 10, marginHorizontal: 10}}>
+                                            <Avatar
+                                                source={{
+                                                    uri: item.ref_photo_rider,
+                                                }}
+                                                rounded
+                                                size={"medium"}
+                                            />
+                                            <Text style={{marginTop: 5, fontSize: 10, color: colors.GREY.iconSecondary, textAlign: 'center'}}>{item.name_rider}</Text>
+                                            <Rating
+                                                style={{marginVertical: 5}}
+                                                ratingCount={3}
+                                                imageSize={10}
+                                                readonly={true}
+                                            />
+                                        </View>
+                                        <View style={{marginVertical: 10, marginLeft: 5}}>
+                                            <Text style={{fontSize: 15, color: 'black'}}>{item.address_from}</Text>
+                                            <Text style={{fontSize: 15, color: 'black'}}>{item.address_to}</Text>
+                                            <Text style={{fontSize: 12, color: colors.GREY.iconSecondary}}>{item.duration} min {item.distance} km {item.type_truck}</Text>
+                                            <Text style={{fontSize: 12, color: colors.GREY.iconSecondary}}>{item.description}</Text>
+                                        </View>
+                                    </View>
+                                    <View>
+                                        <View style={stylesCommon.rowSpaceBetween}>
+                                            <Button
+                                                title="- $500"
+                                                titleStyle={{ fontWeight: '500' }}
+                                                linearGradientProps={{
+                                                    colors: ['#245b84', '#3ea1c0'],
+                                                    start: [1, 0],
+                                                    end: [0.2, 0],
+                                                }}
+                                                buttonStyle={{
+                                                    borderColor: 'transparent',
+                                                    borderWidth: 0,
+                                                    borderRadius: 10,
+                                                    paddingHorizontal:20
+                                                }}
+                                                onPress={() => {this.setState({price: this.state.price - 500})}}
+                                            />
+                                            <Button
+                                                linearGradientProps={{
+                                                    colors: ['#245b84', '#3ea1c0'],
+                                                    start: [1, 0],
+                                                    end: [0.2, 0],
+                                                }}
+                                                title={'Aceptar por  $' + (parseFloat(item.price) + this.state.price)}
+                                                buttonStyle={{
+                                                    borderWidth: 0,
+                                                    borderRadius: 10,
+                                                    paddingHorizontal:20
+                                                }}
+                                                onPress={() => {this.sendOfferDriver(item)}}
+                                            />
+                                            <Button
+                                                title="+ $500"
+                                                titleStyle={{ fontWeight: '500' }}
+                                                linearGradientProps={{
+                                                    colors: ['#245b84', '#3ea1c0'],
+                                                    start: [1, 0],
+                                                    end: [0.2, 0],
+                                                }}
+                                                buttonStyle={{
+                                                    borderColor: 'transparent',
+                                                    borderWidth: 0,
+                                                    borderRadius: 10,
+                                                    paddingHorizontal:20
+                                                }}
+                                                onPress={() => {this.setState({price: this.state.price + 500})}}
+                                            />
+                                        </View>
+                                        <View>
+                                            <Button
+                                                title={languageJSON.button_cancel}
+                                                titleStyle={{ fontWeight: '500' }}
+                                                buttonStyle={stylesCommon.buttonNegative}
+                                                onPress={()=>{this.props.close();}}
+                                            />
+                                        </View>
+                                    </View>
+                                </Card>
+                            </Collapsible>
+                        </TouchableHighlight>
+                    </View>
                 </View>
-                
             )
         }
     }
@@ -105,7 +163,6 @@ export default class DetailOfferModal extends Component {
         if(modalVisible){
             visible = true;
         }
-        console.log(item);
         return (
             <Modal
                 animationType="slide"
@@ -114,20 +171,7 @@ export default class DetailOfferModal extends Component {
                 transparent={false}
                 presentationStyle="fullScreen"
             >
-                <View>
-                    <Header
-                        linearGradientProps={{
-                            colors: ['#245b84', '#3ea1c0'],
-                            start: [0, 1],
-                            end: [1, 1],
-                        }}
-                        centerComponent={<Text style={stylesCommon.headerTitleStyle}>{languageJSON.offer_detail}</Text>}
-                        containerStyle={stylesCommon.headerStyle}
-                        innerContainerStyles={{marginLeft:10, marginRight: 10}}
-                        leftComponent={{icon:'arrow-left', type:'font-awesome', color: 'white', onPress: ()=>{this.props.close();}}}
-                    />
-                    {this.detailRender(item)}
-                </View>
+                {this.detailRender(item)}
             </Modal>
         )
     }
@@ -142,5 +186,40 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         padding: 10
-    }
+    },
+    cardWithMargin: {
+        borderWidth: 0, // Remove Border
+        shadowColor: 'rgba(0,0,0, 0.0)', // Remove Shadow IOS
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 0,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        width: width - 20,
+        marginHorizontal:10,
+        elevation: 0 // This is for Android
+    },
+    cardInside: {
+        borderWidth: 2, // Remove Border
+        shadowColor: 'black', // Remove Shadow IOS
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 0,
+        borderRadius: 20,
+        marginHorizontal: 0,
+        elevation: 0 // This is for Android
+    },
+    horizontalContent:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingEnd: 200
+    },
+    spaceHorizontal1:{
+        flex: 1.5,
+        alignItems:'center'
+    },
+    searchText:{
+        color: 'black',
+        fontFamily: 'Roboto-Regular',
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
 });
