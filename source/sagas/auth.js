@@ -40,7 +40,7 @@ const createUserWithEmailPasswordRequest = async (email, password) =>
 
 const createUserWithFirestore = async (user, id) => {
     console.log('driver firestore');
-    await  firestore.collection('driver/' + id + '/profile').doc(id).set(user)
+    await  firestore.collection('drivers/' + id + '/profile').doc(id).set(user)
         .then(function() {
             console.log("Document successfully written!");
         })
@@ -51,7 +51,7 @@ const createUserWithFirestore = async (user, id) => {
 
 const uploadFileUserWithStorage = async (file, id) => {
     if(file) {
-        const ref = storage.ref().child("files/driver/" + id);
+        const ref = storage.ref().child("files/drivers/" + id);
         await ref.put(file)
             .then(function() {
                 console.log("File suben!");
@@ -86,20 +86,20 @@ function* createUserWithEmailPassword({payload}) {
     const document_new_user = {
         ... new_user,
         type_licence: new_driver.type_licence,
-        ref_photo_driver_licence: 'photo_driver_licence' + id_base,
-        ref_file_criminal_record: 'file_criminal_record' + id_base,
-        ref_photo_id_card: 'photo_id_card' + id_base,
-        ref_photo_driver: 'photo_driver' + id_base,
+        ref_photo_driver_licence: 'photo_driver_licence-' + id_base,
+        ref_file_criminal_record: 'file_criminal_record-' + id_base,
+        ref_photo_id_card: 'photo_id_card-' + id_base,
+        ref_photo_driver: 'photo_driver-' + id_base,
         licence_plate: new_vehicle.licence_plate,
         year: new_vehicle.year,
         type: new_vehicle.type,
         car_make: new_vehicle.car_make,
         model: new_vehicle.model,
-        vehicle_roll: 'vehicle_roll' + id_base,
-        annotation_certificate: 'annotation_certificate' + id_base,
-        photo_authorization: 'photo_authorization' + id_base,
-        photo_vehicle: 'photo_vehicle' + id_base,
-        permission_to_circulate: 'permission_to_circulate' + id_base,
+        vehicle_roll: 'vehicle_roll-' + id_base,
+        annotation_certificate: 'annotation_certificate-' + id_base,
+        photo_authorization: 'photo_authorization-' + id_base,
+        photo_vehicle: 'photo_vehicle-' + id_base,
+        permission_to_circulate: 'permission_to_circulate-' + id_base,
     };
     try {
         const sign_up_user = yield call(createUserWithEmailPasswordRequest, new_user.email, new_user.password);

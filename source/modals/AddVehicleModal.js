@@ -5,6 +5,7 @@ import stylesCommon from "../common/styles";
 import languageJSON from "../common/language";
 import {colors} from "../common/theme";
 import {documentPicker} from '../functions/documentPicker';
+import {validateFile, validateText} from "../functions/validations";
 
 var { height, width } = Dimensions.get('window');
 
@@ -22,34 +23,64 @@ export default class AddVehicleModal extends Component {
             photo_vehicle: null,
             permission_to_circulate: null,
             model: '',
+            showErrorMessage: false
         }
     }
-
+    showErrorMessage(){
+        if(this.state.showErrorMessage){
+            return(
+                <Text style={{color: 'black', fontSize: 12}}>*Campo obligatorio</Text>
+            )
+        }
+    }
     addVehicle(){
-        this.props.addVehicle(
-            this.licence_plate,
-            this.year,
-            this.type,
-            this.car_make,
-            this.vehicle_roll,
-            this.annotation_certificate,
-            this.photo_authorization,
-            this.photo_vehicle,
-            this.permission_to_circulate,
-            this.model,
+        if(this.validateInputs()){
+            this.props.addVehicle(
+                this.licence_plate,
+                this.year,
+                this.type,
+                this.car_make,
+                this.vehicle_roll,
+                this.annotation_certificate,
+                this.photo_authorization,
+                this.photo_vehicle,
+                this.permission_to_circulate,
+                this.model,
             );
-        this.setState({
-            licence_plate: '',
-            year: '',
-            type: '',
-            car_make: '',
-            vehicle_roll: null,
-            annotation_certificate: null,
-            photo_authorization: null,
-            photo_vehicle: null,
-            permission_to_circulate: null,
-            model: null,
-        });
+            this.setState({
+                licence_plate: '',
+                year: '',
+                type: '',
+                car_make: '',
+                vehicle_roll: null,
+                annotation_certificate: null,
+                photo_authorization: null,
+                photo_vehicle: null,
+                permission_to_circulate: null,
+                model: null,
+                showErrorMessage: false
+            });
+        } else {
+            this.setState({
+                showErrorMessage: true
+            })
+        }
+    }
+    validateInputs(){
+        const licence_plate = validateText(this.state.licence_plate);
+        const year = validateText(this.state.licence_plate);
+        const type = validateText(this.state.licence_plate);
+        const vehicle_roll = validateFile(this.state.vehicle_roll);
+        const annotation_certificate = validateFile(this.state.annotation_certificate);
+        const photo_authorization = validateFile(this.state.photo_authorization);
+        const photo_vehicle = validateFile(this.state.photo_vehicle);
+        const permission_to_circulate = validateFile(this.state.permission_to_circulate);
+        const model = validateFile(this.state.model);
+        if ( licence_plate && year && type && vehicle_roll && annotation_certificate && photo_authorization && photo_vehicle && permission_to_circulate && model) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     render() {
@@ -88,6 +119,7 @@ export default class AddVehicleModal extends Component {
                             value={this.state.licence_plate}
                             onChangeText={(value) => {this.setState({ licence_plate: value})}}
                         />
+                        {this.showErrorMessage()}
                     </View>
                     <View style={{marginHorizontal: 20, marginTop: 10}}>
                         <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
@@ -99,6 +131,7 @@ export default class AddVehicleModal extends Component {
                             value={this.state.year}
                             onChangeText={(value) => {this.setState({ year: value})}}
                         />
+                        {this.showErrorMessage()}
                     </View>
                     <View style={{marginHorizontal: 20, marginTop: 10}}>
                         <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
@@ -115,6 +148,7 @@ export default class AddVehicleModal extends Component {
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
                             </Picker>
                         </View>
+                        {this.showErrorMessage()}
                     </View>
                     <View style={{marginHorizontal: 20, marginTop: 10}}>
                         <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
@@ -131,6 +165,7 @@ export default class AddVehicleModal extends Component {
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
                             </Picker>
                         </View>
+                        {this.showErrorMessage()}
                     </View>
                     <View style={{marginHorizontal: 20, marginTop: 10}}>
                         <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
@@ -147,6 +182,7 @@ export default class AddVehicleModal extends Component {
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
                             </Picker>
                         </View>
+                        {this.showErrorMessage()}
                     </View>
                     <Button
                         title={languageJSON.vehicle_roll}
@@ -161,6 +197,9 @@ export default class AddVehicleModal extends Component {
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
                     />
+                    <View style={{marginHorizontal: 20}}>
+                        {this.showErrorMessage()}
+                    </View>
                     <Button
                         title={languageJSON.annotation_certificate}
                         titleStyle={{ fontWeight: '500' }}
@@ -174,6 +213,9 @@ export default class AddVehicleModal extends Component {
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
                     />
+                    <View style={{marginHorizontal: 20}}>
+                        {this.showErrorMessage()}
+                    </View>
                     <Button
                         title={languageJSON.photo_authorization}
                         titleStyle={{ fontWeight: '500' }}
@@ -187,6 +229,9 @@ export default class AddVehicleModal extends Component {
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
                     />
+                    <View style={{marginHorizontal: 20}}>
+                        {this.showErrorMessage()}
+                    </View>
                     <Button
                         title={languageJSON.photo_vehicle}
                         titleStyle={{ fontWeight: '500' }}
@@ -200,6 +245,9 @@ export default class AddVehicleModal extends Component {
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
                     />
+                    <View style={{marginHorizontal: 20}}>
+                        {this.showErrorMessage()}
+                    </View>
                     <Button
                         title={languageJSON.permission_to_circulate}
                         titleStyle={{ fontWeight: '500' }}
@@ -213,6 +261,9 @@ export default class AddVehicleModal extends Component {
                         icon={{ type: 'font-awesome', name: 'file-image-o', color: 'white' }}
                         iconRight={true}
                     />
+                    <View style={{marginHorizontal: 20}}>
+                        {this.showErrorMessage()}
+                    </View>
                     <Button
                         title={languageJSON.add_vehicle}
                         titleStyle={{ fontWeight: '500' }}

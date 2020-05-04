@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Picker, ScrollView, Text, View} from 'react-native';
+import {Image, ScrollView, Text, View} from 'react-native';
 import {connect} from "react-redux";
 import {Background} from "../components";
 import stylesCommon from "../common/styles";
@@ -8,7 +8,7 @@ import {colors} from "../common/theme";
 import {Button, CheckBox} from "react-native-elements";
 import {AddVehicleModal, TermsAndConditions} from '../modals';
 import {updateNewVehicleState, userSignUp} from "../actions/auth";
-import {validateFile, validateText} from "../functions/validations";
+import {LoadOverlay} from "../overlays";
 
 
 const mapStateToProps = state => {
@@ -28,15 +28,22 @@ class RegistrationPage extends React.Component {
         this.state = {
             show_modal_terms_and_conditions: false,
             show_modal_add_vehicle: false,
-            accept_terms_and_conditions: false
+            accept_terms_and_conditions: false,
+            allow_add_vehicle: false
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
+        if(this.props.auth.sing_up_loaded){
+            alert(languageJSON.register_success);
+            this.props.navigation.navigate('Login');
+        }
+        if (this.props.auth.sing_up_error){
+            alert(languageJSON.register_fail);
+        }
     }
     validateInputs(){
-        const anyInformation = validateText(this.props.auth.new_vehicle.annotation_certificate);
         // validar las reglas, falta confirmar la foto
-        if ( this.state.accept_terms_and_conditions && anyInformation) {
+        if ( this.state.accept_terms_and_conditions && this.state.allow_add_vehicle) {
             this.props.userSignUpProps({new_user: this.props.auth.new_user, new_vehicle: this.props.auth.new_vehicle, new_driver: this.props.auth.new_driver })
         } else{
 
@@ -112,9 +119,10 @@ class RegistrationPage extends React.Component {
                 <AddVehicleModal
                     modalVisible={this.state.show_modal_add_vehicle}
                     close={() => this.setState({show_modal_add_vehicle: false})}
-                    addVehicle={(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model) => {this.setState({show_modal_add_vehicle: false});
+                    addVehicle={(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model) => {this.setState({show_modal_add_vehicle: false, allow_add_vehicle: true});
                         this.props.updateNewVehicleStateProps(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model)}}
                 />
+                <LoadOverlay message={languageJSON.register_loading} Visible={this.props.auth.sing_up_loading}/>
             </View>
         );
     }

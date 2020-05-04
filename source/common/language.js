@@ -6,6 +6,9 @@ export default {
     register_upload_id_card: 'Cedula de identidad',
     register_upload_photo_driver: 'Foto de conductor',
     register_add_new_vehicle: 'Agregar nuevo vehiculo',
+    register_loading: '',
+    register_success: 'Enviado correctamente, te llegara un correo informandote cuando tus datos sean revisados',
+    register_fail: '',
     // Headers
     offer_list_header: 'Inicio',
     payment_information_header: 'Informacion pagos',
