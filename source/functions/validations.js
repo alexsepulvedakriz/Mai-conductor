@@ -21,35 +21,26 @@ export const validateEmail= (arg) => {
 }
 // password validation
 export const validatePassword= (password) => {
-    const regx1 = /^([a-zA-Z0-9@*#]{8,15})$/
+    const regx1 = /^([a-zA-Z0-9@*#]{6,15})$/
     const regx2 = /(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/
-    const passwordValid1 = password.length >=1;
+    const passwordValid1 = password.length >0;
     const passwordValid2 = regx1.test(password);
     const passwordValid3 = regx2.test(password);
     return (passwordValid1 && passwordValid2 && passwordValid3 );
-/*    if(passwordValid1) {
-        return  languageJSON.password_blank_messege;
-    }
-    else if(passwordValid2) {
-        return languageJSON.password_alphaNumeric_check;
-    }
-    else if (passwordValid3) {
-        return languageJSON.password_complexity_check
-    }*/
 };
 export const messageErrorValidatePassword = (password) => {
-    const regx1 = /^([a-zA-Z0-9@*#]{8,15})$/
+    const regx1 = /^([a-zA-Z0-9@*#]{6,15})$/
     const regx2 = /(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/
-    const passwordValid1 = password.length === 0;
+    const passwordValid1 = password.length > 0;
     const passwordValid2 = regx1.test(password);
     const passwordValid3 = regx2.test(password);
-    if(passwordValid1) {
+    if(!passwordValid1) {
         return  languageJSON.password_blank_messege;
         }
-        else if(passwordValid2) {
+        else if(!passwordValid2) {
             return languageJSON.password_alphaNumeric_check;
         }
-        else if (passwordValid3) {
+        else if (!passwordValid3) {
             return languageJSON.password_complexity_check
         }
 }

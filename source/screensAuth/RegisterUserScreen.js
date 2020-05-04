@@ -56,7 +56,6 @@ class RegistrationUserScreen extends React.Component {
             cnf_pwd_valid: cnfPwdValid,
             pwdErrorMsg: messageErrorValidatePassword(this.props.auth.new_user.password)
         });
-        console.log(messageErrorValidatePassword(this.props.auth.new_user.password));
         // validar las reglas, falta confirmar la foto
         if ( nombreValid && apellidoValid && emailValid && movilValid && passwordValid && cnfPwdValid && rutValid) {
             this.props.navigation.navigate('RegisterDriver');

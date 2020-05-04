@@ -30,7 +30,7 @@ class RegistrationPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            showTutorial: true
+            showErrorMessage: false
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
@@ -39,13 +39,22 @@ class RegistrationPage extends React.Component {
         const typeLicence = validateText(this.props.auth.new_driver.type_licence);
         const photoDriverLicence = validateFile(this.props.auth.new_driver.photo_driver_licence);
         const fileCriminalRecord = validateFile(this.props.auth.new_driver.file_criminal_record);
-        const idCard = validateFile(this.props.auth.new_user.photo_id_card);
-        const photoDriver = validateFile(this.props.auth.new_user.photo_driver);
+        const idCard = validateFile(this.props.auth.new_driver.photo_id_card);
+        const photoDriver = validateFile(this.props.auth.new_driver.photo_driver);
         // validar las reglas, falta confirmar la foto
+        console.log(typeLicence, photoDriverLicence, photoDriver, fileCriminalRecord, idCard);
         if ( typeLicence && photoDriverLicence && photoDriver && fileCriminalRecord && idCard) {
             this.props.navigation.navigate('RegisterVehicle');
-        } else{
-
+            this.setState({showErrorMessage: false})
+        } else {
+            this.setState({showErrorMessage: true})
+        }
+    }
+    showErrorMessage(){
+        if(this.state.showErrorMessage){
+            return(
+                <Text style={{color: 'white', fontSize: 12}}>*Campo obligatorio</Text>
+            )
         }
     }
     render() {
@@ -69,6 +78,7 @@ class RegistrationPage extends React.Component {
                                     <Picker.Item label={'C'}  value={'c'} />
                                     <Picker.Item label={'A5'}  value={'a5'} />
                                 </Picker>
+                                {this.showErrorMessage()}
                             </View>
                             <View >
                                 <Button
@@ -79,7 +89,7 @@ class RegistrationPage extends React.Component {
                                     icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
                                     iconRight={true}
                                 />
-                                <Text>Campo obligatorio</Text>
+                                {this.showErrorMessage()}
                             </View>
                             <View >
                                 <Button
@@ -90,16 +100,18 @@ class RegistrationPage extends React.Component {
                                     icon={{ type: 'font-awesome', name: 'file-pdf-o', color: 'white' }}
                                     iconRight={true}
                                 />
+                                {this.showErrorMessage()}
                             </View>
                             <View >
                                 <Button
-                                    onPress={() => documentPicker().then(res => this.props.updateNewDriverStateProps({photo_id_card: res}))}
+                                    onPress={() => documentPicker().then(res => {this.props.updateNewDriverStateProps({photo_id_card: res}); console.log('res')})}
                                     title={languageJSON.register_upload_id_card}
                                     titleStyle={stylesCommon.buttonRegisterTitle}
                                     buttonStyle={stylesCommon.buttonRegisterInput}
                                     icon={{ type: 'font-awesome', name: 'file-pdf-o', color: 'white' }}
                                     iconRight={true}
                                 />
+                                {this.showErrorMessage()}
                             </View>
                             <View >
                                 <Button
@@ -110,6 +122,7 @@ class RegistrationPage extends React.Component {
                                     icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
                                     iconRight={true}
                                 />
+                                {this.showErrorMessage()}
                             </View>
                             <View>
                                 <Button
