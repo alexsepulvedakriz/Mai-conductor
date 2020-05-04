@@ -64,7 +64,8 @@ const initialState = {
     sing_out_loaded: false,
     new_user: new_user,
     new_driver: new_driver,
-    new_vehicle: new_vehicle
+    new_vehicle: new_vehicle,
+    id_driver: '',
 }
 
 export const auth = (state = initialState, action) => {
@@ -75,7 +76,7 @@ export const auth = (state = initialState, action) => {
         case SIGN_UP_USER_SUCCESS: {return {...state, sing_up_loading: false, sing_up_loaded: true, sing_up_error: false }}
         // sign in
         case SIGN_IN_USER: {return {...state, sing_in_loading: true, sing_in_loaded: false, sing_in_error: false }}
-        case SIGN_IN_USER_SUCCESS: {return {...state, sing_in_loading: false, sing_in_loaded: true, sing_in_error: false }}
+        case SIGN_IN_USER_SUCCESS: {return {...state, sing_in_loading: false, sing_in_loaded: true, sing_in_error: false, id_driver: action.payload}}
         case SIGN_IN_USER_FAILED: {return {...state, sing_in_loading: false, sing_in_loaded: false, sing_in_error: true}}
         // sign out
         case SIGN_OUT_USER: {return {...state, sing_out_loading: true, sing_out_loaded: false}}

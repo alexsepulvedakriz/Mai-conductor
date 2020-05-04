@@ -17,7 +17,8 @@ const mapDispatchToProps = dispatch => ({
     signIn: (credentials) => dispatch(userSignIn(credentials)),
     resettingPassword: (email) => dispatch(resettingPassword(email)),
     hideResetPassword: () => dispatch(hideModalResetPassword()),
-    showResetPassword: () => dispatch(showModalResetPassword())
+    showResetPassword: () => dispatch(showModalResetPassword()),
+
 });
 
 

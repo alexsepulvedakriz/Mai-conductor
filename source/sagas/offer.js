@@ -11,6 +11,7 @@ const loadOffersFirestore  = (id_driver) => eventChannel(emitter => {
         snapshot.forEach((change) => {
             offers.push({...change.data(), id_offer: change.id, id_driver: id_driver});
         });
+        console.log(offers);
         emitter({
             data: offers
         })
@@ -20,10 +21,9 @@ const loadOffersFirestore  = (id_driver) => eventChannel(emitter => {
 
 function* loadOffers({payload}) {
     try {
-        const {id_driver} = payload;
-        const loadChannel = loadOffersFirestore(id_driver);
+        const loadChannel = loadOffersFirestore(payload);
         yield takeEvery(loadChannel, function*(action) {
-            yield put(offersLoaded({offers: action.data}));
+            yield put(offersLoaded(action.data));
         });
         yield take(OFFERS_STOP_LISTEN_lOAD);
         loadChannel.close();
