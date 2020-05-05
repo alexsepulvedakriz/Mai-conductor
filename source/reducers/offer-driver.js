@@ -23,11 +23,11 @@ const initialState = {
 export const offer_driver = (state = initialState, action) => {
     switch (action.type) {
         case OFFER_DRIVER_ADD: {return {...state, adding: true, added: false, error_add: false}}
-        case OFFER_DRIVER_ADDED: {return {...state, adding: true, added: false, error_add: false}}
-        case OFFER_DRIVER_ADD_FAIL: {return {...state, adding: true, added: false, error_add: false}}
+        case OFFER_DRIVER_ADDED: {return {...state, adding: false, added: true, error_add: false}}
+        case OFFER_DRIVER_ADD_FAIL: {return {...state, adding: false, added: false, error_add: true}}
         case OFFER_DRIVER_UPDATE: {return {...state, updating: true, updated: false, error_update: false, offers_driver: action.payload}}
-        case OFFER_DRIVER_UPDATED: {return {...state, updating: true, updated: false, error_update: false}}
-        case OFFER_DRIVER_UPDATE_FAIL: {return {...state, updating: true, updated: false, error_update: false}}
+        case OFFER_DRIVER_UPDATED: {return {...state, updating: false, updated: true, error_update: false}}
+        case OFFER_DRIVER_UPDATE_FAIL: {return {...state, updating: false, updated: false, error_update: true}}
         case OFFER_DRIVER_CLEAN: {return initialState}
         default:
             return state;

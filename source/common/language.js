@@ -1,4 +1,6 @@
 export default {
+    // Offer Driver
+    adding_offer_driver: 'Enviando la oferta',
     // Register
     register_upload_type_licence: 'Tipo de licencia',
     register_upload_driver_licence: 'Licencia de conducir',
@@ -44,12 +46,14 @@ export default {
     tutorial_money_subtitle: 'Ingrese la ruta y configure su tarifa, se la ofrecemos a los conductores',
     tutorial_fast_subtitle: 'Las solicitudes de transporte se ofrecen a los conductores cercanos',
     tutorial_offer_subtitle: 'Descarga la aplicacion para conductores',
-    // Vieja
+    // Viaje
     from: 'De:',
     to: 'A: ',
     driver: 'Tu viaje con',
     money: 'CLP $',
     date: 'Fecha ',
+    arrived: 'He llegado',
+    finish: 'Terminar Viaje',
     // Modals
     send_offer: 'Enviando oferta a conductores',
     accept_offer_driver: 'Esperando oferta de conductores',

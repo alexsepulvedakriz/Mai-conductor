@@ -11,7 +11,6 @@ const loadOffersFirestore  = (id_driver) => eventChannel(emitter => {
         snapshot.forEach((change) => {
             offers.push({...change.data(), id_offer: change.id, id_driver: id_driver});
         });
-        console.log(offers);
         emitter({
             data: offers
         })

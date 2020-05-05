@@ -217,4 +217,15 @@ export default StyleSheet.create({
         elevation: 0, // This is for Android
         bottom: 0
     },
+    cardWithMargin: {
+        borderWidth: 0, // Remove Border
+        shadowColor: 'rgba(0,0,0, 0.0)', // Remove Shadow IOS
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 0,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        width: width - 20,
+        marginHorizontal:10,
+        elevation: 0 // This is for Android
+    },
 });

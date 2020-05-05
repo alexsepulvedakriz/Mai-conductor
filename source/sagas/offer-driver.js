@@ -6,10 +6,11 @@ import {offerDriverAdded, offerDriverAddFail} from "../actions/offer_driver";
 
 
 const setOfferFirestore  = (offer_driver) => eventChannel(emitter => {
-    const { id_driver: id_driver} = offer_driver;
-    firestore.collection('drivers/' + id_driver + '/offers-drivers').doc(id_driver).set(offer_driver)
+    const { id_driver } = offer_driver;
+    firestore.collection('drivers/' + id_driver + '/offers-drivers').doc().set(offer_driver)
         .then(_=> {emitter({
             data: {cambiado: true}})})
+        console.log('cambiado')
         .catch( error => {
             console.log(error);
             emitter({

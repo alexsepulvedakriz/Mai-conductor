@@ -10,6 +10,7 @@ import {offersLoad} from "../actions/offer";
 import {offerDriverAdd} from "../actions/offer_driver";
 import {profileLoad} from "../actions/profile";
 import {DetailOfferModal} from "../modals";
+import {LoadOverlay} from "../overlays";
 
 var { height, width } = Dimensions.get('window');
 
@@ -18,7 +19,8 @@ const mapStateToProps = state => {
     return{
         auth: state.auth,
         offer: state.offer,
-        profile: state.profile
+        profile: state.profile,
+        offer_driver: state.offer_driver
     }
 }
 const mapDispatchToProps = dispatch => ({
@@ -45,16 +47,16 @@ class OfferListScreen extends React.Component {
         const offer_driver = {
             id_rider: offer.id_rider,
             id_driver: this.props.profile.profile.id_driver,
-            last_name_driver: this.props.profile.profile.last_name_driver,
-            name_driver: this.props.profile.profile.name_driver,
-            ref_photo_driver: this.props.profile.profile.ref_photo_driver,
-            review_driver: this.props.profile.profile.review_driver,
+            last_name_driver: this.props.profile.profile.last_name,
+            name_driver: this.props.profile.profile.name,
+            ref_photo_driver: this.props.profile.profile.ref_photo,
+            review_driver: this.props.profile.profile.review,
             longitude_driver: 0,
             latitude_driver: 0,
             price: offer.price,
             time_to_arrive: offer.time_to_arrive,
             accept: false,
-        }
+        };
         this.props.offerDriverAddProps(offer_driver);
     }
     listOffers(){
@@ -110,6 +112,7 @@ class OfferListScreen extends React.Component {
                     item={this.state.item}
                     close={() => this.setState({showModalDetail: false, item: null})}
                 />
+                <LoadOverlay Visible={this.props.offer_driver.adding} message={languageJSON.adding_offer_driver}/>
             </View>
         );
     }

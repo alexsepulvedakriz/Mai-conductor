@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import stylesCommon from "../common/styles";
 import languageJSON from "../common/language";
 import {StyleSheet, View, Dimensions, Text, TouchableHighlight, Modal} from 'react-native';
-import {Button, Card, Input, Header, Avatar, Rating} from 'react-native-elements';
-import {MapComponent, SmallMapComponent} from "../components";
+import {Button, Card, Header, Avatar, Rating} from 'react-native-elements';
+import {MapComponent} from "../components";
 import {colors} from "../common/theme";
 import Collapsible from "react-native-collapsible";
 
@@ -14,13 +14,15 @@ export default class DetailOfferModal extends Component {
         super(props);
         this.state = {
             cardCollapsible: false,
-            price: 0
+            price: 0,
+            time_to_arrive: 0
         }
     }
     sendOfferDriver(item){
         const offerDriver = {
             ... item,
-            price: (this.state.price + parseFloat(item.price))
+            price: (this.state.price + parseFloat(item.price)),
+            time_to_arrive: this.state.time_to_arrive
         };
         this.props.offerDriver(offerDriver);
     }

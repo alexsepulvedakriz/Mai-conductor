@@ -31,8 +31,9 @@ const loadTripCurrencyFirestore  = (id_driver) => eventChannel(emitter => {
 });
 
 const updateTripFirestore  = (Trip) => eventChannel(emitter => {
-        const { id_driver, id_viaje} = Trip;
-        firestore.collection('drivers/' + id_driver + '/trips').doc(id_viaje).update(Trip)
+        const { id_driver, id_trip} = Trip;
+        console.log('llego');
+        firestore.collection('drivers/' + id_driver + '/trips').doc(id_trip).update(Trip)
             .then(_=> {emitter({
                 data: {cambiado: true}})})
             .catch( error => {
@@ -70,8 +71,7 @@ function* finishTrip({payload}) {
 
 function* loadTrip({payload}) {
     try {
-        const {id_driver} = payload;
-        const todosChannel = loadTripFirestore(id_driver);
+        const todosChannel = loadTripFirestore(payload);
         yield takeEvery(todosChannel, function*(action) {
             yield put(tripLoaded({trips: action.data}));
         });

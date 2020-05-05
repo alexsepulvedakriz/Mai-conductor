@@ -4,23 +4,24 @@ import {Button, Card, ListItem, Rating, Input} from 'react-native-elements';
 import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
 import { connect } from 'react-redux';
-import {MapComponent, HeaderComponent} from '../components';
-import {AcceptOrCancelOverlay, EvaluatingTripOverlay,LoadOverlay, AccidentOverlay,} from '../overlays'
+import {MapComponent, HeaderComponent, HeaderArriveComponent, HeaderTripComponent} from '../components';
+import {AcceptOrCancelOverlay,LoadOverlay,} from '../overlays'
 import  languageJSON  from '../common/language';
-import {tripUpdate, tripFinish} from "../actions/trip";
+import {tripUpdate, tripFinish, tripCurrencyLoad} from "../actions/trip";
 import Collapsible from "react-native-collapsible";
+import {_pressCall, simpleTimer} from "../functions/others";
 
 var { height, width } = Dimensions.get('window');
 
 const mapStateToProps = state => {
     return{
         trip: state.trip,
-        modal: state.modal
+        auth: state.auth,
     }
-}
+};
 const mapDispatchToProps = dispatch => ({
-    // para cambiar el precio y para cancelar la oferta
-    tripUpdate: (trip) => dispatch(tripUpdate(trip)),
+    tripCurrencyLoadProps: (id_driver) => dispatch(tripCurrencyLoad(id_driver)),
+    tripUpdateProps: (trip) => dispatch(tripUpdate(trip)),
     endTrip: (info) => dispatch(tripFinish(info))
 });
 
@@ -33,7 +34,8 @@ class TripScreen extends React.Component {
         }
     }
     componentWillMount() {
-        this.simpleTimer().then( _ => {
+        this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
+        simpleTimer().then( _ => {
             this.setState({cardCollapsible: false});
         });
     }
@@ -42,39 +44,48 @@ class TripScreen extends React.Component {
             this.props.navigation.navigate('OfferList');
         }
     }
-    simpleTimer() {
-        var promise = new Promise(function(resolve, reject) {
-            setTimeout(function(){ resolve(); }, 2000);
-        });
-        return promise;
+    typeHeader(){
+        if(this.props.trip.currencyTrip.on_rute){
+            return(
+                <HeaderTripComponent cancel={() => {this.setState({overlayCancel: true})}} arrived={this.props.trip.currencyTrip.on_rute}/>
+            )
+        } else {
+            return(
+                <HeaderArriveComponent cancel={() => {this.setState({overlayCancel: true})}} arrived={this.props.trip.currencyTrip.on_rute}/>
+            )
+        }
     }
-    tripEvaluate(object){
-        const {id_pasajero, id_viaje} = this.props.trip.currencyTrip;
-        const tripData = {...object, id_pasajero: id_pasajero, id_viaje: id_viaje, evaluando: false, activo: false};
-        this.props.endTrip(tripData);
-    }
-    // phone
-    _pressCall=()=>{
-        const url= 'tel:' + this.props.trip.currencyTrip.movil_conductor;
-        Linking.openURL(url)
-    }
-    // Contra ofertas
-    comeBackOffer() {
-        this.props.navigation.navigate('DataPackage');
-    }
-    tripOncourse(){
-        if(this.props.trip.currencyTrip) {
-            if(this.props.trip.currencyTrip.en_curso){
-            } else {
-                return(
-                    <Button
-                        title={languageJSON.cancel_button}
-                        titleStyle={{ fontWeight: '500' }}
-                        buttonStyle={stylesCommon.buttonNegative}
-                        onPress={() => {this.setState({overlayCancel: true})}}
-                    />
-                )
-            }
+    typeButton(){
+        if(this.props.trip.currencyTrip.on_rute){
+            return(
+                <Button
+                    title={languageJSON.finish}
+                    titleStyle={{ fontWeight: '500' }}
+                    linearGradientProps={{
+                        colors: ['#245b84', '#3ea1c0'],
+                        start: [1, 0],
+                        end: [0.2, 0],
+                    }}
+                    loading={this.props.trip.updating}
+                    buttonStyle={stylesCommon.buttonPositive}
+                    onPress={() => {this.props.tripUpdateProps({id_trip: this.props.trip.currencyTrip.id_trip, id_driver: this.props.trip.currencyTrip.id_driver, to_arrive: false, on_rute: true})}}
+                />
+            )
+        } else {
+            return(
+                <Button
+                    title={languageJSON.arrived}
+                    titleStyle={{ fontWeight: '500' }}
+                    linearGradientProps={{
+                        colors: ['#245b84', '#3ea1c0'],
+                        start: [1, 0],
+                        end: [0.2, 0],
+                    }}
+                    loading={this.props.trip.updating}
+                    buttonStyle={stylesCommon.buttonPositive}
+                    onPress={() => {this.props.tripUpdateProps({id_trip: this.props.trip.currencyTrip.id_trip, id_driver: this.props.trip.currencyTrip.id_driver, to_arrive: false, on_rute: true})}}
+                />
+            )
         }
     }
     cardWaitOrLoaded(){
@@ -84,7 +95,7 @@ class TripScreen extends React.Component {
                     <TouchableHighlight onPress={() => {this.setState({cardCollapsible: !this.state.cardCollapsible});}} style={{width: '100%'}} underlayColor={'transparent'}>
                         <Collapsible collapsed={this.state.cardCollapsible}
                                      collapsedHeight={50}>
-                            <Card containerStyle={styles.cardWithMargin}>
+                            <Card containerStyle={stylesCommon.cardWithMargin}>
                                 <View style={stylesCommon.rowSpaceAround}>
                                     <View
                                         style={{ backgroundColor: 'transparent', borderTopWidth: 4, borderColor: colors.GREY.secondary, width: 60, marginVertical: 0}}
@@ -117,7 +128,7 @@ class TripScreen extends React.Component {
                                                         marginHorizontal:5,
                                                         borderRadius: 10,
                                                     }}
-                                                    onPress={this._pressCall}
+                                                    onPress={() =>{_pressCall(this.props.trip.currencyTrip.movil_conductor)}}
                                                 />
                                                 <Button
                                                     icon={{
@@ -137,11 +148,12 @@ class TripScreen extends React.Component {
                                             </View>
                                         }
                                         leftAvatar={{ source: {uri: this.props.trip.currencyTrip.ref_photo_rider}, size: 60 }}
+                                        style={{margin: 0}}
                                     />
                                     <View style={stylesCommon.rowSpaceAround}>
                                         <Input
                                             placeholder='Desde'
-                                            value={this.props.trip.currencyTrip.adress_from}
+                                            value={this.props.trip.currencyTrip.address_from}
                                             inputStyle={{
                                                 color: 'black',
                                                 paddingLeft: 10,
@@ -160,7 +172,7 @@ class TripScreen extends React.Component {
                                     <View style={stylesCommon.rowSpaceAround}>
                                         <Input
                                             placeholder='  Hasta'
-                                            value={this.props.trip.currencyTrip.adress_to}
+                                            value={this.props.trip.currencyTrip.address_to}
                                             inputStyle={{
                                                 color: 'black',
                                                 paddingLeft: 10,
@@ -176,8 +188,8 @@ class TripScreen extends React.Component {
                                             }}
                                         />
                                     </View>
-                                    <View style={{marginTop:10}}>
-                                        {this.tripOncourse()}
+                                    <View>
+                                        {this.typeButton()}
                                     </View>
                                 </View>
                             </Card>
@@ -195,7 +207,7 @@ class TripScreen extends React.Component {
                 longitudeDelta: 0.0421,
         };
         if(this.props.trip.loaded && this.props.trip.currencyTrip){
-            const nearbyMarkers =  [{latitude: this.props.trip.currencyTrip.latitude_conductor, longitude: this.props.trip.currencyTrip.longitude_conductor}];
+            const nearbyMarkers =  [{latitude: this.props.trip.currencyTrip.latitude_driver, longitude: this.props.trip.currencyTrip.longitude_driver}];
             return(
                 <View style={stylesCommon.backgroundMap}>
                     <MapComponent
@@ -203,8 +215,8 @@ class TripScreen extends React.Component {
                         mapStyle={stylesCommon.map}
                         mapRegion={region}
                         nearby = {nearbyMarkers}
-                        origen={{latitude: this.props.trip.currencyTrip.latitude_inicio, longitude: this.props.trip.currencyTrip.longitude_inicio}}
-                        destination={{latitude: this.props.trip.currencyTrip.latitude_fin, longitude: this.props.trip.currencyTrip.longitude_fin}}
+                        origen={{latitude: this.props.trip.currencyTrip.latitude_init, longitude: this.props.trip.currencyTrip.longitude_init}}
+                        destination={{latitude: this.props.trip.currencyTrip.latitude_end, longitude: this.props.trip.currencyTrip.longitude_end}}
                         distance = {() => {}}
                     />
                 </View>
@@ -228,11 +240,9 @@ class TripScreen extends React.Component {
         return (
             <View style={stylesCommon.columnSpaceBetween}>
                 {this.mapWaitOrLoaded()}
-                <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={'Viaje en curso'} type={'color'}/>
+                {this.typeHeader()}
                 {this.cardWaitOrLoaded()}
                 <LoadOverlay Visible={this.props.trip.end} message={languageJSON.end_trip}/>
-                <EvaluatingTripOverlay currencyTrip={this.props.trip.currencyTrip} tripUpdate={(info) => {this.tripEvaluate(info)}}/>
-                <AccidentOverlay currencyTrip={this.props.trip.currencyTrip} accept={() =>{this.endTrip({activo: false})}} />
                 <AcceptOrCancelOverlay visible={this.state.overlayCancel} message={'Esta seguro que quiere cancelar viaje?'} accept={() => {this.setState({overlayCancel: false}); this.endTrip({activo: false, cancelado: true})}} cancel={() => {this.setState({overlayCancel: false})}}/>
             </View>
         );
@@ -240,41 +250,3 @@ class TripScreen extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripScreen);
-
-const styles = StyleSheet.create({
-    cardWithMargin: {
-        borderWidth: 0, // Remove Border
-        shadowColor: 'rgba(0,0,0, 0.0)', // Remove Shadow IOS
-        shadowOffset: {height: 0, width: 0},
-        shadowOpacity: 0,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        width: width - 20,
-        marginHorizontal:10,
-        elevation: 0 // This is for Android
-    },
-    cardInside: {
-        borderWidth: 2, // Remove Border
-        shadowColor: 'black', // Remove Shadow IOS
-        shadowOffset: {height: 0, width: 0},
-        shadowOpacity: 0,
-        borderRadius: 20,
-        marginHorizontal: 0,
-        elevation: 0 // This is for Android
-    },
-    horizontalContent:{
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingEnd: 200
-    },
-    spaceHorizontal1:{
-        flex: 1.5,
-        alignItems:'center'
-    },
-    searchText:{
-        color: 'black',
-        fontFamily: 'Roboto-Regular',
-        fontSize: 14,
-        fontWeight: 'bold'
-    },
-});

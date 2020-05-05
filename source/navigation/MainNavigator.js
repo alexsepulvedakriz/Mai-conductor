@@ -131,6 +131,10 @@ import SideMenu from '../components/SideMenu';
         'Vehicles': {
             name: 'Vehicles',
             screen: createStackNavigator(AppStack, { initialRouteName: 'Vehicles', headerMode: 'none' })
+        },
+        'Trip': {
+            name: 'Trip',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'Trip', headerMode: 'none' })
         }
     };
 
@@ -139,7 +143,7 @@ import SideMenu from '../components/SideMenu';
         DrawerRoutes,
         {
         drawerWidth: 300,
-        initialRouteName:'OfferList',
+        initialRouteName:'Trip',
         contentComponent: SideMenu,
       });
 

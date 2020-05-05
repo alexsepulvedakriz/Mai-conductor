@@ -14,11 +14,13 @@ export default class MapComponent extends Component {
 
     markerOrigen(markerRef, origen) {
         if(origen){
+            const latInit = parseFloat(origen.latitude);
+            const longInit = parseFloat(origen.longitude);
             if(origen.longitude) {
                 return(
                     <Marker.Animated
                         ref={markerRef}
-                        coordinate={origen}
+                        coordinate={{latitude: latInit, longitude: longInit}}
                     />
                 )
             }
@@ -26,41 +28,47 @@ export default class MapComponent extends Component {
     }
     markerDestination(markerRef, destination) {
         if(destination){
+            const latEnd = parseFloat(destination.latitude);
+            const longEnd = parseFloat(destination.longitude);
             if(destination.longitude){
                 return(
                     <Marker.Animated
                         ref={markerRef}
-                        coordinate={destination}
+                        coordinate={{latitude: latEnd, longitude: longEnd}}
                     />
                 )
             }
         }
     }
     defineRegion(mapRegion, origen, destination){
+        const latInit = parseFloat(origen.latitude);
+        const latEnd = parseFloat(destination.latitude);
+        const longInit = parseFloat(origen.longitude);
+        const longEnd = parseFloat(destination.longitude);
         const region = {
-            latitude: mapRegion.latitude*1.0008,
+            latitude: mapRegion.latitude,
             longitude: mapRegion.longitude,
             latitudeDelta: mapRegion.latitudeDelta,
             longitudeDelta: mapRegion.longitudeDelta,
         };
         if (origen){
-            if(origen.latitude){
-                region.latitude = origen.latitude*1.0008;
-                region.longitude = origen.longitude;
+            if(latInit){
+                region.latitude = latInit*1.0008;
+                region.longitude = longInit;
             }
         }
         if ( destination){
-            if(destination.latitude){
-                region.latitude = destination.latitude*1.0008;
-                region.longitude = destination.longitude;
+            if(latEnd){
+                region.latitude = latEnd*1.0008;
+                region.longitude = longEnd;
             }
         }
         if (origen && destination){
-            if(origen.latitude && destination.latitude){
-                region.latitude = ((origen.latitude + destination.latitude)/2)*(1 + (Math.abs(origen.latitude - destination.latitude))*2/100);
-                region.longitude = (origen.longitude + destination.longitude)/2;
-                region.latitudeDelta = (Math.abs(origen.latitude - destination.latitude))*3;
-                region.longitudeDelta = (Math.abs(origen.longitude - destination.longitude))*3;
+            if(latInit && latEnd){
+                region.latitude = ((latInit + latEnd)/2)*(1 + (Math.abs(origen.latitude - destination.latitude))*2/50);
+                region.longitude = (longInit + longEnd)/2;
+                region.latitudeDelta = (Math.abs(latInit - latEnd))*3;
+                region.longitudeDelta = (Math.abs(longInit - longEnd))*3;
             }
         }
         return region;
@@ -101,7 +109,7 @@ export default class MapComponent extends Component {
              {nearby?nearby.map((item,index)=>{
                 return (
                     <Marker.Animated
-                    coordinate={{latitude: item.latitude, longitude: item.longitude}}
+                    coordinate={{latitude:  parseFloat(item.latitude), longitude:  parseFloat(item.longitude)}}
                     key = {index}
                     image={require('../../assets/images/available_car.png')}
                     />

@@ -17,7 +17,10 @@ const initialState = {
     trips: [],
     currencyTrip: null,
     ended: false,
-    end: false
+    end: false,
+    updating: false,
+    updated: false,
+    update_error: false
 }
 
 export const trip = (state = initialState, action) => {
@@ -34,11 +37,11 @@ export const trip = (state = initialState, action) => {
         }
         case TRIP_CURRENCY_LOAD_FAILED: {return {...state, loading: false, loaded: false, error: true}
         }
-        case TRIP_UPDATE: { return {...state, loading: true, loaded: false, error: false, ... action.payload}
+        case TRIP_UPDATE: { return {...state, updating: true, updated: false, update_error: false, ... action.payload}
         }
-        case TRIP_UPDATED: {return {...state, loading: false, loaded: true, error: false}
+        case TRIP_UPDATED: {return {...state, updating: false, updated: true, update_error: false}
         }
-        case TRIP_UPDATE_FAILED: {return {...state, loading: false, loaded: false, error: true}
+        case TRIP_UPDATE_FAILED: {return {...state, updating: false, updated: false, update_error: true}
         }
         case TRIP_FINISH: {return {...state, end: true}
         }
