@@ -1,9 +1,34 @@
-import {all, fork, put, takeEvery, take} from "redux-saga/effects";
-import { firestore } from "../firebase/firebase";
+import {all, fork, put, takeEvery, take, call} from "redux-saga/effects";
+import {firestore, storage} from "../firebase/firebase";
 import { eventChannel} from 'redux-saga';
 import {TRIP_CURRENCY_LOAD, TRIP_FINISH, TRIP_LOAD, TRIP_UPDATE, TRIP_CURRENCY_STOP_LISTEN_LOAD, TRIP_STOP_LISTEN_LOAD} from "../redux/actionTypes";
 import {tripLoaded, tripLoadFailed, tripUpdated, tripUpdateFailed, tripCurrencyLoaded, tripCurrencyLoadFailed, tripCleanStore, tripFinishFail, tripFinished} from "../actions/trip";
+import * as Random from 'expo-random';
 
+const generateUIDD = async () => {
+    const randomBytes = await Random.getRandomBytesAsync(8);
+    /* Some crypto operation... */
+    let id = 'file';
+    randomBytes.map( number => {
+        id = id + '-' + number;
+    });
+    return id;
+};
+
+const uploadFileUserWithStorage = async (file, id) => {
+    if(file) {
+        const ref = storage.ref().child("files/trips/" + id);
+        await ref.put(file)
+            .then(function() {
+                console.log("File suben!");
+            })
+            .catch(function(error) {
+                console.error("Error upload file: ", error);
+            });
+    }    else {
+        console.log('error de carga: foto perfil');
+    }
+};
 const loadTripFirestore  = (id_driver) => eventChannel(emitter => {
         const unsubscribe = firestore.collection('drivers/' + id_driver + '/trips').onSnapshot(snapshot => {
             const trips = [];
@@ -32,7 +57,6 @@ const loadTripCurrencyFirestore  = (id_driver) => eventChannel(emitter => {
 
 const updateTripFirestore  = (Trip) => eventChannel(emitter => {
         const { id_driver, id_trip} = Trip;
-        console.log('llego');
         firestore.collection('drivers/' + id_driver + '/trips').doc(id_trip).update(Trip)
             .then(_=> {emitter({
                 data: {cambiado: true}})})
@@ -56,7 +80,10 @@ function* updateTrip({payload}) {
 }
 
 function* finishTrip({payload}) {
+    let id_base= yield call(generateUIDD);
     try {
+        yield call(uploadFileUserWithStorage, payload.ref_photo_receiver, 'ref_photo_receiver' + id_base);
+        yield call(uploadFileUserWithStorage, payload.ref_photo_package, 'ref_photo_package' + id_base);
         const finishChannel = updateTripFirestore(payload);
         yield takeEvery(finishChannel, function*() {
             yield put(tripFinished());

@@ -42,7 +42,6 @@ class RegistrationPage extends React.Component {
         const idCard = validateFile(this.props.auth.new_driver.photo_id_card);
         const photoDriver = validateFile(this.props.auth.new_driver.photo_driver);
         // validar las reglas, falta confirmar la foto
-        console.log(typeLicence, photoDriverLicence, photoDriver, fileCriminalRecord, idCard);
         if ( typeLicence && photoDriverLicence && photoDriver && fileCriminalRecord && idCard) {
             this.props.navigation.navigate('RegisterVehicle');
             this.setState({showErrorMessage: false})

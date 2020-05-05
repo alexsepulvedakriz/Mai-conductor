@@ -7,8 +7,7 @@ import BoxedShare from "./BoxedShare";
 import HeaderComponent from "./HeaderComponent";
 import SmallMapComponent from "./SmallMapComponent";
 import TimerProgressBarComponent from "./TimerProgressBarComponent";
-import HeaderArriveComponent from "./HeaderArriveComponent";
-import HeaderTripComponent from "./HeaderTripComponent";
+import HeaderActionComponent from "./HeaderActionComponent";
 
 export {
     Background,
@@ -20,6 +19,5 @@ export {
     HeaderComponent,
     SmallMapComponent,
     TimerProgressBarComponent,
-    HeaderArriveComponent,
-    HeaderTripComponent
+    HeaderActionComponent
 };

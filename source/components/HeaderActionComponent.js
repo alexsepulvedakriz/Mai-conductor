@@ -4,12 +4,13 @@ import { Header} from 'react-native-elements'
 import { colors } from '../common/theme';
 import stylesCommon from "../common/styles";
 
-export default class HeaderArriveComponent extends React.Component {
+export default class HeaderActionComponent extends React.Component {
 
     constructor(props){
         super(props);
     }
     render(){
+        const {title} = this.props;
         return(
             <View>
                 <Header
@@ -19,7 +20,7 @@ export default class HeaderArriveComponent extends React.Component {
                         start: [0, 1],
                         end: [1, 1],
                     }}
-                    leftComponent={<TouchableOpacity style={{width: 100}} onPress={() => this.props.cancel()}><Text style={stylesCommon.headerTitleStyle}>{'Cancelar'}</Text></TouchableOpacity>}
+                    leftComponent={<TouchableOpacity style={{width: 150, marginLeft: 0, padding: 0}} onPress={() => this.props.activate()}><Text style={stylesCommon.headerTitleStyle}>{title}</Text></TouchableOpacity>}
                     containerStyle={stylesCommon.headerStyle}
                     innerContainerStyles={{marginLeft:10, marginRight: 10}}
                 />

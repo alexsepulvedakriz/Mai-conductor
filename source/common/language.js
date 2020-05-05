@@ -54,6 +54,11 @@ export default {
     date: 'Fecha ',
     arrived: 'He llegado',
     finish: 'Terminar Viaje',
+    ask_cancel_trip: 'Esta seguro que quiere cancelar viaje?',
+    ask_finish_trip: 'Esta seguro que quiere terminar el viaje',
+    photo_package: 'Foto de la carga',
+    photo_receiver_id_card: 'Foto destinatario',
+    observation_driver: 'Observaciones',
     // Modals
     send_offer: 'Enviando oferta a conductores',
     accept_offer_driver: 'Esperando oferta de conductores',

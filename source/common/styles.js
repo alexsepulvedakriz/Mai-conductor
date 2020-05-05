@@ -62,6 +62,7 @@ export default StyleSheet.create({
         width: '100%',
         marginBottom: 5,
         marginTop: 5,
+        alignItems: 'center'
     },
     columnSpaceBetween:{
         flex:1,
@@ -133,6 +134,29 @@ export default StyleSheet.create({
         fontSize: 20
     },
     // Inputs
+    searchIcon: {
+        marginHorizontal: 10
+    },
+    inputSearch: {
+        flex: 1,
+        padding: 7,
+        color: colors.GREY.iconSecondary,
+    },
+    indicationText: {
+        fontSize: 13,
+        marginBottom: 5,
+        color: colors.GREY.iconSecondary,
+    },
+    searchSection: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.GREY.iconSecondary,
+        borderWidth: 1,
+        borderRadius: 10,
+        marginBottom: 10
+    },
     InputContainer: {
         borderRadius:10,
         borderColor: colors.GREY.Deep_Nobel,
