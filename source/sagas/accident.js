@@ -22,7 +22,6 @@ const uploadFileAccidentWithStorage = async (file, id) => {
 
 
 const setOfferFirestore  = (accident, id_accident) => eventChannel(emitter => {
-    console.log('accident', id_accident, accident);
     firestore.collection('accidents/').doc(id_accident).set(accident)
         .then(_=> {emitter({
             data: {cambiado: true}})})
@@ -41,9 +40,7 @@ function* addAccident({payload}) {
         const accident = {
             id_driver: payload.id_driver,
             id_trip: payload.id_trip,
-            observation_driver: payload.observation_driver,
             ref_photo: 'ref_photo_receiver' + id_base,
-            photo: payload.photo,
             description: payload.description,
             date: new Date(),
         };
