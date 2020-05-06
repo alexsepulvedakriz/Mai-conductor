@@ -21,17 +21,7 @@ import {offerCleanStore} from "../actions/offer";
 import {offersDriverCleanStore} from "../actions/offer_driver";
 import {tripCleanStore} from "../actions/trip";
 import {aboutCleanStore} from "../actions/about";
-import * as Random from 'expo-random';
-
-const generateUIDD = async () => {
-    const randomBytes = await Random.getRandomBytesAsync(8);
-    /* Some crypto operation... */
-    let id = 'file';
-    randomBytes.map( number => {
-        id = id + '-' + number;
-    });
-    return id;
-};
+import {generateUIDD} from "../functions/others";
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.createUserWithEmailAndPassword(email, password)

@@ -1,19 +1,17 @@
 import {all, fork, put, takeEvery, take, call} from "redux-saga/effects";
 import {firestore, storage} from "../firebase/firebase";
 import { eventChannel} from 'redux-saga';
-import {TRIP_CURRENCY_LOAD, TRIP_FINISH, TRIP_LOAD, TRIP_UPDATE, TRIP_CURRENCY_STOP_LISTEN_LOAD, TRIP_STOP_LISTEN_LOAD} from "../redux/actionTypes";
-import {tripLoaded, tripLoadFailed, tripUpdated, tripUpdateFailed, tripCurrencyLoaded, tripCurrencyLoadFailed, tripCleanStore, tripFinishFail, tripFinished} from "../actions/trip";
-import * as Random from 'expo-random';
-
-const generateUIDD = async () => {
-    const randomBytes = await Random.getRandomBytesAsync(8);
-    /* Some crypto operation... */
-    let id = 'file';
-    randomBytes.map( number => {
-        id = id + '-' + number;
-    });
-    return id;
-};
+import {
+    TRIP_CURRENCY_LOAD,
+    TRIP_FINISH,
+    TRIP_LOAD,
+    TRIP_UPDATE,
+    TRIP_CURRENCY_STOP_LISTEN_LOAD,
+    TRIP_STOP_LISTEN_LOAD,
+    TRIP_CANCEL
+} from "../redux/actionTypes";
+import {tripLoaded, tripLoadFailed, tripUpdated, tripUpdateFailed, tripCurrencyLoaded, tripCurrencyLoadFailed, tripCleanStore, tripFinishFail, tripFinished, tripCanceled, tripCancelFail} from "../actions/trip";
+import {generateUIDD} from "../functions/others";
 
 const uploadFileUserWithStorage = async (file, id) => {
     if(file) {
@@ -82,9 +80,20 @@ function* updateTrip({payload}) {
 function* finishTrip({payload}) {
     let id_base= yield call(generateUIDD);
     try {
-        yield call(uploadFileUserWithStorage, payload.ref_photo_receiver, 'ref_photo_receiver' + id_base);
-        yield call(uploadFileUserWithStorage, payload.ref_photo_package, 'ref_photo_package' + id_base);
-        const finishChannel = updateTripFirestore(payload);
+        yield call(uploadFileUserWithStorage, payload.photo_receiver, 'ref_photo_receiver' + id_base);
+        yield call(uploadFileUserWithStorage, payload.photo_package, 'ref_photo_package' + id_base);
+        const trip = {
+            id_driver: payload.id_driver,
+            id_trip: payload.id_trip,
+            observation_driver: payload.observation_driver,
+            ref_photo_receiver: 'ref_photo_receiver' + id_base,
+            ref_photo_package: 'ref_photo_package' + id_base,
+            active: false,
+            cancel: false,
+            on_rute: false,
+            evaluate: false
+        }
+        const finishChannel = updateTripFirestore(trip);
         yield takeEvery(finishChannel, function*() {
             yield put(tripFinished());
             yield put(tripCleanStore());
@@ -92,6 +101,19 @@ function* finishTrip({payload}) {
         finishChannel.close();
     } catch (error) {
         yield put(tripFinishFail());
+    }
+}
+
+function* cancelTrip({payload}) {
+    try {
+        const finishChannel = updateTripFirestore(payload);
+        yield takeEvery(finishChannel, function*() {
+            yield put(tripCanceled());
+            yield put(tripCleanStore());
+        });
+        finishChannel.close();
+    } catch (error) {
+        yield put(tripCancelFail());
     }
 }
 
@@ -137,6 +159,10 @@ export function* triggerEndCurrencyTrip() {
     yield takeEvery(TRIP_FINISH, finishTrip);
 }
 
+export function* triggerCancelCurrencyTrip() {
+    yield takeEvery(TRIP_CANCEL, cancelTrip);
+}
+
 export default function* rootSaga() {
-    yield all([fork(triggerUpdateTrip), fork(triggerLoadTrip), fork(triggerLoadCurrencyTrip), fork(triggerEndCurrencyTrip)]);
+    yield all([fork(triggerUpdateTrip), fork(triggerLoadTrip), fork(triggerLoadCurrencyTrip), fork(triggerEndCurrencyTrip), fork(triggerCancelCurrencyTrip)]);
 }

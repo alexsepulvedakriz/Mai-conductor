@@ -1,27 +1,31 @@
 import React from 'react';
-import {View, Dimensions, Text, TouchableHighlight, ActivityIndicator} from 'react-native';
+import {View, Text, TouchableHighlight, ActivityIndicator} from 'react-native';
 import {Button, Card, ListItem, Rating, Input} from 'react-native-elements';
 import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
 import { connect } from 'react-redux';
 import {MapComponent, HeaderActionComponent} from '../components';
-import {AcceptOrCancelOverlay,LoadOverlay,} from '../overlays'
+import {AcceptOrCancelOverlay, AccidentOverlay, LoadOverlay,} from '../overlays'
 import  languageJSON  from '../common/language';
-import {tripUpdate, tripFinish, tripCurrencyLoad} from "../actions/trip";
+import {tripUpdate, tripCancel, tripCurrencyLoad} from "../actions/trip";
 import Collapsible from "react-native-collapsible";
 import {_pressCall, simpleTimer} from "../functions/others";
+import {accidentAdd} from "../actions/accident";
+import {generateUIDD} from "../functions/others";
 
 
 const mapStateToProps = state => {
     return{
         trip: state.trip,
         auth: state.auth,
+        accident: state.accident
     }
 };
 const mapDispatchToProps = dispatch => ({
     tripCurrencyLoadProps: (id_driver) => dispatch(tripCurrencyLoad(id_driver)),
     tripUpdateProps: (trip) => dispatch(tripUpdate(trip)),
-    endTrip: (info) => dispatch(tripFinish(info))
+    cancelTripProps: (info) => dispatch(tripCancel(info)),
+    accidentAddProps: (accident) => dispatch(accidentAdd(accident))
 });
 
 class TripScreen extends React.Component {
@@ -31,6 +35,12 @@ class TripScreen extends React.Component {
             cardCollapsible: true,
             overlayCancel: false,
             finishTrip: false,
+            overlayAccident: false
+        }
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.trip.ended || this.props.trip.canceled){
+            this.props.navigation.navigate('OfferList');
         }
     }
     componentWillMount() {
@@ -40,15 +50,36 @@ class TripScreen extends React.Component {
         });
     }
     typeHeader(){
+        if(this.props.trip.currencyTrip){
         if(this.props.trip.currencyTrip.on_rute){
             return(
-                <HeaderActionComponent activate={() => {this.setState({overlayCancel: true})}} title={'Informar de un problema'} />
+                <HeaderActionComponent activate={() => {this.setState({overlayAccident: true})}} title={'Informar de un problema'} />
             )
         } else {
             return(
                 <HeaderActionComponent  activate={() => {this.setState({overlayCancel: true})}} title={'Cancelar'}/>
             )
-        }
+        }}
+    }
+    addAccident(arg){
+        generateUIDD().then( id_accident => {
+            const accident = {
+                id_driver: this.props.trip.currencyTrip.id_driver,
+                id_rider: this.props.trip.currencyTrip.id_driver,
+                id_trip: this.props.trip.currencyTrip.id_driver,
+                photo: arg.photo,
+                description: arg.description,
+                date: new Date(),
+                ref_accident: id_accident
+            };
+            this.props.accidentAddProps(accident);
+            this.props.tripUpdateProps({
+                id_driver: this.props.trip.currencyTrip.id_driver,
+                id_rider: this.props.trip.currencyTrip.id_driver,
+                ref_accident: id_accident
+            });
+        });
+
     }
     typeButton(){
         if(this.props.trip.currencyTrip.on_rute){
@@ -194,9 +225,11 @@ class TripScreen extends React.Component {
                             </Collapsible>
                         </TouchableHighlight>
                     </View>
-                    <LoadOverlay Visible={this.props.trip.end} message={languageJSON.end_trip}/>
+                    <AccidentOverlay Visible={this.state.overlayAccident} cancel={() => this.setState({overlayAccident: false})} addAccident={(accident) => {this.addAccident(accident), this.setState({overlayAccident: false})}}/>
+                    <LoadOverlay Visible={this.props.accident.add} message={languageJSON.send_accident}/>
+                    <LoadOverlay Visible={this.props.trip.cancel} message={languageJSON.end_trip}/>
                     <AcceptOrCancelOverlay visible={this.state.finishTrip} message={languageJSON.ask_finish_trip} accept={() => {this.setState({finishTrip: false}); this.props.navigation.navigate('FinishTrip');}} cancel={() => {this.setState({finishTrip: false})}}/>
-                    <AcceptOrCancelOverlay visible={this.state.overlayCancel} message={languageJSON.ask_cancel_trip} accept={() => {this.setState({overlayCancel: false}); this.endTrip({activo: false, cancelado: true})}} cancel={() => {this.setState({overlayCancel: false})}}/>
+                    <AcceptOrCancelOverlay visible={this.state.overlayCancel} message={languageJSON.ask_cancel_trip} accept={() => {this.setState({overlayCancel: false}); this.cancelTrip()}} cancel={() => {this.setState({overlayCancel: false})}}/>
                 </View>
             )
         } else{
@@ -244,9 +277,9 @@ class TripScreen extends React.Component {
         }
     }
     // update trip
-    endTrip(object){
-        const trip = { id_driver: this.props.trip.currencyTrip.id_driver, id_trip: this.props.trip.currencyTrip.id_trip, ... object };
-        this.props.endTrip(trip);
+    cancelTrip(){
+        const trip = { id_driver: this.props.trip.currencyTrip.id_driver, id_trip: this.props.trip.currencyTrip.id_trip, active: false, cancel: true };
+        this.props.cancelTripProps(trip);
     }
     render() {
         return (

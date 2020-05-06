@@ -1,65 +1,107 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, TextInput} from 'react-native';
 import {Button, Card, Overlay} from "react-native-elements";
 import stylesCommon from '../common/styles';
 import {colors} from "../common/theme";
-var { height, width } = Dimensions.get('window');
+import languageJSON from "../common/language";
+import {documentPicker} from "../functions/documentPicker";
 
 export default class AccidentOverlay extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            photo: null,
+            description: ''
+        }
     }
     render(){
-        const { viajeActual} = this.props;
+        const {Visible} = this.props;
         let visible = false;
-        if(viajeActual){
-            if(viajeActual.accidente && !viajeActual.end){
-                visible = true;
-            }
+        if(Visible){
+            visible = true;
         }
-        // todo foto de accidente o animacion
         return (
             <Overlay
                 isVisible={visible}
                 windowBackgroundColor="rgba(0, 0, 0, .3)"
                 overlayBackgroundColor="white"
-                width="80%"
-                height={300}
+                width="90%"
+                height={320}
                 overlayStyle={{borderRadius: 20}}
             >
                 <Card containerStyle={styles.cardWithMargin}>
-                    <View style={styles.horizontal} >
-                        <Text style={styles.headerTitleStyle}>Ha ocurrido un accidente</Text>
+                    <View style={styles.horizontal}>
+                        <Text style={styles.headerTitleStyle}>{languageJSON.accident}</Text>
                     </View>
                     <View style={styles.horizontal}>
-                        <Text>Te llamaremos a la brevedad para darte a conocer los detalles</Text>
-                    </View>
-                    <View style={styles.horizontal}>
-                        <Text>No te preocupes tu carga esta asegurada</Text>
+                        <View style = {stylesCommon.searchSection}>
+                            <TextInput
+                                style={stylesCommon.inputSearch}
+                                editable={true}
+                                multiline={true}
+                                numberOfLines={3}
+                                value={this.state.description}
+                                onChangeText={(Text) => {this.setState({description: Text})}}
+                            />
+                        </View>
                     </View>
                     <View style={styles.horizontal}>
                         <Button
-                            title="ACEPTAR"
-                            titleStyle={{ fontWeight: '500' }}
-                            buttonStyle={{
-                                borderColor: 'transparent',
-                                backgroundColor: 'green',
-                                borderWidth: 0,
-                                borderRadius: 10,
-                                width: width * 0.4 - 20,
-                                marginVertical: 20
+                            linearGradientProps={{
+                                colors: ['#245b84', '#3ea1c0'],
+                                start: [1, 0],
+                                end: [0.2, 0],
                             }}
-                            onPress={() => this.props.accept()}
+                            onPress={() => documentPicker().then(res => this.setState({photo: res}))}
+                            title={languageJSON.photo_accident}
+                            titleStyle={{ fontWeight: '500' }}
+                            buttonStyle={[stylesCommon.buttonPositive, {width: '100%'}]}
+                            icon={{ type: 'font-awesome', name: 'image', color: 'white' }}
+                            iconRight={true}
+                        />
+                    </View>
+                    <View style={styles.horizontal}>
+                        <Button
+                            title={languageJSON.accept_button}
+                            titleStyle={{ fontWeight: '500' }}
+                            buttonStyle={styles.acceptButton}
+                            onPress={() => this.props.addAccident({
+                                photo: this.state.photo,
+                                description: this.state.description
+                            })}
+                        />
+                        <Button
+                            title={languageJSON.cancel_button}
+                            titleStyle={{ fontWeight: '500' }}
+                            buttonStyle={styles.cancelButton}
+                            onPress={() => this.props.cancel()}
                         />
                     </View>
                 </Card>
-
             </Overlay>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    cancelButton: {
+        backgroundColor: colors.RED,
+        height: 40,
+        borderColor: colors.TRANSPARENT,
+        borderWidth: 0,
+        marginTop:30,
+        paddingHorizontal: 30,
+        borderRadius:10,
+    },
+    acceptButton: {
+        backgroundColor: colors.GREEN.default,
+        height: 40,
+        paddingHorizontal: 30,
+        borderColor: colors.TRANSPARENT,
+        borderWidth: 0,
+        marginTop:30,
+        borderRadius:10,
+    },
     cardWithMargin: {
         borderWidth: 0, // Remove Border
         shadowColor: 'rgba(0,0,0, 0.0)', // Remove Shadow IOS
@@ -74,7 +116,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: "space-around",
         marginHorizontal: 0,
-        marginTop: 10
     },
     headerTitleStyle: {
         color: colors.GREY.iconSecondary,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal, View, StyleSheet, Alert, Text, Dimensions} from 'react-native';
+import {Modal, View, StyleSheet, Text, Dimensions} from 'react-native';
 import languageJSON from "../common/language";
 import {Button} from "react-native-elements";
 import {colors} from "../common/theme";

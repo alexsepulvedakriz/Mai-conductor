@@ -8,7 +8,13 @@ import {
     TRIP_CLEAN,
     TRIP_CURRENCY_LOADED,
     TRIP_CURRENCY_LOAD,
-    TRIP_CURRENCY_LOAD_FAILED, TRIP_FINISH, TRIP_FINISHED, TRIP_FINISH_FAILED
+    TRIP_CURRENCY_LOAD_FAILED,
+    TRIP_FINISH,
+    TRIP_FINISHED,
+    TRIP_FINISH_FAILED,
+    TRIP_CANCEL,
+    TRIP_CANCEL_FAILED,
+    TRIP_CANCELED
 } from "../redux/actionTypes";
 
 export const tripLoad = (info) => {return {type: TRIP_LOAD, payload: info}};
@@ -24,3 +30,6 @@ export const tripFinish = (trip) => {return{type: TRIP_FINISH,payload: trip}};
 export const tripFinished = () => {return{type: TRIP_FINISHED}};
 export const tripFinishFail = () => {return{type: TRIP_FINISH_FAILED}};
 export const tripCleanStore = () => {return {type: TRIP_CLEAN}};
+export const tripCancel = (trip) => {return{type: TRIP_CANCEL,payload: trip}};
+export const tripCancelFail = () => {return{type: TRIP_CANCEL_FAILED}};
+export const tripCanceled = () => {return{type: TRIP_CANCELED}};

@@ -1,15 +1,14 @@
 import React from 'react';
-import {View, Dimensions, Text, TouchableWithoutFeedback, ScrollView, TextInput, Image} from 'react-native';
-import {Button, Card, Header, Icon} from 'react-native-elements';
+import {View, Text, ScrollView, TextInput, Image} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
 import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
-import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
-import {HeaderActionComponent, HeaderComponent} from "../components";
+import {HeaderActionComponent} from "../components";
 import {tripFinish, tripUpdate} from "../actions/trip";
 import {documentPicker} from "../functions/documentPicker";
-
-var { height, width } = Dimensions.get('window');
+import {isNull} from "../functions/others";
+import { EvaluatingTripOverlay, LoadOverlay} from "../overlays";
 
 const mapStateToProps = state => {
     return{
@@ -27,23 +26,36 @@ class FinishTripScreen extends React.Component {
         super(props);
         this.state = {
             observation_driver:'',
-            ref_photo_receiver: null,
-            ref_photo_package: null
+            photo_receiver: null,
+            photo_package: null
         }
     }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.trip.ended){
+            this.props.navigation.navigate('OfferList');
+        }
+    }
+
     finishTrip(){
-        if(this.state.ref_photo_receiver && this.state.ref_photo_package){
+        if(isNull(this.state.photo_receiver) && isNull(this.state.photo_package)){
             const trip = {
                 id_driver: this.props.trip.currencyTrip.id_driver,
                 id_trip: this.props.trip.currencyTrip.id_trip,
                 observation_driver: this.state.observation_driver,
-                ref_photo_receiver: this.state.ref_photo_receiver,
-                ref_photo_package: this.state.ref_photo_receiver
+                photo_receiver: this.state.photo_receiver,
+                photo_package: this.state.photo_receiver,
             };
             this.props.tripFinishProps(trip);
         } else {
-            alert('Todos los campos son obligatorios');
+            alert(languageJSON.both_photos_requered);
         }
+    }
+    updateTrip(review){
+        this.props.tripUpdateProps({
+            id_driver: this.props.trip.currencyTrip.id_driver,
+            id_trip: this.props.trip.currencyTrip.id_trip,
+            review_driver: review
+        });
     }
     render() {
         return (
@@ -60,7 +72,7 @@ class FinishTripScreen extends React.Component {
                                 end: [0.2, 0],
                             }}
                             buttonStyle={[stylesCommon.buttonPositive,{ paddingHorizontal: 50}]}
-                            onPress={() => documentPicker().then(res => {this.setState({ref_photo_package: res})})}
+                            onPress={() => documentPicker().then(res => {this.setState({photo_package: res})})}
                         />
                         <Image
                             style={{backgroundColor: 'white', height: 100, width: 100}}
@@ -77,7 +89,7 @@ class FinishTripScreen extends React.Component {
                             }}
                             titleStyle={{ fontWeight: '500' }}
                             buttonStyle={[stylesCommon.buttonPositive,{ paddingHorizontal: 50}]}
-                            onPress={() => documentPicker().then(res => {this.setState({ref_photo_receiver: res})})}
+                            onPress={() => documentPicker().then(res => {this.setState({photo_receiver: res})})}
                         />
                         <Image
                             style={{backgroundColor: 'white', height: 100, width: 100}}
@@ -118,10 +130,12 @@ class FinishTripScreen extends React.Component {
                                 end: [0.2, 0],
                             }}
                             buttonStyle={stylesCommon.buttonPositive}
-                            onPress={() => {}}
+                            onPress={() => {this.finishTrip()}}
                         />
                     </View>
                 </View>
+                <EvaluatingTripOverlay Visible={false} sendReview={(review) => {this.updateTrip(review)}}/>
+                <LoadOverlay Visible={this.props.trip.end} message={languageJSON.cancel_trip}/>
             </View>
         );
     }

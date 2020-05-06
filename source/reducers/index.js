@@ -6,6 +6,7 @@ import { offer_driver } from "./offer-driver";
 import { modal} from "./modals";
 import { trip} from "./trip";
 import { about} from "./about";
+import { accident} from './accident';
 
 const rootReducer = combineReducers({
   auth,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   offer_driver,
   modal,
   trip,
-  about
+  about,
+  accident
 });
 
 export default rootReducer;

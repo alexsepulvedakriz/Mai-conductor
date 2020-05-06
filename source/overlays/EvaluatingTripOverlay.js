@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Button, Overlay, AirbnbRating, Card} from "react-native-elements";
 import stylesCommon from '../common/styles';
 import {colors} from "../common/theme";
 import  languageJSON  from '../common/language';
 
-var { height, width } = Dimensions.get('window');
-
 export default class EvaluatingTripOverlay extends Component {
     constructor(props){
         super(props);
         this.state = {
-            descripcion: '',
-            reclamo: '',
-            evaluacion: 3.5
+            review_driver: 3.5
         }
     }
     updateTrip(){
-        this.props.tripUpdate({descripcion: this.state.descripcion, reclamo: this.state.reclamo, evaluacion_conductor: this.state.evaluacion});
+        this.props.sendReview(this.state.review_driver);
     }
     render(){
-        const { viajeActual} = this.props;
+        const {Visible} = this.props;
         let visible = false;
-        if(viajeActual){
-            if(viajeActual.evaluando && !viajeActual.end){
-                visible = true;
-            }
+        if(Visible){
+            visible = true;
         }
         return (
             <Overlay
@@ -33,43 +27,30 @@ export default class EvaluatingTripOverlay extends Component {
                 windowBackgroundColor="rgba(0, 0, 0, .3)"
                 overlayBackgroundColor="white"
                 width="90%"
-                height={350}
+                height={300}
                 overlayStyle={{borderRadius: 20}}
             >
                 <Card containerStyle={styles.cardWithMargin}>
-                    <View style={styles.horizontal} >
-                        <Text style={styles.headerTitleStyle}>Evalua el transporte</Text>
+                    <View style={styles.horizontal}>
+                        <Text style={styles.headerTitleStyle}>{languageJSON.evaluate}</Text>
                     </View>
                     <View style={styles.horizontal}>
                         <AirbnbRating
                             fractions={1}
                             reviews={["Terrible", "Mal", "Meh", "OK", "Bien", "Hmm...", "Muy bien", "Excelente"]}
                             imageSize={40}
-                            startingValue={this.state.evaluacion}
-                            onFinishRating={(value) => {this.setState({evaluacion: value })}}
-                        />
-                    </View>
-                    <View style={styles.horizontal} >
-                        <TextInput
-                            style={[{
-                                height: 60,
-                                borderColor: colors.GREY.Deep_Nobel,
-                                borderWidth: 1,
-                                borderRadius: 10,
-                                color: colors.GREY.Deep_Nobel,
-                                padding:10
-                            }, {width: '100%'}]}
-                            value={this.state.descripcion}
-                            multiline={true}
-                            textAlignVertical={"top"}
-                            numberOfLines={3}
-                            placeholder={'Descripcion'}
-                            onChangeText={(value) => {this.setState({descripcion: value})}}
+                            startingValue={this.state.review_driver}
+                            onFinishRating={(value) => {this.setState({review_driver: value })}}
                         />
                     </View>
                     <View style={styles.horizontal}>
                         <Button
-                            title="ENVIAR EVALUACION"
+                            linearGradientProps={{
+                                colors: ['#245b84', '#3ea1c0'],
+                                start: [1, 0],
+                                end: [0.2, 0],
+                            }}
+                            title={languageJSON.send_review}
                             titleStyle={{ fontWeight: '500' }}
                             buttonStyle={[stylesCommon.buttonPositive, {width: '100%'}]}
                             onPress={() => this.updateTrip()}
