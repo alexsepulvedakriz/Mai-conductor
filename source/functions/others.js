@@ -22,7 +22,7 @@ export const isNull = (arg) => {
 export const generateUIDD = async () => {
     const randomBytes = await Random.getRandomBytesAsync(8);
     /* Some crypto operation... */
-    let id = 'file';
+    let id = '1';
     randomBytes.map( number => {
         id = id + '-' + number;
     });

@@ -8,6 +8,7 @@ import stylesCommon from "../common/styles";
 import {Button, Input} from "react-native-elements";
 import {validateRut, validateConfPassword, validateEmail, validatePassword, validateText, messageErrorValidatePassword} from "../functions/validations";
 import {updateNewUserState} from "../actions/auth";
+import {TutorialModal} from "../modals";
 
 var { width } = Dimensions.get('window');
 
@@ -25,6 +26,7 @@ class RegistrationUserScreen extends React.Component {
         super(props);
         this.state={
             confPassword: '',
+            showTutorial: true,
             // validation
             name_valid: true,
             rut_valid: true,
@@ -235,6 +237,7 @@ class RegistrationUserScreen extends React.Component {
                         </View>
                     </ScrollView>
                 </Background>
+                <TutorialModal modalVisible={this.state.showTutorial} close={() => this.setState({showTutorial: false})}/>
             </View>
         );
     }

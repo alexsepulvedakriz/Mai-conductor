@@ -76,7 +76,8 @@ class TripScreen extends React.Component {
             this.props.tripUpdateProps({
                 id_driver: this.props.trip.currencyTrip.id_driver,
                 id_rider: this.props.trip.currencyTrip.id_driver,
-                ref_accident: id_accident
+                ref_accident: id_accident,
+                active: false
             });
         });
 
@@ -226,7 +227,7 @@ class TripScreen extends React.Component {
                         </TouchableHighlight>
                     </View>
                     <AccidentOverlay Visible={this.state.overlayAccident} cancel={() => this.setState({overlayAccident: false})} addAccident={(accident) => {this.addAccident(accident), this.setState({overlayAccident: false})}}/>
-                    <LoadOverlay Visible={this.props.accident.add} message={languageJSON.send_accident}/>
+                    <LoadOverlay Visible={this.props.accident.adding} message={languageJSON.send_accident}/>
                     <LoadOverlay Visible={this.props.trip.cancel} message={languageJSON.end_trip}/>
                     <AcceptOrCancelOverlay visible={this.state.finishTrip} message={languageJSON.ask_finish_trip} accept={() => {this.setState({finishTrip: false}); this.props.navigation.navigate('FinishTrip');}} cancel={() => {this.setState({finishTrip: false})}}/>
                     <AcceptOrCancelOverlay visible={this.state.overlayCancel} message={languageJSON.ask_cancel_trip} accept={() => {this.setState({overlayCancel: false}); this.cancelTrip()}} cancel={() => {this.setState({overlayCancel: false})}}/>

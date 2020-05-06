@@ -5,7 +5,8 @@ import offerSagas from './offer';
 import offerDriverSagas from './offer-driver';
 import tripSagas from './trip';
 import aboutSagas from './about';
-import accidentSagas from './accident'
+import accidentSagas from './accident';
+import penaltiesSagas from './penalties';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -15,6 +16,7 @@ export default function* rootSaga(getState) {
         offerDriverSagas(),
         tripSagas(),
         aboutSagas(),
-        accidentSagas()
+        accidentSagas(),
+        penaltiesSagas()
     ]);
 }

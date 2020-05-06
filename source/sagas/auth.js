@@ -21,6 +21,7 @@ import {offerCleanStore} from "../actions/offer";
 import {offersDriverCleanStore} from "../actions/offer_driver";
 import {tripCleanStore} from "../actions/trip";
 import {aboutCleanStore} from "../actions/about";
+import {accidentCleanStore} from "../actions/accident";
 import {generateUIDD} from "../functions/others";
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
@@ -138,6 +139,7 @@ function* signOut() {
         yield put(tripCleanStore());
         yield put(aboutCleanStore());
         yield put(authCleanStore());
+        yield put(accidentCleanStore());
         localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());
