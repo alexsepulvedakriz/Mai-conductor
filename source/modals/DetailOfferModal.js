@@ -87,10 +87,10 @@ export default class DetailOfferModal extends Component {
                                             />
                                         </View>
                                         <View style={{marginVertical: 10, marginLeft: 5}}>
-                                            <Text style={{fontSize: 15, color: 'black'}}>{item.address_from}</Text>
-                                            <Text style={{fontSize: 15, color: 'black'}}>{item.address_to}</Text>
-                                            <Text style={{fontSize: 12, color: colors.GREY.iconSecondary}}>{item.duration} min {item.distance} km {item.type_truck}</Text>
-                                            <Text style={{fontSize: 12, color: colors.GREY.iconSecondary}}>{item.description}</Text>
+                                            <Text style={{fontSize: 16, color: 'black'}}>{item.address_from}</Text>
+                                            <Text style={{fontSize: 16, color: 'black'}}>{item.address_to}</Text>
+                                            <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>{item.duration} min {item.distance} km {item.type_truck}</Text>
+                                            <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>{item.description}</Text>
                                         </View>
                                     </View>
                                     <View>

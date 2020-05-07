@@ -9,7 +9,7 @@ import {AcceptOrCancelOverlay, AccidentOverlay, LoadOverlay,} from '../overlays'
 import  languageJSON  from '../common/language';
 import {tripUpdate, tripCancel, tripCurrencyLoad} from "../actions/trip";
 import Collapsible from "react-native-collapsible";
-import {_pressCall, simpleTimer} from "../functions/others";
+import {_pressCall, simpleTimer2} from "../functions/others";
 import {accidentAdd} from "../actions/accident";
 import {generateUIDD} from "../functions/others";
 
@@ -51,7 +51,7 @@ class TripScreen extends React.Component {
     }
     componentWillMount() {
         this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
-        simpleTimer().then( _ => {
+        simpleTimer2().then(_ => {
             this.setState({cardCollapsible: false});
         });
     }

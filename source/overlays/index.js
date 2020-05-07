@@ -5,6 +5,8 @@ import AccidentOverlay from "./AccidentOverlay";
 import SuccessOrErrorOverlay from "./SuccessOrErrorOverlay";
 import ShareOverlay from "./ShareOverlay";
 import DatePickerOverlay from "./DatePickerOverlay";
+import PossibleTripOverlay from "./PossibleTripOverlay";
+import MinutesToArriveOverlay from "./MinutesToArriveOverlay";
 
 
 export {
@@ -14,5 +16,7 @@ export {
     AccidentOverlay,
     SuccessOrErrorOverlay,
     ShareOverlay,
-    DatePickerOverlay
+    DatePickerOverlay,
+    PossibleTripOverlay,
+    MinutesToArriveOverlay
 };

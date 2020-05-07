@@ -1,12 +1,19 @@
 import {Linking} from "react-native";
 import * as Random from "expo-random";
 
-export const simpleTimer = () => {
+export const simpleTimer2 = () => {
     var promise = new Promise(function(resolve, reject) {
         setTimeout(function(){ resolve(); }, 2000);
     });
     return promise;
 }
+
+export const simpleTimer30 = () => {
+    var promise = new Promise(function(resolve, reject) {
+        setTimeout(function(){ resolve(); }, 35000);
+    });
+    return promise;
+};
 // phone
 export const  _pressCall = (tel) =>{
     const url= 'tel:' + tel;

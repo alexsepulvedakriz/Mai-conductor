@@ -1,20 +1,18 @@
 import React from 'react';
-import {View, Dimensions, Text, Button, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import { Avatar, Rating} from "react-native-elements";
 import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
 import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
-import {HeaderComponent, HeaderSwitchComponent} from "../components";
-import {offersLoad} from "../actions/offer";
+import { HeaderSwitchComponent} from "../components";
+import {offersLoad, offersLoadStop} from "../actions/offer";
 import {offerDriverAdd} from "../actions/offer_driver";
 import {profileLoad} from "../actions/profile";
 import {DetailOfferModal} from "../modals";
-import {LoadOverlay} from "../overlays";
+import {LoadOverlay, PossibleTripOverlay, MinutesToArriveOverlay} from "../overlays";
 import {tripCurrencyLoad} from "../actions/trip";
-
-var { height, width } = Dimensions.get('window');
-
+import {simpleTimer30} from "../functions/others";
 
 const mapStateToProps = state => {
     return{
@@ -30,6 +28,7 @@ const mapDispatchToProps = dispatch => ({
     offerDriverAddProps: (offer_driver) => dispatch(offerDriverAdd(offer_driver)),
     profileLoadProps: (id_driver) => dispatch(profileLoad(id_driver)),
     tripCurrencyLoadProps: (id_driver) => dispatch(tripCurrencyLoad(id_driver)),
+    offersLoadStopProps: () => dispatch(offersLoadStop())
 });
 
 class OfferListScreen extends React.Component {
@@ -37,13 +36,24 @@ class OfferListScreen extends React.Component {
         super(props);
         this.state = {
             showModalDetail: false,
-            item: null
+            showOverlayOfferDriver: false,
+            showOverlayMinutes: false,
+            item: null,
+            id_rider: '',
+            time_to_arrive: '',
+            price: '',
         }
     }
     componentWillMount() {
         this.props.profileLoadProps(this.props.auth.id_driver);
-        this.props.offersLoadProps(this.props.auth.id_driver);
         this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
+        this.activeLoadOffers();
+    }
+    stopLoadOffers(){
+        this.props.offersLoadStopProps();
+    }
+    activeLoadOffers(){
+        this.props.offersLoadProps(this.props.auth.id_driver);
     }
     componentDidUpdate(prevProps, prevState, snapshot){
         if(this.props.trip.currencyTrip){
@@ -51,22 +61,6 @@ class OfferListScreen extends React.Component {
                 this.props.navigation.navigate('Trip');
             }
         }
-    }
-    addNewOfferDriver(offer){
-        const offer_driver = {
-            id_rider: offer.id_rider,
-            id_driver: this.props.profile.profile.id_driver,
-            last_name_driver: this.props.profile.profile.last_name,
-            name_driver: this.props.profile.profile.name,
-            ref_photo_driver: this.props.profile.profile.ref_photo,
-            review_driver: this.props.profile.profile.review,
-            longitude_driver: 0,
-            latitude_driver: 0,
-            price: offer.price,
-            time_to_arrive: offer.time_to_arrive,
-            accept: false,
-        };
-        this.props.offerDriverAddProps(offer_driver);
     }
     listOffers(){
         if(this.props.offer.offers.length > 0){
@@ -110,17 +104,51 @@ class OfferListScreen extends React.Component {
         }
 
     }
+    modalWaitOfferDriver(){
+        const offer_driver = {
+            id_rider: this.state.id_rider,
+            id_driver: this.props.profile.profile.id_driver,
+            last_name_driver: this.props.profile.profile.last_name,
+            name_driver: this.props.profile.profile.name,
+            ref_photo_driver: this.props.profile.profile.ref_photo,
+            review_driver: this.props.profile.profile.review,
+            longitude_driver: 0,
+            latitude_driver: 0,
+            price: this.state.price,
+            time_to_arrive: this.state.time_to_arrive,
+            accept: false,
+        };
+        this.props.offerDriverAddProps(offer_driver);
+        this.setState({
+            showModalDetail: false,
+            showOverlayOfferDriver: true,
+            showOverlayMinutes: false,
+            id_rider: '',
+            time_to_arrive: '',
+            price: ''});
+        simpleTimer30().then( a => {this.setState({showOverlayOfferDriver: false, item: null})});
+    }
     render() {
         return (
             <View>
-                <HeaderSwitchComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={languageJSON.offer_list_header} type={'color'}/>
+                <HeaderSwitchComponent
+                    navigation = {() => {this.props.navigation.toggleDrawer();}} type={'color'}
+                    stop={() => {this.stopLoadOffers()}}
+                    active={() => {this.activeLoadOffers()}}
+                />
                 {this.listOffers()}
                 <DetailOfferModal
                     modalVisible={this.state.showModalDetail}
-                    offerDriver={(offer) => {this.addNewOfferDriver(offer); this.setState({showModalDetail: false, item: null})}}
+                    offerDriver={(offer) => {this.setState({showOverlayMinutes: true, showModalDetail: false, id_rider: offer.id_rider, price: offer.price})}}
                     item={this.state.item}
-                    close={() => this.setState({showModalDetail: false, item: null})}
+                    close={() => {this.setState({showModalDetail: false})}}
                 />
+                <MinutesToArriveOverlay
+                    Visible={this.state.showOverlayMinutes}
+                    offerDriver={(time_to_arrive) => {this.setState({time_to_arrive: time_to_arrive}); this.modalWaitOfferDriver()}}
+                    close={() => {this.setState({showOverlayMinutes: false})}}
+                />
+                <PossibleTripOverlay Visible={this.state.showOverlayOfferDriver} item={this.state.item}/>
                 <LoadOverlay Visible={this.props.offer_driver.adding} message={languageJSON.adding_offer_driver}/>
             </View>
         );
