@@ -107,7 +107,7 @@ export default class DetailOfferModal extends Component {
                                                     borderColor: 'transparent',
                                                     borderWidth: 0,
                                                     borderRadius: 10,
-                                                    paddingHorizontal:20
+                                                    paddingHorizontal:10
                                                 }}
                                                 onPress={() => {this.setState({price: this.state.price - 500})}}
                                             />
@@ -117,11 +117,11 @@ export default class DetailOfferModal extends Component {
                                                     start: [1, 0],
                                                     end: [0.2, 0],
                                                 }}
-                                                title={'Aceptar por  $' + (parseFloat(item.price) + this.state.price)}
+                                                title={'Ofrecer por $' + (parseFloat(item.price) + this.state.price)}
                                                 buttonStyle={{
                                                     borderWidth: 0,
                                                     borderRadius: 10,
-                                                    paddingHorizontal:20
+                                                    paddingHorizontal:10
                                                 }}
                                                 onPress={() => {this.sendOfferDriver(item)}}
                                             />
@@ -137,7 +137,7 @@ export default class DetailOfferModal extends Component {
                                                     borderColor: 'transparent',
                                                     borderWidth: 0,
                                                     borderRadius: 10,
-                                                    paddingHorizontal:20
+                                                    paddingHorizontal:10
                                                 }}
                                                 onPress={() => {this.setState({price: this.state.price + 500})}}
                                             />

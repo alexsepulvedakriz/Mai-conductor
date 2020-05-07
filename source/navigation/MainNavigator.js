@@ -143,7 +143,7 @@ import SideMenu from '../components/SideMenu';
         DrawerRoutes,
         {
         drawerWidth: 300,
-        initialRouteName:'Trip',
+        initialRouteName:'OfferList',
         contentComponent: SideMenu,
       });
 

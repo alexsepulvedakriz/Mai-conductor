@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
 import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
-import {HeaderComponent} from "../components";
+import {HeaderComponent, HeaderSwitchComponent} from "../components";
 import {offersLoad} from "../actions/offer";
 import {offerDriverAdd} from "../actions/offer_driver";
 import {profileLoad} from "../actions/profile";
 import {DetailOfferModal} from "../modals";
 import {LoadOverlay} from "../overlays";
+import {tripCurrencyLoad} from "../actions/trip";
 
 var { height, width } = Dimensions.get('window');
 
@@ -20,13 +21,15 @@ const mapStateToProps = state => {
         auth: state.auth,
         offer: state.offer,
         profile: state.profile,
-        offer_driver: state.offer_driver
+        offer_driver: state.offer_driver,
+        trip: state.trip
     }
 }
 const mapDispatchToProps = dispatch => ({
     offersLoadProps: (id_driver) => dispatch(offersLoad(id_driver)),
     offerDriverAddProps: (offer_driver) => dispatch(offerDriverAdd(offer_driver)),
-    profileLoadProps: (id_driver) => dispatch(profileLoad(id_driver))
+    profileLoadProps: (id_driver) => dispatch(profileLoad(id_driver)),
+    tripCurrencyLoadProps: (id_driver) => dispatch(tripCurrencyLoad(id_driver)),
 });
 
 class OfferListScreen extends React.Component {
@@ -40,8 +43,14 @@ class OfferListScreen extends React.Component {
     componentWillMount() {
         this.props.profileLoadProps(this.props.auth.id_driver);
         this.props.offersLoadProps(this.props.auth.id_driver);
+        this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
     }
     componentDidUpdate(prevProps, prevState, snapshot){
+        if(this.props.trip.currencyTrip){
+            if(this.props.trip.currencyTrip.active && !this.props.trip.currencyTrip.cancel){
+                this.props.navigation.navigate('Trip');
+            }
+        }
     }
     addNewOfferDriver(offer){
         const offer_driver = {
@@ -104,7 +113,7 @@ class OfferListScreen extends React.Component {
     render() {
         return (
             <View>
-                <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={languageJSON.offer_list_header} type={'color'}/>
+                <HeaderSwitchComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={languageJSON.offer_list_header} type={'color'}/>
                 {this.listOffers()}
                 <DetailOfferModal
                     modalVisible={this.state.showModalDetail}

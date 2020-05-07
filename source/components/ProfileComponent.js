@@ -21,6 +21,7 @@ export default class ProfileComponent extends React.Component {
             movil:  this.props.dataUser?this.props.dataUser.movil:'desconocido',
             id_photo: this.props.dataUser?this.props.dataUser.ref_photo:'desconocido',
             nombreValid: true,
+            movilValid: true,
             rutValid: true,
             apellidoValid: true,
             allInfo:'',
@@ -52,6 +53,7 @@ export default class ProfileComponent extends React.Component {
     // movil number validation
     validateMovil() {
         const { movil } = this.state;
+        console.log(movil);
         const movilValid = (movil.length >0);
         LayoutAnimation.easeInEaseOut();
         this.setState({ movilValid });

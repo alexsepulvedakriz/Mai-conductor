@@ -40,11 +40,24 @@ const loadTripFirestore  = (id_driver) => eventChannel(emitter => {
         return () => unsubscribe();
     });
 
-const loadTripCurrencyFirestore  = (id_driver) => eventChannel(emitter => {
-    const unsubscribe = firestore.collection('drivers/' + id_driver + '/trips').where('active' ,'==', true).onSnapshot(snapshot => {
+const loadPathTripCurrencyFirestore  = (id_driver) => eventChannel(emitter => {
+    const unsubscribe = firestore.collection('drivers/' + id_driver + '/trip').onSnapshot(snapshot => {
         const trips = [];
         snapshot.forEach((change) => {
-            trips.push({...change.data(), id_trip: change.id, id_driver: id_driver});
+            trips.push({...change.data()});
+        });
+        emitter({
+            data: trips
+        })
+    });
+    return () => unsubscribe();
+});
+
+const loadTripCurrencyFirestore  = (id_trip) => eventChannel(emitter => {
+    const unsubscribe = firestore.collection('trips/').where('id_trip', '==', id_trip ).onSnapshot(snapshot => {
+        const trips = [];
+        snapshot.forEach((change) => {
+            trips.push({...change.data(), id_trip: change.id});
         });
         emitter({
             data: trips
@@ -54,8 +67,8 @@ const loadTripCurrencyFirestore  = (id_driver) => eventChannel(emitter => {
 });
 
 const updateTripFirestore  = (Trip) => eventChannel(emitter => {
-        const { id_driver, id_trip} = Trip;
-        firestore.collection('drivers/' + id_driver + '/trips').doc(id_trip).update(Trip)
+        const { id_trip} = Trip;
+        firestore.collection('trips').doc(id_trip).update(Trip)
             .then(_=> {emitter({
                 data: {cambiado: true}})})
             .catch( error => {
@@ -135,12 +148,17 @@ function* loadTrip({payload}) {
 function* loadCurrencyTrip({payload}) {
     try {
         const id_driver = payload;
-        const todosChannel = loadTripCurrencyFirestore(id_driver);
-        yield takeEvery(todosChannel, function*(action) {
-            yield put(tripCurrencyLoaded({currencyTrip: action.data[0]}));
+        const pathChannel = loadPathTripCurrencyFirestore(id_driver);
+        yield takeEvery(pathChannel, function*(action) {
+            const tripChannel = loadTripCurrencyFirestore(action.data[0].id_trip);
+            console.log('id trip', action.data[0].id_trip);
+                yield takeEvery(tripChannel, function*(trip) {
+
+                    yield put(tripCurrencyLoaded({currencyTrip: trip.data[0]}));
+                })
         });
         yield take(TRIP_CURRENCY_STOP_LISTEN_LOAD);
-        todosChannel.close();
+        pathChannel.close();
     } catch (error) {
         yield put(tripCurrencyLoadFailed());
     }

@@ -22,7 +22,6 @@ class ProfileScreen extends React.Component {
 
   constructor(props) {
       super(props);
-      console.log('Cargar2', this.props.profile.profile);
   }
 
     componentDidUpdate(prevProps, prevState, snapshot){

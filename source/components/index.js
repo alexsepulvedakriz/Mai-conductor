@@ -8,6 +8,7 @@ import HeaderComponent from "./HeaderComponent";
 import SmallMapComponent from "./SmallMapComponent";
 import TimerProgressBarComponent from "./TimerProgressBarComponent";
 import HeaderActionComponent from "./HeaderActionComponent";
+import HeaderSwitchComponent from "./HeaderSwitchComponent";
 
 export {
     Background,
@@ -19,5 +20,6 @@ export {
     HeaderComponent,
     SmallMapComponent,
     TimerProgressBarComponent,
-    HeaderActionComponent
+    HeaderActionComponent,
+    HeaderSwitchComponent
 };

@@ -42,6 +42,12 @@ class TripScreen extends React.Component {
         if(this.props.trip.ended || this.props.trip.canceled){
             this.props.navigation.navigate('OfferList');
         }
+        if(this.props.trip.currencyTrip){
+            if(this.props.trip.currencyTrip.cancel){
+                alert('Se ha cancelado el viaje');
+                this.props.navigation.navigate('OfferList');
+            }
+        }
     }
     componentWillMount() {
         this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
