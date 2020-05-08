@@ -151,7 +151,6 @@ function* loadCurrencyTrip({payload}) {
         const pathChannel = loadPathTripCurrencyFirestore(id_driver);
         yield takeEvery(pathChannel, function*(action) {
             const tripChannel = loadTripCurrencyFirestore(action.data[0].id_trip);
-            console.log('id trip', action.data[0].id_trip);
                 yield takeEvery(tripChannel, function*(trip) {
 
                     yield put(tripCurrencyLoaded({currencyTrip: trip.data[0]}));

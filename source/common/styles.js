@@ -82,12 +82,14 @@ export default StyleSheet.create({
         borderColor: 'transparent',
         borderWidth: 0,
         borderRadius: 10,
+        height: 40
     },
     buttonPositive: {
         borderColor: 'transparent',
         borderWidth: 0,
         borderRadius: 10,
-        marginVertical: 10
+        marginVertical: 10,
+        height: 40
     },
     buttonRegisterWhite: {
         backgroundColor: colors.WHITE,

@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { Avatar, Rating} from "react-native-elements";
 import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
 import { colors } from '../common/theme';
 import stylesCommon from '../common/styles';
 import { HeaderSwitchComponent} from "../components";
-import {offersLoad, offersLoadStop} from "../actions/offer";
+import {offerCleanStore, offersLoad, offersLoadStop} from "../actions/offer";
 import {offerDriverAdd} from "../actions/offer_driver";
 import {profileLoad} from "../actions/profile";
 import {DetailOfferModal} from "../modals";
@@ -28,7 +28,8 @@ const mapDispatchToProps = dispatch => ({
     offerDriverAddProps: (offer_driver) => dispatch(offerDriverAdd(offer_driver)),
     profileLoadProps: (id_driver) => dispatch(profileLoad(id_driver)),
     tripCurrencyLoadProps: (id_driver) => dispatch(tripCurrencyLoad(id_driver)),
-    offersLoadStopProps: () => dispatch(offersLoadStop())
+    offersLoadStopProps: () => dispatch(offersLoadStop()),
+    offerCleanStoreProps: () => dispatch(offerCleanStore())
 });
 
 class OfferListScreen extends React.Component {
@@ -100,7 +101,11 @@ class OfferListScreen extends React.Component {
                 </View>
             )
         } else {
-
+            return(
+                <View style={{marginVertical: 30}}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            )
         }
 
     }
@@ -133,7 +138,7 @@ class OfferListScreen extends React.Component {
             <View>
                 <HeaderSwitchComponent
                     navigation = {() => {this.props.navigation.toggleDrawer();}} type={'color'}
-                    stop={() => {this.stopLoadOffers()}}
+                    stop={() => {this.stopLoadOffers(); this.props.offerCleanStoreProps()}}
                     active={() => {this.activeLoadOffers()}}
                 />
                 {this.listOffers()}

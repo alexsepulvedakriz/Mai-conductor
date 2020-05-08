@@ -5,6 +5,7 @@ import {
     VEHICLES_CLEAN,
     VEHICLES_LOAD,
     VEHICLES_LOAD_FAILED,
+    VEHICLES_LOADED
 } from "../redux/actionTypes";
 
 const initialState = {

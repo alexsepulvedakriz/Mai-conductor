@@ -75,8 +75,7 @@ export default class AddVehicleModal extends Component {
         const photo_authorization = validateFile(this.state.photo_authorization);
         const photo_vehicle = validateFile(this.state.photo_vehicle);
         const permission_to_circulate = validateFile(this.state.permission_to_circulate);
-        const model = validateFile(this.state.model);
-        if ( licence_plate && year && type && vehicle_roll && annotation_certificate && photo_authorization && photo_vehicle && permission_to_circulate && model) {
+        if ( licence_plate && year && type && vehicle_roll && annotation_certificate && photo_authorization && photo_vehicle && permission_to_circulate) {
             return true;
         } else {
             return false;
@@ -142,7 +141,7 @@ export default class AddVehicleModal extends Component {
                                 selectedValue={this.state.car_make}
                                 onValueChange={(itemValue, itemIndex) => this.setState({car_make: itemValue})}
                             >
-                                <Picker.Item label="0-10 kg" value="0-10 kg" />
+                                <Picker.Item label="Toyota" value="0-10 kg" />
                                 <Picker.Item label="11-50 Kg" value="11-50 Kg" />
                                 <Picker.Item label="51-100 kg" value="51-100 Kg" />
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
@@ -159,7 +158,7 @@ export default class AddVehicleModal extends Component {
                                 selectedValue={this.state.type}
                                 onValueChange={(itemValue, itemIndex) => this.setState({type: itemValue})}
                             >
-                                <Picker.Item label="0-10 kg" value="0-10 kg" />
+                                <Picker.Item label="Camion pluma" value="0-10 kg" />
                                 <Picker.Item label="11-50 Kg" value="11-50 Kg" />
                                 <Picker.Item label="51-100 kg" value="51-100 Kg" />
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
@@ -176,7 +175,7 @@ export default class AddVehicleModal extends Component {
                                 selectedValue={this.state.model}
                                 onValueChange={(itemValue, itemIndex) => this.setState({model: itemValue})}
                             >
-                                <Picker.Item label="Mercedes" value="0-10 kg" />
+                                <Picker.Item label="RXJ" value="0-10 kg" />
                                 <Picker.Item label="Toyota" value="11-50 Kg" />
                                 <Picker.Item label="Chrevrolet" value="51-100 Kg" />
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
