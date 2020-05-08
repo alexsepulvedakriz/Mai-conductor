@@ -103,7 +103,7 @@ class OfferListScreen extends React.Component {
         } else {
             return(
                 <View style={{marginVertical: 30}}>
-                    <ActivityIndicator size="large" color="#0000ff" />
+                    <Text> {languageJSON.wait_for_offers}</Text>
                 </View>
             )
         }

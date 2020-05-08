@@ -84,6 +84,7 @@ export default {
     button_come_back: 'VOLVER',
     button_update_price: 'ACTUALIZAR PRECIO',
     // oferta
+    wait_for_offers: 'Aca apareceran las ofertas',
     offer_detail: 'Detalles de la oferta',
     height: 'Alto (cm)',
     width: 'Ancho (cm)',

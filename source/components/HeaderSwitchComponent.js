@@ -3,8 +3,21 @@ import {View, TouchableWithoutFeedback} from 'react-native';
 import { Header, Button} from 'react-native-elements'
 import { colors } from '../common/theme';
 import stylesCommon from "../common/styles";
+import {hideModalSocial, showModalSocial} from "../actions/modals";
+import {connect} from "react-redux";
+import {ShareOverlay} from '../overlays';
 
-export default class HeaderSwitchComponent extends React.Component {
+const mapStateToProps = state => {
+    return{
+        modal: state.modal
+    }
+};
+const mapDispatchToProps = dispatch => ({
+    showModalSocial: () => dispatch(showModalSocial()),
+    hideModalSocial: () => dispatch(hideModalSocial())
+});
+
+class HeaderSwitchComponent extends React.Component {
 
     constructor(props){
         super(props);
@@ -65,8 +78,10 @@ export default class HeaderSwitchComponent extends React.Component {
                     innerContainerStyles={{marginLeft:10, marginRight: 10}}
                     rightComponent={{icon:'md-share', type:'ionicon', color:colors.WHITE, onPress: ()=>{this.props.showModalSocial();}}}
                 />
+                <ShareOverlay modalVisible={this.props.modal.showModalSocial} hide={() => this.props.hideModalSocial()}/>
             </View>
         );
     }
 };
 
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderSwitchComponent);
