@@ -9,6 +9,7 @@ import accidentSagas from './accident';
 import penaltiesSagas from './penalties';
 import vehiclesSagas from './vehicles';
 import complaintSagas from './complaint';
+import positionSagas from './position';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -21,6 +22,7 @@ export default function* rootSaga(getState) {
         accidentSagas(),
         penaltiesSagas(),
         vehiclesSagas(),
-        complaintSagas()
+        complaintSagas(),
+        positionSagas()
     ]);
 }

@@ -2,7 +2,7 @@ import ngeohash from 'ngeohash';
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 
-export const position = (latitude, longitude) => {
+export const geohash = (latitude, longitude) => {
     return ngeohash.encode(parseFloat(latitude), parseFloat(longitude));
 }
 

@@ -12,7 +12,9 @@ import {profileLoad} from "../actions/profile";
 import {DetailOfferModal} from "../modals";
 import {LoadOverlay, PossibleTripOverlay, MinutesToArriveOverlay} from "../overlays";
 import {tripCurrencyLoad} from "../actions/trip";
-import {simpleTimer30} from "../functions/others";
+import {simpleTimer10, simpleTimer30} from "../functions/others";
+import {positionAdd} from "../actions/position";
+import {_getLocationAsync, geohash} from "../functions/position";
 
 const mapStateToProps = state => {
     return{
@@ -29,7 +31,8 @@ const mapDispatchToProps = dispatch => ({
     profileLoadProps: (id_driver) => dispatch(profileLoad(id_driver)),
     tripCurrencyLoadProps: (id_driver) => dispatch(tripCurrencyLoad(id_driver)),
     offersLoadStopProps: () => dispatch(offersLoadStop()),
-    offerCleanStoreProps: () => dispatch(offerCleanStore())
+    offerCleanStoreProps: () => dispatch(offerCleanStore()),
+    positionAddProps: (position) => dispatch(positionAdd(position))
 });
 
 class OfferListScreen extends React.Component {
@@ -43,21 +46,44 @@ class OfferListScreen extends React.Component {
             id_rider: '',
             time_to_arrive: '',
             price: '',
+            active: true
         }
     }
     componentWillMount() {
         this.props.profileLoadProps(this.props.auth.id_driver);
         this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
         this.activeLoadOffers();
+        this.updatePosition();
     }
     stopLoadOffers(){
         this.props.offersLoadStopProps();
+        this.setState({active: false});
     }
     activeLoadOffers(){
         this.props.offersLoadProps(this.props.auth.id_driver);
+        this.setState({active: true});
+    }
+    updatePosition(){
+        if((this.props.offer.loading || this.props.offer.loaded) && this.state.active){
+            simpleTimer10().then( _ => {
+                _getLocationAsync().then( pos => {
+                    this.props.positionAddProps({
+                        id_driver: this.props.auth.id_driver,
+                        longitude: pos.longitude,
+                        latitude: pos.latitude,
+                        geo_hash: geohash(pos.longitude,pos.latitude)
+                    });
+                });
+                this.updatePosition();
+            })
+        }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
-
+        if(this.props.trip.currencyTrip){
+            if(this.props.trip.currencyTrip.active && !this.props.trip.currencyTrip.cancel){
+                this.props.navigation.navigate('Trip');
+            }
+        }
     }
     listOffers(){
         if(this.props.offer.offers.length > 0){
@@ -149,7 +175,7 @@ class OfferListScreen extends React.Component {
                     offerDriver={(time_to_arrive) => {this.setState({time_to_arrive: time_to_arrive}); this.modalWaitOfferDriver()}}
                     close={() => {this.setState({showOverlayMinutes: false})}}
                 />
-                <PossibleTripOverlay Visible={this.state.showOverlayOfferDriver} item={this.state.item}/>
+                <PossibleTripOverlay Visible={(this.state.showOverlayOfferDriver &&  this.props.trip.currencyTrip.active && !this.props.trip.currencyTrip.cancel)} item={this.state.item}/>
                 <LoadOverlay Visible={this.props.offer_driver.adding} message={languageJSON.adding_offer_driver}/>
             </View>
         );

@@ -141,6 +141,7 @@ function* signOut() {
         yield put(vehiclesDriverCleanStore());
         yield put(penaltiesCleanStore());
         yield put(complaintClean());
+        yield put(positionClean());
         localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());

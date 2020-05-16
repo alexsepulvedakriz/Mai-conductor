@@ -9,9 +9,10 @@ import {AcceptOrCancelOverlay, AccidentOverlay, LoadOverlay,} from '../overlays'
 import  languageJSON  from '../common/language';
 import {tripUpdate, tripCancel, tripCurrencyLoad} from "../actions/trip";
 import Collapsible from "react-native-collapsible";
-import {_pressCall, simpleTimer2} from "../functions/others";
+import {_pressCall, simpleTimer10, simpleTimer2} from "../functions/others";
 import {accidentAdd} from "../actions/accident";
 import {generateUIDD} from "../functions/others";
+import {_getLocationAsync} from "../functions/position";
 
 
 const mapStateToProps = state => {
@@ -51,9 +52,24 @@ class TripScreen extends React.Component {
     }
     componentWillMount() {
         this.props.tripCurrencyLoadProps(this.props.auth.id_driver);
+        this.updatePosition();
         simpleTimer2().then(_ => {
             this.setState({cardCollapsible: false});
         });
+    }
+    updatePosition(){
+        if(!this.props.trip.evaluate && !this.props.trip.canceled && this.props.active){
+            simpleTimer10().then( _ => {
+                _getLocationAsync().then( pos => {
+                    this.props.this.props.tripUpdateProps({
+                        longitude_driver: pos.longitude,
+                        latitude_driver: pos.latitude
+                    });
+
+                });
+                this.updatePosition();
+            })
+        }
     }
     typeHeader(){
         if(this.props.trip.currencyTrip){

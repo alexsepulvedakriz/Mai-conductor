@@ -5,7 +5,8 @@ import {
     COMPLAINT_LOAD,
     COMPLAINT_LOAD_FAILED,
     COMPLAINT_LOADED,
-    COMPLAINT_CLEAN
+    COMPLAINT_CLEAN,
+    OS
 } from "../redux/actionTypes";
 
 const initialState = {

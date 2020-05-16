@@ -2,7 +2,7 @@ import {
     ABOUT_CLEAN,
     ABOUT_LOAD,
     ABOUT_LOAD_FAILED,
-    ABOUT_LOADED,
+    ABOUT_LOADED
 } from '../redux/actionTypes';
 
 export const aboutLoad = (idPasajero) => {return {type: ABOUT_LOAD, payload: idPasajero}};
