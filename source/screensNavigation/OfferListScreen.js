@@ -57,11 +57,7 @@ class OfferListScreen extends React.Component {
         this.props.offersLoadProps(this.props.auth.id_driver);
     }
     componentDidUpdate(prevProps, prevState, snapshot){
-        if(this.props.trip.currencyTrip){
-            if(this.props.trip.currencyTrip.active && !this.props.trip.currencyTrip.cancel){
-                this.props.navigation.navigate('Trip');
-            }
-        }
+
     }
     listOffers(){
         if(this.props.offer.offers.length > 0){
@@ -102,7 +98,7 @@ class OfferListScreen extends React.Component {
             )
         } else {
             return(
-                <View style={{marginVertical: 30}}>
+                <View style={{marginVertical: 30, marginHorizontal: 20}}>
                     <Text> {languageJSON.wait_for_offers}</Text>
                 </View>
             )

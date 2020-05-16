@@ -7,6 +7,9 @@ import OfferListScreen from "./OfferListScreen";
 import PaymentInformationScreen from "./PaymentInformationScreen";
 import FinishTripScreen from "./FinishTripScreen";
 import VehiclesScreen from "./VehiclesScreen";
+import ContactScreen from "./ContactScreen";
+import ComplaintScreen from "./ComplaintScreen";
+import PenaltiesScreen from "./PenaltiesScreen";
 
 export {
     RegistrationPage,
@@ -17,5 +20,8 @@ export {
     OfferListScreen,
     PaymentInformationScreen,
     FinishTripScreen,
-    VehiclesScreen
+    VehiclesScreen,
+    ContactScreen,
+    ComplaintScreen,
+    PenaltiesScreen
 };

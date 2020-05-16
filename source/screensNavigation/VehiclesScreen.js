@@ -32,6 +32,21 @@ class VehiclesScreen extends React.Component {
     componentWillMount() {
         this.props.vehicleLoadProps(this.props.auth.id_driver);
     }
+    addVehicle(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model){
+        const new_vehicle = {
+            licence_plate: licence_plate,
+            year: year,
+            type: type,
+            car_make: car_make,
+            vehicle_roll: vehicle_roll,
+            annotation_certificate: annotation_certificate,
+            photo_authorization: photo_authorization,
+            photo_vehicle: photo_vehicle,
+            permission_to_circulate: permission_to_circulate,
+            model: model,
+        };
+        this.props.vehiclesAddProps(new_vehicle);
+    }
     listVehicles(){
         if(this.props.vehicles.vehicles.length > 0){
             return (
@@ -54,8 +69,8 @@ class VehiclesScreen extends React.Component {
                                 </View>
                                 <View style={{marginVertical: 10, marginLeft: 5}}>
                                     <Text style={{fontSize: 18, color: 'black'}}>{item.car_make}</Text>
-                                    <Text style={{fontSize: 18, color: 'black'}}>{item.type}</Text>
-                                    <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>${item.year}</Text>
+                                    <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>{item.type}</Text>
+                                    <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>{item.year}</Text>
                                 </View>
                             </TouchableOpacity>
                         ))
@@ -98,7 +113,7 @@ class VehiclesScreen extends React.Component {
                     modalVisible={this.state.show_modal_add_vehicle}
                     close={() => this.setState({show_modal_add_vehicle: false})}
                     addVehicle={(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model) => {this.setState({show_modal_add_vehicle: false, allow_add_vehicle: true});
-                        this.props.vehiclesAddProps(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model)}}
+                        this.addVehicle(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model)}}
                 />
             </View>
         );

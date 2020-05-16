@@ -5,12 +5,20 @@ import {
     PENALTIES_LOADED
 } from "../redux/actionTypes";
 
+const penalty = {
+    init_date: null,
+    end_date: null,
+    description: '',
+    warnings: ''
+};
+
 const initialState = {
     loading: false,
     loaded: false,
     error_load: false,
-    penalties: []
-}
+    penalties: [],
+    penalty: penalty
+};
 
 export const penalties = (state = initialState, action) => {
     switch (action.type) {
@@ -21,4 +29,4 @@ export const penalties = (state = initialState, action) => {
         default:
             return state;
     }
-}
+};

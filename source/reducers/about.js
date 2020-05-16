@@ -9,9 +9,9 @@ const initialState = {
         loading: false,
         loaded: false,
         error: false,
-        descripcion: '',
-        historial: '',
-        telefono: '',
+        mision: '',
+        vision: '',
+        movil: '',
         email: ''
 }
 

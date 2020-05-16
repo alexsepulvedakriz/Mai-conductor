@@ -23,6 +23,9 @@ import {tripCleanStore} from "../actions/trip";
 import {aboutCleanStore} from "../actions/about";
 import {accidentCleanStore} from "../actions/accident";
 import {generateUIDD} from "../functions/others";
+import {vehiclesDriverCleanStore} from "../actions/vehicles";
+import {penaltiesCleanStore} from "../actions/penalties";
+import {complaintClean} from "../actions/complaint";
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.createUserWithEmailAndPassword(email, password)
@@ -95,14 +98,9 @@ function* createUserWithEmailPassword({payload}) {
     try {
         const sign_up_user = yield call(createUserWithEmailPasswordRequest, new_user.email, new_user.password);
         yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_driver_licence' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'file_criminal_record' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_id_card' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_driver' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'vehicle_roll' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'annotation_certificate' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_authorization' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'photo_vehicle' + id_base);
-        yield call(uploadFileUserWithStorage, new_driver.photo_driver_licence, 'permission_to_circulate' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.file_criminal_record, 'file_criminal_record' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_id_card, 'photo_id_card' + id_base);
+        yield call(uploadFileUserWithStorage, new_driver.photo_driver, 'photo_driver' + id_base);
         yield call(createUserWithFirestore, document_new_user, sign_up_user.user.uid);
         yield put(userSignUpSuccess());
         yield put(authCleanStore());
@@ -140,6 +138,9 @@ function* signOut() {
         yield put(aboutCleanStore());
         yield put(authCleanStore());
         yield put(accidentCleanStore());
+        yield put(vehiclesDriverCleanStore());
+        yield put(penaltiesCleanStore());
+        yield put(complaintClean());
         localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());

@@ -10,10 +10,30 @@ export const simpleTimer2 = () => {
 
 export const simpleTimer30 = () => {
     var promise = new Promise(function(resolve, reject) {
-        setTimeout(function(){ resolve(); }, 35000);
+        setTimeout(function(){ resolve(); }, 30000);
     });
     return promise;
 };
+export const simpleTimer10 = () => {
+    var promise = new Promise(function(resolve, reject) {
+        setTimeout(function(){ resolve(); }, 10000);
+    });
+    return promise;
+};
+export const transformTimeStampToDateToString = (time) => {
+    if(time){
+        const date = new Date(time.seconds*1000);
+        const dateStr =
+            ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+            ("00" + date.getDate()).slice(-2) + "/" +
+            date.getFullYear();
+        return dateStr;
+    }
+};
+export const  _contactWhatsapp = () =>{
+    const url= 'whatsapp://send?text=' + 'a' + '&phone=979456578';
+    Linking.openURL(url)
+}
 // phone
 export const  _pressCall = (tel) =>{
     const url= 'tel:' + tel;

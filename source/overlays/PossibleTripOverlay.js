@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Avatar, Card, Overlay, Rating} from "react-native-elements";
 import {colors} from "../common/theme";
+import Timer from "react-native-timekeeper-new";
 
 export default class PossibleTripOverlay extends Component {
     constructor(props){
@@ -57,11 +58,31 @@ export default class PossibleTripOverlay extends Component {
                 windowBackgroundColor="rgba(0, 0, 0, .3)"
                 overlayBackgroundColor="white"
                 width="90%"
-                height={200}
+                height={350}
                 overlayStyle={{borderRadius: 20}}
             >
                 <Card containerStyle={styles.cardWithMargin}>
                     {this.detailTrip(item)}
+                    <View style={styles.horizontal}>
+                        <Timer
+                            beat={false}
+                            seconds={30}
+                            radius={35}
+                            borderWidth={6}
+                            color='#3ea1c0'
+                            bgColor='#3ea1c0'
+                            bgColorSecondary="#245b84"
+                            bgColorThirt="#3ea1c0"
+                            shadowColor='#245b84'
+                            textStyle={{ fontSize: 20, color: '#FFF', }}
+                            subTextStyle={{ fontSize: 5, color: '#FFF', }}
+                            onTimeElapsed={() => {console.log('Time elapsed')} }
+                            isPausable={false}
+                            onPause={() => console.log('Pause')}
+                            onResume={() => console.log('Resume')}
+                            timeDisplay={'30'}
+                        />
+                    </View>
                 </Card>
             </Overlay>
         )

@@ -7,8 +7,6 @@ import {colors} from "../common/theme";
 import {documentPicker} from '../functions/documentPicker';
 import {validateFile, validateText} from "../functions/validations";
 
-var { height, width } = Dimensions.get('window');
-
 export default class AddVehicleModal extends Component {
     constructor(props){
         super(props);
@@ -29,23 +27,23 @@ export default class AddVehicleModal extends Component {
     showErrorMessage(){
         if(this.state.showErrorMessage){
             return(
-                <Text style={{color: 'black', fontSize: 12}}>*Campo obligatorio</Text>
+                <Text style={{color: 'black', fontSize: 12}}>*{languageJSON.required_field}</Text>
             )
         }
     }
     addVehicle(){
         if(this.validateInputs()){
             this.props.addVehicle(
-                this.licence_plate,
-                this.year,
-                this.type,
-                this.car_make,
-                this.vehicle_roll,
-                this.annotation_certificate,
-                this.photo_authorization,
-                this.photo_vehicle,
-                this.permission_to_circulate,
-                this.model,
+                this.state.licence_plate,
+                this.state.year,
+                this.state.type,
+                this.state.car_make,
+                this.state.vehicle_roll,
+                this.state.annotation_certificate,
+                this.state.photo_authorization,
+                this.state.photo_vehicle,
+                this.state.permission_to_circulate,
+                this.state.model,
             );
             this.setState({
                 licence_plate: '',
@@ -70,12 +68,13 @@ export default class AddVehicleModal extends Component {
         const licence_plate = validateText(this.state.licence_plate);
         const year = validateText(this.state.licence_plate);
         const type = validateText(this.state.licence_plate);
+        const model = validateText(this.state.model);
         const vehicle_roll = validateFile(this.state.vehicle_roll);
         const annotation_certificate = validateFile(this.state.annotation_certificate);
         const photo_authorization = validateFile(this.state.photo_authorization);
         const photo_vehicle = validateFile(this.state.photo_vehicle);
         const permission_to_circulate = validateFile(this.state.permission_to_circulate);
-        if ( licence_plate && year && type && vehicle_roll && annotation_certificate && photo_authorization && photo_vehicle && permission_to_circulate) {
+        if ( model && licence_plate && year && type && vehicle_roll && annotation_certificate && photo_authorization && photo_vehicle && permission_to_circulate) {
             return true;
         } else {
             return false;
@@ -134,6 +133,18 @@ export default class AddVehicleModal extends Component {
                     </View>
                     <View style={{marginHorizontal: 20, marginTop: 10}}>
                         <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
+                            {languageJSON.model}
+                        </Text>
+                        <TextInput
+                            style={stylesCommon.textInputSimple}
+                            placeholder={'Modelo'}
+                            value={this.state.model}
+                            onChangeText={(value) => {this.setState({ model: value})}}
+                        />
+                        {this.showErrorMessage()}
+                    </View>
+                    <View style={{marginHorizontal: 20, marginTop: 10}}>
+                        <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
                             {languageJSON.car_make}
                         </Text>
                         <View style = {{borderColor: colors.GREY.Deep_Nobel, borderWidth: 1, borderRadius: 10, marginBottom: 10 }}>
@@ -161,23 +172,6 @@ export default class AddVehicleModal extends Component {
                                 <Picker.Item label="Camion pluma" value="0-10 kg" />
                                 <Picker.Item label="11-50 Kg" value="11-50 Kg" />
                                 <Picker.Item label="51-100 kg" value="51-100 Kg" />
-                                <Picker.Item label="101-200 Kg" value="101-200 Kg" />
-                            </Picker>
-                        </View>
-                        {this.showErrorMessage()}
-                    </View>
-                    <View style={{marginHorizontal: 20, marginTop: 10}}>
-                        <Text style={{fontSize: 16, marginBottom: 10, color: colors.GREY.iconSecondary}}>
-                            {languageJSON.model}
-                        </Text>
-                        <View style = {{borderColor: colors.GREY.Deep_Nobel, borderWidth: 1, borderRadius: 10, marginBottom: 10 }}>
-                            <Picker
-                                selectedValue={this.state.model}
-                                onValueChange={(itemValue, itemIndex) => this.setState({model: itemValue})}
-                            >
-                                <Picker.Item label="RXJ" value="0-10 kg" />
-                                <Picker.Item label="Toyota" value="11-50 Kg" />
-                                <Picker.Item label="Chrevrolet" value="51-100 Kg" />
                                 <Picker.Item label="101-200 Kg" value="101-200 Kg" />
                             </Picker>
                         </View>

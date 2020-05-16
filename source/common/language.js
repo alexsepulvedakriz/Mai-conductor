@@ -1,4 +1,19 @@
 export default {
+    // complaint
+    add_complaint: 'Agregar reclamo',
+    no_complaints_title: 'No existen reclamos',
+    complaints: 'Reclamos',
+    //
+    contact_text: 'En caso de alguna emergencia o recomendacion no dudes en contactarnos. Puedes llamarnos de lunes a viernes de 9:00 a 18:00',
+    // titles
+    detail_trip: 'Detalles del viaje',
+    procarga: 'Procarga',
+    data_offer: 'Datos transporte',
+    accept_trip: 'Aceptar viaje',
+    contact: 'Contacto',
+    // About
+    mission: 'Mision',
+    vision: 'Vision',
     // Offer Driver
     adding_offer_driver: 'Enviando la oferta',
     // Register

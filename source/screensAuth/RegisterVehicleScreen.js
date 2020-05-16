@@ -9,6 +9,7 @@ import {Button, CheckBox} from "react-native-elements";
 import {AddVehicleModal, TermsAndConditions} from '../modals';
 import {updateNewVehicleState, userSignUp} from "../actions/auth";
 import {LoadOverlay} from "../overlays";
+import {vehiclesAdd} from "../actions/vehicles";
 
 
 const mapStateToProps = state => {
@@ -18,6 +19,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => ({
     updateNewVehicleStateProps: (new_vehicle) => dispatch(updateNewVehicleState(new_vehicle)),
+    vehiclesAddProps: (vehicle) => dispatch(vehiclesAdd(vehicle)),
     userSignUpProps: (user) => dispatch(userSignUp(user))
 });
 
@@ -41,10 +43,26 @@ class RegistrationPage extends React.Component {
             alert(languageJSON.register_fail);
         }
     }
+    addVehicle(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model){
+        const new_vehicle = {
+            licence_plate: licence_plate,
+            year: year,
+            type: type,
+            car_make: car_make,
+            vehicle_roll: vehicle_roll,
+            annotation_certificate: annotation_certificate,
+            photo_authorization: photo_authorization,
+            photo_vehicle: photo_vehicle,
+            permission_to_circulate: permission_to_circulate,
+            model: model,
+        };
+        this.props.updateNewVehicleStateProps(new_vehicle);
+    }
     validateInputs(){
         // validar las reglas, falta confirmar la foto
         if ( this.state.accept_terms_and_conditions && this.state.allow_add_vehicle) {
-            this.props.userSignUpProps({new_user: this.props.auth.new_user, new_vehicle: this.props.auth.new_vehicle, new_driver: this.props.auth.new_driver })
+            this.props.userSignUpProps({new_user: this.props.auth.new_user, new_vehicle: this.props.auth.new_vehicle, new_driver: this.props.auth.new_driver });
+            this.props.vehiclesAddProps(this.props.auth.new_vehicle);
         } else{
 
         }
@@ -120,7 +138,7 @@ class RegistrationPage extends React.Component {
                     modalVisible={this.state.show_modal_add_vehicle}
                     close={() => this.setState({show_modal_add_vehicle: false})}
                     addVehicle={(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model) => {this.setState({show_modal_add_vehicle: false, allow_add_vehicle: true});
-                        this.props.updateNewVehicleStateProps(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model)}}
+                        this.addVehicle(licence_plate, year, type, car_make, vehicle_roll, annotation_certificate, photo_authorization, photo_vehicle, permission_to_circulate, model)}}
                 />
                 <LoadOverlay message={languageJSON.register_loading} Visible={this.props.auth.sing_up_loading}/>
             </View>

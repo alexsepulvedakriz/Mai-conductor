@@ -32,7 +32,9 @@ class SideMenu extends React.Component{
                 {key: 4, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'list', type: 'font-awesome', child: 'fourthChild'},
                 {key: 5, name: languageJSON.my_vehicles_menu, navigationName: 'Vehicles', icon: 'truck', type: 'font-awesome', child: 'fourthChild'},
                 {key: 6, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
-                {key: 7, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
+                {key: 6, name: languageJSON.contact,  navigationName: 'Contact', icon: 'phone-square', type: 'font-awesome', child: 'fifthChild'},
+                {key: 7, name: languageJSON.complaints,  navigationName: 'Complaint', icon: 'thumbs-down', type: 'font-awesome', child: 'fifthChild'},
+                {key: 8, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
             ],
             profile_image:null,
         }

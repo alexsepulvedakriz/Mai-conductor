@@ -9,6 +9,7 @@ import { about} from "./about";
 import { accident} from './accident';
 import { penalties} from "./penalties";
 import { vehicles} from "./vehicles";
+import { complaints} from './complaint'
 
 const rootReducer = combineReducers({
   auth,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   about,
   accident,
   penalties,
-  vehicles
+  vehicles,
+  complaints
 });
 
 export default rootReducer;

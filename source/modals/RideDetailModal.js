@@ -43,7 +43,7 @@ export default class RideDetailModal extends React.Component {
 
                     <View style={{marginHorizontal: 10, marginVertical: 20}}>
                         <ListItem
-                            title={'Tu viaje con ' + item.name_driver + ' ' + item.last_name_driver}
+                            title={'Tu viaje con ' + item.name_rider + ' ' + item.last_name_rider}
                             subtitle={
                                 <View style={stylesCommon.rowSpaceBetween}>
                                     <Text style={{fontSize:12, color: colors.GREY.btnPrimary}}> {item.vehicle}</Text>

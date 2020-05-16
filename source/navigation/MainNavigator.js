@@ -8,7 +8,10 @@ import {
     FinishTripScreen,
     OfferListScreen,
     PaymentInformationScreen,
-    VehiclesScreen
+    VehiclesScreen,
+    ComplaintScreen,
+    ContactScreen,
+    PenaltiesScreen
 } from '../screensNavigation';
 import {
     LoginScreen,
@@ -68,7 +71,25 @@ import SideMenu from '../components/SideMenu';
             navigationOptions:{
                 header: null
             }
-        }
+        },
+        Contact:{
+            screen: ContactScreen,
+            navigationOptions:{
+                header: null
+            }
+        },
+        Penalties:{
+            screen: PenaltiesScreen,
+            navigationOptions:{
+                header: null
+            }
+        },
+        Complaint:{
+            screen: ComplaintScreen,
+            navigationOptions:{
+                header: null
+            }
+        },
     }
 
     //authentication stack for user before login
@@ -135,7 +156,19 @@ import SideMenu from '../components/SideMenu';
         'Trip': {
             name: 'Trip',
             screen: createStackNavigator(AppStack, { initialRouteName: 'Trip', headerMode: 'none' })
-        }
+        },
+        'Contact': {
+            name: 'Contact',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'Contact', headerMode: 'none' })
+        },
+        'Penalties': {
+            name: 'Penalties',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'Penalties', headerMode: 'none' })
+        },
+        'Complaint': {
+            name: 'Complaint',
+            screen: createStackNavigator(AppStack, { initialRouteName: 'Complaint', headerMode: 'none' })
+        },
     };
 
     //main navigator for user end

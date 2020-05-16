@@ -8,6 +8,7 @@ import RideDetailModal from "./RideDetailModal";
 import TutorialModal from "./TutorialModal";
 import TermsAndConditions from "./TermsAndConditions";
 import DetailOfferModal from "./DetailOfferModal";
+import AddComplaintModal from "./AddComplaintModal";
 
 export {
     AddVehicleModal,
@@ -19,5 +20,6 @@ export {
     RideDetailModal,
     TutorialModal,
     TermsAndConditions,
-    DetailOfferModal
+    DetailOfferModal,
+    AddComplaintModal
 }

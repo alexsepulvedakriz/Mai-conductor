@@ -5,7 +5,7 @@ import { eventChannel} from 'redux-saga';
 import {aboutLoaded, aboutLoadFail} from "../actions/about";
 
 const getAboutFirestore  = () => eventChannel(emitter => {
-    const unsubscribe = firestore.collection('empresa').doc('nosotros').get()
+    const unsubscribe = firestore.collection('company').doc('about').get()
         .then(function(doc) {
             if (doc.exists) {
                 emitter({

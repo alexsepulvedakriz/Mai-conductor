@@ -5,7 +5,8 @@ import { tripLoad} from "../actions/trip";
 import stylesCommon from '../common/styles';
 import { connect } from 'react-redux';
 import {HeaderComponent, SmallMapComponent} from "../components";
-import {RideDetailModal} from '../modals'
+import {RideDetailModal} from '../modals';
+import  languageJSON  from '../common/language';
 
 
 const mapStateToProps = state => {
@@ -77,7 +78,15 @@ class RideListPage extends React.Component {
                     ))
                 )
 
-            } else {
+            }
+            if(this.props.trip.trips.length === 0) {
+                return(
+                    <View style={{margin: 20}}>
+                        <Text>{'No hay viajes'}</Text>
+                    </View>
+                )
+            }
+            if(this.props.trip.loading) {
                 return (
                     <View style={{marginVertical: 90}}>
                         <ActivityIndicator size="large" color="#0000ff" />
@@ -86,15 +95,15 @@ class RideListPage extends React.Component {
             }
         }
     }
-  render() {
-    return (
-        <View>
-            <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={'Detalles viajes'} type={'color'}/>
+    render() {
+        return (
             <View>
-                {this.listTrips()}
+                <HeaderComponent navigation = {() => {this.props.navigation.toggleDrawer();}} title={'Detalles viajes'} type={'color'}/>
+                <View>
+                    {this.listTrips()}
+                </View>
+                <RideDetailModal Visable={this.state.showDetail} item={this.state.item} close={() => {this.setState({showDetail: false})}}></RideDetailModal>
             </View>
-            <RideDetailModal Visable={this.state.showDetail} item={this.state.item} close={() => {this.setState({showDetail: false})}}></RideDetailModal>
-        </View>
         );
     }
 }

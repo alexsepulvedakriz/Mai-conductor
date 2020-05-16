@@ -7,7 +7,8 @@ import tripSagas from './trip';
 import aboutSagas from './about';
 import accidentSagas from './accident';
 import penaltiesSagas from './penalties';
-import vehiclesSagas from './vehicles'
+import vehiclesSagas from './vehicles';
+import complaintSagas from './complaint';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga(getState) {
         aboutSagas(),
         accidentSagas(),
         penaltiesSagas(),
-        vehiclesSagas()
+        vehiclesSagas(),
+        complaintSagas()
     ]);
 }

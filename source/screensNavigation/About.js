@@ -38,12 +38,12 @@ class AboutPage extends React.Component {
                     <View style={styles.aboutcontentmainStyle}>
                         <Image
                             style={{width: '100%', height: 150}}
-                            source={{ uri:this.props.about.foto}}
+                            source={{ uri:this.props.about.ref_photo}}
                         />
-                        <Text style={styles.aboutTitleStyle}>Nosotros</Text>
-                        <Text style={styles.aboutcontentStyle}>{this.props.about.descripcion}</Text>
-                        <Text style={styles.aboutTitleStyle}>Historial</Text>
-                        <Text style={styles.aboutcontentStyle}>{this.props.about.historial}</Text>
+                        <Text style={styles.aboutTitleStyle}>{languageJSON.mission}</Text>
+                        <Text style={styles.aboutcontentStyle}>{this.props.about.mision}</Text>
+                        <Text style={styles.aboutTitleStyle}>{languageJSON.vision}</Text>
+                        <Text style={styles.aboutcontentStyle}>{this.props.about.vision}</Text>
                         <Text style={styles.aboutTitleStyle}>{languageJSON.contact_details}</Text>
                         <View style={styles.contact}>
                             <View style={{justifyContent:'flex-start',alignItems:'center',flexDirection:'row'}}>
@@ -51,8 +51,8 @@ class AboutPage extends React.Component {
                                 <Text style={styles.contacttype1}>{this.props.about.email}</Text>
                             </View>
                             <View style={{justifyContent:'flex-start',alignItems:'center',flexDirection:'row'}}>
-                                <Text style={styles.contacttype2}>{languageJSON.phone}: </Text>
-                                <Text style={styles.contacttype1}>{this.props.about.telefono}</Text>
+                                <Text style={styles.contacttype2}>{languageJSON.movil}: </Text>
+                                <Text style={styles.contacttype1}>{this.props.about.movil}</Text>
                             </View>
                         </View>
                     </View>
