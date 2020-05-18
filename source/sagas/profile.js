@@ -1,6 +1,6 @@
 import {all, fork, put, takeEvery, take, call} from "redux-saga/effects";
 import {firestore, storage} from "../firebase/firebase";
-import { PROFILE_LOAD, PROFILE_UPDATE } from "../redux/actionTypes";
+import {PROFILE_LOAD, PROFILE_STOP_LISTEN_LOAD, PROFILE_UPDATE} from "../redux/actionTypes";
 import {profileLoaded, profileUpdated, profileLoadFail, profileUpdateFail} from "../actions/profile";
 import { eventChannel} from 'redux-saga';
 
@@ -67,7 +67,7 @@ function* updateProfile({payload}) {
             yield put(profileUpdated());
         });
         yield call(uploadPhotoProfileWithStorage, payload);
-        yield take('UNWATCH-TODOS');
+        yield take(PROFILE_STOP_LISTEN_LOAD);
         todosChannel.close();
     } catch (error) {
         yield put(profileUpdateFail());

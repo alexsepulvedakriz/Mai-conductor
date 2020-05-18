@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Avatar, Card, Overlay, Rating} from "react-native-elements";
 import {colors} from "../common/theme";
 import Timer from "react-native-timekeeper-new";
+import {transformTimeStampToDateToString} from "../functions/others";
 
 export default class PossibleTripOverlay extends Component {
     constructor(props){

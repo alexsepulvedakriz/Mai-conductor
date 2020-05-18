@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import stylesCommon from "../common/styles";
 import languageJSON from "../common/language";
 import {StyleSheet, View, Dimensions, Text, TouchableHighlight, Modal} from 'react-native';
-import {Button, Card, Header, Avatar, Rating} from 'react-native-elements';
+import {Button, Card, Header, Avatar, Rating, Icon} from 'react-native-elements';
 import {MapComponent} from "../components";
 import {colors} from "../common/theme";
 import Collapsible from "react-native-collapsible";
+import {transformTimeStampToDateToString} from "../functions/others";
 
 var { height, width } = Dimensions.get('window');
 
@@ -25,6 +26,120 @@ export default class DetailOfferModal extends Component {
             time_to_arrive: this.state.time_to_arrive
         };
         this.props.offerDriver(offerDriver);
+    }
+    scheduleOrNot(item){
+        if(item){
+            if(item.schedule) {
+                return (
+                    <Text style={styles.textSoft}>{"Agendado para el " +  transformTimeStampToDateToString(item.date.schedule) + "a las " + item.date.hour_schedule}</Text>
+                )
+            }
+        }
+    }
+    yesOrNot(item){
+        if(item){
+            return 'Si';
+        } else {
+            return 'No';
+        }
+    }
+    typeTruck(item){
+        if(item){
+            if(item.type_truck == 0) {
+                return (
+                    <Text style={styles.textSoft}>{languageJSON.type_vehicle + languageJSON.motorcycle}</Text>
+                )
+            }
+            if(item.type_truck == 1) {
+                return (
+                    <Text style={styles.textSoft}>{languageJSON.type_vehicle + languageJSON.car}</Text>
+                )
+            }
+            if(item.type_truck == 2) {
+                return (
+                    <View>
+                        <Text style={styles.textSoft}>{languageJSON.type_vehicle + languageJSON.truck}</Text>
+                        <Text>Adicional: {this.yesOrNot(item.aditional_help)} + Viaja: {this.yesOrNot(item.rider_travel)} Ayuda: {this.yesOrNot(item.driver_help)} </Text>
+                    </View>
+
+                )
+            }
+            if(item.type_truck == 3) {
+                return (
+                    <View>
+                        <Text style={styles.textSoft}>{languageJSON.type_vehicle + languageJSON.truck_medium}</Text>
+                        <Text>Adicional: {this.yesOrNot(item.aditional_help)} + Viaja: {this.yesOrNot(item.rider_travel)} Ayuda: {this.yesOrNot(item.driver_help)} </Text>
+                    </View>
+                )
+            }
+            if(item.type_truck == 4) {
+                return (
+                    <View>
+                        <Text style={styles.textSoft}>{languageJSON.type_vehicle + languageJSON.rescue_truck}</Text>
+                        <Text style={styles.textSoft}>{languageJSON.car_make + ': '+ item.car_make + ' ' + languageJSON.model + ': '+ item.model}</Text>
+                    </View>
+                )
+            }
+            if(item.type_truck == 5) {
+                return (
+                    <Text style={styles.textSoft}>{languageJSON.type_vehicle + languageJSON.crane_truck}</Text>
+                )
+            }
+        }
+    }
+    typePayment(item){
+        if(item){
+            if(item.cash) {
+                return (
+                    <View style={{flexDirection: 'row'}}>
+                        <Text>
+                            {languageJSON.cash}
+                        </Text>
+                        <Icon
+                            name='money'
+                            type='font-awesome'
+                            color={'black'}
+                            size={15}
+                            iconStyle={{marginHorizontal: 10, marginVertical: 4}}
+                        />
+                    </View>
+
+                )
+            }
+            if(item.webpay) {
+                return (
+                    <View style={{flexDirection: 'row'}}>
+                        <Text>
+                            {languageJSON.webpay}
+                        </Text>
+                        <Icon
+                            name='credit-card'
+                            type='font-awesome'
+                            color={'black'}
+                            size={15}
+                            iconStyle={{marginHorizontal: 10, marginVertical: 4}}
+                        />
+                    </View>
+                )
+            }
+            if(item.transfer) {
+                return (
+                    <View style={{flexDirection: 'row'}}>
+                        <Text>
+                            {languageJSON.transfer}
+                        </Text>
+                        <Icon
+                            name='money'
+                            type='font-awesome'
+                            color={'black'}
+                            size={15}
+                            iconStyle={{marginHorizontal: 10, marginVertical: 4}}
+                        />
+                    </View>
+                )
+            }
+        }
+
     }
     detailRender(item){
         let region = {
@@ -89,8 +204,11 @@ export default class DetailOfferModal extends Component {
                                         <View style={{marginVertical: 10, marginLeft: 5}}>
                                             <Text style={{fontSize: 16, color: 'black'}}>{item.address_from}</Text>
                                             <Text style={{fontSize: 16, color: 'black'}}>{item.address_to}</Text>
-                                            <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>{item.duration} min {item.distance} km {item.type_truck}</Text>
-                                            <Text style={{fontSize: 14, color: colors.GREY.iconSecondary}}>{item.description}</Text>
+                                            <Text style={styles.textSoft}>Duracion: {item.duration} min Distancia: {item.distance} km Peso: {item.weight} kg</Text>
+                                            {this.scheduleOrNot(item)}
+                                            {this.typeTruck(item)}
+                                            <Text style={styles.textSoft}>{item.description}</Text>
+                                            {this.typePayment(item)}
                                         </View>
                                     </View>
                                     <View>
@@ -224,4 +342,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold'
     },
+    textSoft:{
+        fontSize: 14,
+        color: colors.GREY.iconSecondary
+    }
 });

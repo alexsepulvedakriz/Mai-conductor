@@ -1,10 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import { Avatar, Rating} from "react-native-elements";
 import { connect } from 'react-redux';
 import  languageJSON  from '../common/language';
 import { colors } from '../common/theme';
-import stylesCommon from '../common/styles';
 import { HeaderSwitchComponent} from "../components";
 import {offerCleanStore, offersLoad, offersLoadStop} from "../actions/offer";
 import {offerDriverAdd} from "../actions/offer_driver";

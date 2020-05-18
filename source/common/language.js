@@ -1,4 +1,12 @@
 export default {
+    // type truck
+    type_vehicle: 'Tipo de vehiculo: ',
+    motorcycle: 'Motocicleta',
+    car: 'Auto',
+    truck: 'Camioneta',
+    truck_medium: 'Camion',
+    crane_truck: 'Camion pluma',
+    rescue_truck: 'Camion de rescate',
     // complaint
     add_complaint: 'Agregar reclamo',
     no_complaints_title: 'No existen reclamos',
@@ -283,6 +291,9 @@ export default {
     use_wallet_balance:'Usar saldo de billetera ( Tu balance - ',
     pay_cash:'Pagar con efectivo',
     pay_card:'Pagar con tarjeta',
+    cash: 'Efectivo',
+    transfer: 'Transferencia',
+    webpay: 'Webpay',
     proceed_pay:'Proceder al pago',
     save_card:'Tus tarjetas guardadas',
     thanks:'Gracias por calificar',

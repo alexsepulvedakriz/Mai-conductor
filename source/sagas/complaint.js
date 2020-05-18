@@ -1,7 +1,7 @@
 import { all, fork, put, takeEvery, take, call} from "redux-saga/effects";
 import { firestore} from "../firebase/firebase";
 import { eventChannel} from 'redux-saga';
-import {COMPLAINT_LOAD, COMPLAINT_ADD} from "../redux/actionTypes";
+import {COMPLAINT_LOAD, COMPLAINT_ADD, COMPLAINT_STOP_LOAD} from "../redux/actionTypes";
 import {complaintAdded, complaintLoaded, complaintAddFail, complaintLoadFail} from "../actions/complaint";
 
 const addComplaintFirestore  = (Complaint) => eventChannel(emitter => {
@@ -49,7 +49,7 @@ function* loadComplaint({payload}) {
         yield takeEvery(todosChannel, function*(action) {
             yield put(complaintLoaded(action.data));
         });
-        yield take('UNWATCH-TODOS');
+        yield take(COMPLAINT_STOP_LOAD);
         todosChannel.close();
     } catch (error) {
         yield put(complaintLoadFail());

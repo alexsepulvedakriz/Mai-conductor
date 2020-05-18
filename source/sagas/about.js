@@ -1,6 +1,6 @@
 import {all, fork, put, takeEvery, take} from "redux-saga/effects";
 import { firestore } from "../firebase/firebase";
-import {ABOUT_LOAD} from "../redux/actionTypes";
+import {ABOUT_LOAD, ABOUT_STOP_LOAD} from "../redux/actionTypes";
 import { eventChannel} from 'redux-saga';
 import {aboutLoaded, aboutLoadFail} from "../actions/about";
 
@@ -36,7 +36,7 @@ function* getAbout({payload}) {
             yield put(aboutLoaded(action.data));
         });
         // detener la ejecucion de la consulta directa a firestore
-        yield take('UNWATCH-TODOS');
+        yield take(ABOUT_STOP_LOAD);
         todosChannel.close();
     } catch (error) {
         yield put(aboutLoadFail());

@@ -16,16 +16,18 @@ import {
     resettingPasswordFailed,
     resettingPasswordSuccess, authCleanStore
 } from "../actions/auth";
-import {profileCleanStore, profileLoad} from "../actions/profile";
-import {offerCleanStore} from "../actions/offer";
+import {profileCleanStore, profileLoad, profileLoadStop} from "../actions/profile";
+import {offerCleanStore, offersLoadStop} from "../actions/offer";
 import {offersDriverCleanStore} from "../actions/offer_driver";
-import {tripCleanStore} from "../actions/trip";
-import {aboutCleanStore} from "../actions/about";
+import {tripCleanStore, tripCurrencyLoadStop, tripLoadStop} from "../actions/trip";
+import {aboutCleanStore, aboutLoadStop} from "../actions/about";
 import {accidentCleanStore} from "../actions/accident";
 import {generateUIDD} from "../functions/others";
-import {vehiclesDriverCleanStore} from "../actions/vehicles";
-import {penaltiesCleanStore} from "../actions/penalties";
-import {complaintClean} from "../actions/complaint";
+import {vehiclesDriverCleanStore, vehiclesLoadStop} from "../actions/vehicles";
+import {penaltiesCleanStore, penaltiesLoadStop} from "../actions/penalties";
+import {complaintClean, complaintLoadStop} from "../actions/complaint";
+import {positionClean} from "../actions/position";
+import {complaints} from "../reducers/complaint";
 
 const createUserWithEmailPasswordRequest = async (email, password) =>
     await  auth.createUserWithEmailAndPassword(email, password)
@@ -142,6 +144,14 @@ function* signOut() {
         yield put(penaltiesCleanStore());
         yield put(complaintClean());
         yield put(positionClean());
+        yield put(aboutLoadStop());
+        yield put(complaintLoadStop());
+        yield put(offersLoadStop());
+        yield put(penaltiesLoadStop());
+        yield put(profileLoadStop());
+        yield put(tripLoadStop());
+        yield put(tripCurrencyLoadStop());
+        yield put(vehiclesLoadStop());
         localStorage.removeItem('user_id');
     } catch (error) {
         yield put(userSignOutFailed());

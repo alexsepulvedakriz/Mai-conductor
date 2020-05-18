@@ -5,7 +5,8 @@ import {
     VEHICLES_CLEAN,
     VEHICLES_LOAD,
     VEHICLES_LOAD_FAILED,
-    VEHICLES_LOADED, VEHICLES_STOP_LISTEN_lOAD
+    VEHICLES_LOADED,
+    VEHICLES_STOP_LISTEN_lOAD
 } from "../redux/actionTypes";
 
 export const vehiclesDriverCleanStore = () => {return {type: VEHICLES_CLEAN}};

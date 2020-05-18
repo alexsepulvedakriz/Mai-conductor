@@ -6,45 +6,51 @@ import {
 } from "../redux/actionTypes";
 
 const offer_detail = {
-    id_pasajero: '',
     // estado
-    activo: true,
-    cancelado: false,
+    active: true,
+    cancel: false,
     // ruta
-    geohash_inicio: '',
-    geohash_fin: '',
-    latitude_inicio: null,
-    longitude_inicio: null,
-    latitude_fin: null,
-    longitude_fin: null,
-    direccion_inicio: '',
-    direccion_fin: '',
+    latitude_init: null,
+    longitude_init: null,
+    latitude_end: null,
+    longitude_end: null,
+    address_init: '',
+    address_end: '',
     // precio
-    precio: '',
-    efectivo: false,
+    price: '',
+    cash: false,
     webpay: false,
-    transferencia: false,
+    transfer: false,
     // viaje
-    km: '0',
-    tipo_camion: 0,
-    conductores_bloqueados: [],
-    ayuda_chofer: false,
-    ayuda_adicional: false,
-    viajar_pasajero_vehiculo: false,
-    ayudaras_en_flete: false,
-    distancia: '',
-    nombre_pasajero: '',
-    evaluacion_pasajero: '',
-    movil_pasajero: '',
-    fecha: null,
-    // paquete
-    descripcion: '',
-    largo: '',
-    ancho: '',
-    alto: '',
-    peso: '0-10 kg',
+    type_truck: 0,
+    drivers_block: [],
+    description: '',
+    weight: '',
     // photos
-    foto: null
+    photo: null,
+    // rider
+    distance: '',
+    name_rider: '',
+    last_name_rider: '',
+    review_rider: '',
+    mobile_rider: '',
+    id_rider: '',
+    date: null,
+    // camion normal
+    aditional_help: false,
+    driver_help: false,
+    rider_travel: false,
+    rider_help: false,
+    // otro destinatario
+    name_addressee: '',
+    mobile_addressee: '',
+    // camion remolque
+    car_make: '',
+    model: '',
+    // agendado
+    schedule: false,
+    date_schedule: null,
+    hour_schedule: null
 };
 
 const initialState = {
