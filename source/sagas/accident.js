@@ -5,9 +5,9 @@ import {ACCIDENT_ADD} from "../redux/actionTypes";
 import {accidentAdded, accidentAddFail} from "../actions/accident";
 import {generateUIDD} from "../functions/others";
 
-const uploadFileAccidentWithStorage = async (file, id) => {
+const uploadFileAccidentWithStorage = async (file, ref) => {
     if(file) {
-        const ref = storage.ref().child("files/accident/" + id);
+        const ref = storage.ref().child(ref);
         await ref.put(file)
             .then(function() {
                 console.log("File suben!");
@@ -24,7 +24,7 @@ const uploadFileAccidentWithStorage = async (file, id) => {
 const setOfferFirestore  = (accident, id_accident) => eventChannel(emitter => {
     firestore.collection('accidents/').doc(id_accident).set(accident)
         .then(_=> {emitter({
-            data: {cambiado: true}})})
+            data: {cambiado: true}})});
     console.log('cambiado')
         .catch( error => {
             console.log(error);
@@ -36,11 +36,11 @@ const setOfferFirestore  = (accident, id_accident) => eventChannel(emitter => {
 function* addAccident({payload}) {
     let id_base= yield call(generateUIDD);
     try {
-        yield call(uploadFileAccidentWithStorage, payload.photo, 'ref_photo' + id_base);
+        yield call(uploadFileAccidentWithStorage, payload.photo, "accident/" + payload.id_driver + '/ref_photo_receiver' + id_base);
         const accident = {
             id_driver: payload.id_driver,
             id_trip: payload.id_trip,
-            ref_photo: 'ref_photo_receiver' + id_base,
+            ref_photo: "accident/" + payload.id_driver + '/ref_photo_receiver' + id_base,
             description: payload.description,
             date: new Date(),
         };

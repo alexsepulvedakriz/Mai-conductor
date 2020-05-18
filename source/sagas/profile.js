@@ -4,10 +4,9 @@ import {PROFILE_LOAD, PROFILE_STOP_LISTEN_LOAD, PROFILE_UPDATE} from "../redux/a
 import {profileLoaded, profileUpdated, profileLoadFail, profileUpdateFail} from "../actions/profile";
 import { eventChannel} from 'redux-saga';
 
-const uploadPhotoProfileWithStorage = async (profile) => {
-    const {photo, id_driver, id_photo} = profile;
+const uploadPhotoProfileWithStorage = async (photo, ref) => {
     if(photo) {
-        const ref = storage.ref().child("images/profile/" + id_driver+ '/' + id_photo);
+        const ref = storage.ref().child(ref);
         await ref.put(photo)
             .then(function() {
                 console.log("Photo successfully uploaded!");
@@ -62,11 +61,17 @@ function* loadProfile({payload}) {
 
 function* updateProfile({payload}) {
     try {
-        const todosChannel = updateProfileFirestore(payload);
+        const todosChannel = updateProfileFirestore({
+            name: payload.name,
+            last_name: payload.last_name,
+            email: payload.email,
+            language: '',
+            ref_photo: payload.ref_photo,
+        });
         yield takeEvery(todosChannel, function*() {
             yield put(profileUpdated());
         });
-        yield call(uploadPhotoProfileWithStorage, payload);
+        yield call(uploadPhotoProfileWithStorage, payload.photo, payload.ref_photo);
         yield take(PROFILE_STOP_LISTEN_LOAD);
         todosChannel.close();
     } catch (error) {

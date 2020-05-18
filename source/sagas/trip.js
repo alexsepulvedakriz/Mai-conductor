@@ -13,9 +13,9 @@ import {
 import {tripLoaded, tripLoadFailed, tripUpdated, tripUpdateFailed, tripCurrencyLoaded, tripCurrencyLoadFailed, tripCleanStore, tripFinishFail, tripFinished, tripCanceled, tripCancelFail} from "../actions/trip";
 import {generateUIDD} from "../functions/others";
 
-const uploadFileUserWithStorage = async (file, id) => {
+const uploadFileUserWithStorage = async (file, ref) => {
     if(file) {
-        const ref = storage.ref().child("files/trips/" + id);
+        const ref = storage.ref().child(ref);
         await ref.put(file)
             .then(function() {
                 console.log("File suben!");
@@ -93,14 +93,14 @@ function* updateTrip({payload}) {
 function* finishTrip({payload}) {
     let id_base= yield call(generateUIDD);
     try {
-        yield call(uploadFileUserWithStorage, payload.photo_receiver, 'ref_photo_receiver' + id_base);
-        yield call(uploadFileUserWithStorage, payload.photo_package, 'ref_photo_package' + id_base);
+        yield call(uploadFileUserWithStorage, payload.photo_receiver, 'trips/'+ payload.id_driver + '/ref_photo_receiver' + id_base);
+        yield call(uploadFileUserWithStorage, payload.photo_package, 'trips/'+ payload.id_driver + '/ref_photo_package' + id_base);
         const trip = {
             id_driver: payload.id_driver,
             id_trip: payload.id_trip,
             observation_driver: payload.observation_driver,
-            ref_photo_receiver: 'ref_photo_receiver' + id_base,
-            ref_photo_package: 'ref_photo_package' + id_base,
+            ref_photo_receiver: 'trips/'+ payload.id_driver + '/ref_photo_receiver' + id_base,
+            ref_photo_package: 'trips/'+ payload.id_driver + '/ref_photo_package' + id_base,
             active: false,
             cancel: false,
             on_rute: false,
