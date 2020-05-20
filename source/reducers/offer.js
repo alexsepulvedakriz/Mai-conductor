@@ -14,8 +14,8 @@ const offer_detail = {
     longitude_init: null,
     latitude_end: null,
     longitude_end: null,
-    address_init: '',
-    address_end: '',
+    address_from: '',
+    address_to: '',
     // precio
     price: '',
     cash: false,

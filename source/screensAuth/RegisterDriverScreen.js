@@ -52,7 +52,7 @@ class RegistrationPage extends React.Component {
     showErrorMessage(){
         if(this.state.showErrorMessage){
             return(
-                <Text style={{color: 'white', fontSize: 12}}>*Campo obligatorio</Text>
+                <Text style={{color: 'white', fontSize: 12}}>{languageJSON.required_field}</Text>
             )
         }
     }

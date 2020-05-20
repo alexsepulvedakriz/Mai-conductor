@@ -16,7 +16,7 @@ const mapStateToProps = state => {
     return{
         auth: state.auth,
     }
-}
+};
 const mapDispatchToProps = dispatch => ({
     updateNewVehicleStateProps: (new_vehicle) => dispatch(updateNewVehicleState(new_vehicle)),
     vehiclesAddProps: (vehicle) => dispatch(vehiclesAdd(vehicle)),

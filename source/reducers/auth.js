@@ -13,7 +13,7 @@ import {
     UPDATE_NEW_USER_STATE,
     UPDATE_NEW_VEHICLE_STATE,
     UPDATE_NEW_DRIVER_STATE,
-    AUTH_CLEAN_STORE, OFFERS_CLEAN
+    AUTH_CLEAN_STORE,
 } from "../redux/actionTypes";
 
 const new_user = {
@@ -21,9 +21,9 @@ const new_user = {
     last_name: '',
     email: '',
     review: '',
-    movil: '',
+    mobile: '',
     language: '',
-    ref_photo: '',
+    ref_photo_user: '',
     rut: '',
     active: false,
     password: '',
